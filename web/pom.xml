@@ -7,10 +7,8 @@
     <artifactId>project</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
-  <groupId>com.epam.training</groupId>
-  <artifactId>web</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  <packaging>war</packaging>
+   <artifactId>web</artifactId>
+   <packaging>war</packaging>
   <name>web Maven Webapp</name>
   <url>http://maven.apache.org</url>
   <dependencies>
