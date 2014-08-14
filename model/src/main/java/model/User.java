@@ -8,16 +8,20 @@ public class User {
 	private History history;
 	private ArrayList<Session> savedSessions;
 	
+	public User() {
+		
+	}
+	
 	public User(String login) {
 		this.login = login;
 	}
 	
-	public void startSession(String sessionName) {
-		
+	public void setLogin(String login) {
+		this.login = login;
 	}
-	
-	public void resumeSession(String sessionName) {
-		
+
+	public void setHistory(History history) {
+		this.history = history;
 	}
 
 	public String getLogin() {
@@ -32,5 +36,8 @@ public class User {
 		return savedSessions;
 	}
 	
+	public void addSavedSession(Session savedSession) {
+		this.savedSessions.add(savedSession);
+	}
 	
 }

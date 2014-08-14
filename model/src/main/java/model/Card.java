@@ -2,26 +2,42 @@ package model;
 
 public class Card {
 	
-	private final int ID;
-	private final String WORD;
-	private final String TRANSLATION;
+	private int id;
+	private String word;
+	private String translation;
 		
+	public Card() {
+	
+	}
+	
 	public Card(int id, String word, String translation) {
-		ID = id;
-		WORD = word;
-		TRANSLATION = translation;
+		this.id = id;
+		this.word = word;
+		this.translation = translation;
 	}
 
-	public int getID() {
-		return ID;
+	public void setId(int id) {
+		this.id = id;
 	}
 
-	public String getWORD() {
-		return WORD;
+	public void setWord(String word) {
+		this.word = word;
 	}
 
-	public String getTRANSLATION() {
-		return TRANSLATION;
+	public void setTranslation(String translation) {
+		this.translation = translation;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public String getWord() {
+		return word;
+	}
+
+	public String getTranslation() {
+		return translation;
 	}
 	
 }
