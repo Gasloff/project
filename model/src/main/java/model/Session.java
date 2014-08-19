@@ -1,59 +1,94 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Session {
 
 	private String id;
-	private Dictionary dictionary;
-	private Card currentCard;
-	private History sessionHistory;
-	private User user;
-	
+	private String topic;
+	private List<Card> dictionary;
+	private int orderListID = -1;
+	private List<Integer> orderList = new ArrayList<>();
+	private int pointer;
+	private int historyID = -1;
+	private History history;
+		
 	public Session() {
 	
 	}
 	
-	public Session(String sessionID) {
+	public Session(String sessionID, String topic) {
 		id = sessionID;
+		this.topic = topic;
+	}
+	
+	public String getId() {
+		return id;
 	}
 
 	public void setId(String id) {
 		this.id = id;
 	}
+	
+	public String getTopic() {
+		return topic;
+	}
 
-	public void setDictionary(Dictionary dictionary) {
+	public void setTopic(String topic) {
+		this.topic = topic;
+	}
+
+	public List<Card> getDictionary() {
+		return dictionary;
+	}
+
+	public void setDictionary(List<Card> dictionary) {
 		this.dictionary = dictionary;
 	}
 
-	public void setCurrentCard(Card currentCard) {
-		this.currentCard = currentCard;
-	}
-	
-	public void setSessionHistory(History sessionHistory) {
-		this.sessionHistory = sessionHistory;
+	public int getOrderListID() {
+		return orderListID;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setOrderListID(int oListID) {
+		this.orderListID = oListID;
 	}
 
-	public String getId() {
-		return id;
+	public List<Integer> getOrderList() {
+		return orderList;
 	}
 
-	public Dictionary getDictionary() {
-		return dictionary;
+	public void setOrderList(List<Integer> orderList) {
+		this.orderList = orderList;
+	}
+
+	public int getPointer() {
+		return pointer;
+	}
+
+	public void setPointer(int pointer) {
+		this.pointer = pointer;
 	}
 	
-	public Card getCurrentCard() {
-		return currentCard;
+	public void incrementPointer() {
+		pointer++;
 	}
-	
-	public History getSessionHistory() {
-		return sessionHistory;
+
+	public int getHistoryID() {
+		return historyID;
 	}
-	
-	public User getUser() {
-		return user;
+
+	public void setHistoryID(int sessionHistoryID) {
+		this.historyID = sessionHistoryID;
 	}
-	
+
+	public History getHistory() {
+		return history;
+	}
+
+	public void setHistory(History history) {
+		this.history = history;
+	}
+			
 }

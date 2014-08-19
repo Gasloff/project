@@ -1,17 +1,26 @@
 package model;
 
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Dictionary {
 	
-	public Map<Card, Integer> cards;
+	private List<Card> cards;
 
-	public Map<Card, Integer> getCards() {
+	public Dictionary() {
+		cards = new ArrayList<Card>();
+	}
+	
+	public List<Card> getCards() {
 		return cards;
 	}
 
-	public void setCards(Map<Card, Integer> cards) {
+	public void setCards(List<Card> cards) {
 		this.cards = cards;
+	}
+	
+	public void addCard(Card card) {
+		cards.add(card);
 	}
 	
 }
