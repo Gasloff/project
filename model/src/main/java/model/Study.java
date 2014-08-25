@@ -22,7 +22,7 @@ import org.hibernate.annotations.GenericGenerator;
 @Table(name = "study")
 public class Study {
 
-	private Long id;
+	private Long id = -1L;
 	private String topic;
 	private List<Integer> orderList = new ArrayList<>();
 	private Integer pointer = 0;

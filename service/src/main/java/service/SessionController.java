@@ -10,10 +10,8 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import db.DAOFactory;
 import db.DictDAO;
-import db.FileHistoryDAO;
-import db.FileSessionDAO;
 import db.HistoryDAO;
-import db.SessionDAO;
+import db.StudyDAO;
 import model.Card;
 import model.History;
 import model.Study;
@@ -26,8 +24,9 @@ public class SessionController {
 	private List<Card> dict;
 	private CardController cardC = new ConsoleCardController();
 	private ConsoleSessionInterface cSI = new ConsoleSessionInterface();
-	private SessionDAO sDAO = new FileSessionDAO();
-	private HistoryDAO histDAO = new FileHistoryDAO();
+	private StudyDAO sDAO;
+	private DictDAO dictDAO;
+	private HistoryDAO histDAO;
 	
 	private DAOFactory daoFactory;
 	
@@ -41,6 +40,11 @@ public class SessionController {
 		context.close();
 	}
 
+	/**
+	 * Obtains topic and creates new Study with obtained topic, current User,
+	 * current Date, new blank History and prepares sequence of Cards via
+	 * prepareSequence() method.  
+	 */
 	public void startStudy() {
 		String topic = cSI.obtainTopic();
 		study = new Study(topic, user);
@@ -54,18 +58,19 @@ public class SessionController {
 	}
 	
 	public void resumeStudy() {
-		String savedID = cSI.obtainSavedSessionID();
+		sDAO = daoFactory.createStudyDAO();
+		Long savedID = cSI.obtainSavedSessionID();
 		try {
 			study = sDAO.readStudy(savedID);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		setStudyDict(study.getTopic());
-		
 	}
 
 	public void runStudy() {
-		HistoryDAO histDAO = daoFactory.createHistoryDAO();
+		histDAO = daoFactory.createHistoryDAO();
+		
 		History history = study.getHistory();
 		while (true) {
 			Card card = nextCard();
@@ -84,17 +89,14 @@ public class SessionController {
 		study = null;
 	}
 	
-	public void saveStudy() {
+	public Long saveStudy() {
+		Long savedID = null;
 		try {
-			histDAO.saveHistory(study.getHistory());
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
-		try {
-			sDAO.saveStudy(study);
+			savedID = sDAO.saveStudy(study);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		return savedID;
 	}
 
 	public User getUser() {
@@ -102,7 +104,7 @@ public class SessionController {
 	}
 
 	private void setStudyDict(String topic) {
-		DictDAO dictDAO = daoFactory.createDictDAO();
+		dictDAO = daoFactory.createDictDAO();
 		try {
 			dict = dictDAO.readDict(topic);
 		} catch (IOException e) {

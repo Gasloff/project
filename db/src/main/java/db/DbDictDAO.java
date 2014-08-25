@@ -18,18 +18,15 @@ public class DbDictDAO implements DictDAO {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Card> readDict(String topic) throws IOException {
-		
-		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring-hibernate.xml");
 
+		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring-hibernate.xml");
 	    factory = (SessionFactory) context.getBean("sessionFactory");
-	    
 	    Session session = factory.openSession();
-		Transaction tx = null;
 		
+	    Transaction tx = null;
 		List<Card> dict = null;
 		try {
 			tx = session.beginTransaction();
-			//dict = (List<Card>) session.createQuery("FROM Card").list();
 			dict = (List<Card>) session.createQuery("FROM Card c WHERE c.topic = :topic ORDER BY c.id").setString("topic", topic).list();
 			tx.commit();
 		} catch (HibernateException e) {
@@ -47,10 +44,9 @@ public class DbDictDAO implements DictDAO {
 	public Long addCard(Card card) {
 		
 		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring-hibernate.xml");
-
 	    factory = (SessionFactory) context.getBean("sessionFactory");
-		
 		Session session = factory.openSession();
+	
 		Transaction tx = null;
 		Long cardID = null;
 		try {

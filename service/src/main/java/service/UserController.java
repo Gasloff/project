@@ -4,10 +4,15 @@ import model.User;
 
 public class UserController {
 	
-	@SuppressWarnings("unused")
 	private User user;
 	
+	public User getUser() {
+		return user;
+	}
+
 	public void selectUser() {
+	
+		
 		
 	}
 	

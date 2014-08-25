@@ -2,10 +2,10 @@ package service;
 
 public interface SessionInterface {
 
-	String obtainSessionID();
+	Long obtainSessionID();
 	
 	String obtainTopic();
 	
-	String obtainSavedSessionID();
+	Long obtainSavedSessionID();
 		
 }

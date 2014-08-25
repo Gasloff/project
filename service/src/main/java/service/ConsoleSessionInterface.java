@@ -9,11 +9,11 @@ public class ConsoleSessionInterface implements SessionInterface {
 	private BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 	
 	@Override
-	public String obtainSessionID() {
-		String id = new String();
+	public Long obtainSessionID() {
+		Long id = null;
 		System.out.println("Please enter unique session ID.");
 		try {
-			id = br.readLine();
+			id = Long.valueOf(br.readLine());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -33,11 +33,11 @@ public class ConsoleSessionInterface implements SessionInterface {
 	}
 
 	@Override
-	public String obtainSavedSessionID() {
-		String id = new String();
+	public Long obtainSavedSessionID() {
+		Long id = null;
 		System.out.println("Please enter saved session ID.");
 		try {
-			id = br.readLine();
+			id = Long.valueOf(br.readLine());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
