@@ -8,4 +8,6 @@ public interface DAOFactory {
 	
 	public StudyDAO createStudyDAO();
 	
+	public UserDAO createUserDAO();
+	
 }

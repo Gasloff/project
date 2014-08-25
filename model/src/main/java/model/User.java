@@ -1,6 +1,7 @@
 package model;
 
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -23,7 +24,7 @@ public class User {
 	private String login;
 	private String password;
 	private History history;
-	private Set<Study> savedStudies;
+	private Set<Study> savedStudies = new HashSet<>(0);
 	
 	public User() {}
 	

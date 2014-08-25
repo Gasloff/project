@@ -17,20 +17,20 @@ import model.History;
 import model.Study;
 import model.User;
 
-public class SessionController {
+public class StudyController {
 
 	private Study study;
 	private User user;
 	private List<Card> dict;
 	private CardController cardC = new ConsoleCardController();
-	private ConsoleSessionInterface cSI = new ConsoleSessionInterface();
+	private ConsoleStudyInterface cSI = new ConsoleStudyInterface();
 	private StudyDAO sDAO;
 	private DictDAO dictDAO;
 	private HistoryDAO histDAO;
 	
 	private DAOFactory daoFactory;
 	
-	public SessionController(User user) {
+	public StudyController(User user) {
 		this.user = user;
 		
 		ClassPathXmlApplicationContext context = 
@@ -59,7 +59,7 @@ public class SessionController {
 	
 	public void resumeStudy() {
 		sDAO = daoFactory.createStudyDAO();
-		Long savedID = cSI.obtainSavedSessionID();
+		Long savedID = cSI.obtainSavedStudyID();
 		try {
 			study = sDAO.readStudy(savedID);
 		} catch (IOException e) {

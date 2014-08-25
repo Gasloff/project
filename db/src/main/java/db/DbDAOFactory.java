@@ -14,8 +14,14 @@ public class DbDAOFactory implements DAOFactory {
 	
 	@Override
 	public StudyDAO createStudyDAO() {
-		// TODO Auto-generated method stub
-		return null;
+		return new DbStudyDAO();
 	}
+
+	@Override
+	public UserDAO createUserDAO() {
+		return new DbUserDAO();
+	}
+	
+	
 
 }

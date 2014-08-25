@@ -4,12 +4,12 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class ConsoleSessionInterface implements SessionInterface {
+public class ConsoleStudyInterface implements StudyInterface {
 
 	private BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 	
 	@Override
-	public Long obtainSessionID() {
+	public Long obtainStudyID() {
 		Long id = null;
 		System.out.println("Please enter unique session ID.");
 		try {
@@ -33,7 +33,7 @@ public class ConsoleSessionInterface implements SessionInterface {
 	}
 
 	@Override
-	public Long obtainSavedSessionID() {
+	public Long obtainSavedStudyID() {
 		Long id = null;
 		System.out.println("Please enter saved session ID.");
 		try {

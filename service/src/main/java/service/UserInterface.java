@@ -2,6 +2,16 @@ package service;
 
 public interface UserInterface {
 
-	String obtainUserLogin(); 
+	boolean existingUser();
+	
+	boolean savedStudy();
+	
+	String obtainLogin();
+	
+	String obtainPassword();
+	
+	String obtainNewLogin();
+	
+	String obtainNewPassword();
 	
 }

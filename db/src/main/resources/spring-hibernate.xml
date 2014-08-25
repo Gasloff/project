@@ -17,11 +17,6 @@
 		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
 		<property name="packagesToScan" value="model" />
-		<property name="mappingLocations">
-            <list>
-                <value>classpath:Employee.hbm.xml</value>
-            </list>
-        </property>
 		<property name="hibernateProperties">
 			<props>
 				<prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
