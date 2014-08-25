@@ -7,4 +7,16 @@
   </parent>
   <artifactId>service</artifactId>
   <name>Service</name>
+  <dependencies>
+	<dependency>
+	  <groupId>com.epam.training</groupId>
+	  <artifactId>model</artifactId>
+	  <version>0.0.1-SNAPSHOT</version>
+	</dependency>
+	<dependency>
+	  <groupId>com.epam.training</groupId>
+	  <artifactId>db</artifactId>
+	  <version>0.0.1-SNAPSHOT</version>
+	</dependency>
+  </dependencies>
 </project>

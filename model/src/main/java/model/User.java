@@ -1,53 +1,83 @@
 package model;
 
-import java.util.ArrayList;
 
+import java.util.Set;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.GenericGenerator;
+
+@Entity
+@Table(name = "user")
 public class User {
 
-	private int id;
+	private Long userID;
 	private String login;
+	private String password;
 	private History history;
-	private ArrayList<Session> savedSessions;
+	private Set<Study> savedStudies;
 	
-	public User() {
-		
-	}
+	public User() {}
 	
-	public User(int id, String login) {
-		this.id = id;
+	public User(String login, String password) {
 		this.login = login;
+		this.password = password;
+	}
+
+	@Id
+	@GeneratedValue(generator = "increment")
+	@GenericGenerator(name = "increment", strategy = "increment")
+	@Column(name = "user_id")
+	public Long getUserID() {
+		return userID;
+	}
+
+	@Column(name = "login")
+	public String getLogin() {
+		return login;
 	}
 	
-	public void setId(int id) {
-		this.id = id;
+	@Column(name = "password")
+	public String getPassword() {
+		return password;
 	}
-	
+
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	public History getHistory() {
+		return history;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+	public Set<Study> getSavedStudies() {
+		return savedStudies;
+	}
+
+	public void setUserID(Long user_id) {
+		this.userID = user_id;
+	}
+
 	public void setLogin(String login) {
 		this.login = login;
+	}
+	
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	public void setHistory(History history) {
 		this.history = history;
 	}
 
-	public int getId() {
-		return id;
-	}
-	
-	public String getLogin() {
-		return login;
-	}
-
-	public History getHistory() {
-		return history;
-	}
-
-	public ArrayList<Session> getSavedSessions() {
-		return savedSessions;
-	}
-	
-	public void addSavedSession(Session savedSession) {
-		this.savedSessions.add(savedSession);
+	public void setSavedStudies(Set<Study> savedStudies) {
+		this.savedStudies = savedStudies;
 	}
 	
 }

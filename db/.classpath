@@ -33,5 +33,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry combineaccessrules="false" kind="src" path="/model"/>
+	<classpathentry kind="lib" path="C:/Program Files/Java/jdk1.7.0_67/lib/postgresql-9.3-1102.jdbc41.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

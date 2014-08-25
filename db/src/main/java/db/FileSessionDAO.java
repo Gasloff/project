@@ -10,7 +10,16 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import model.Session;
+import model.History;
+import model.Study;
+import model.User;
+
+/**
+ * Doesn't work with modified according to hibernate model classes
+ * 
+ * @author User
+ *
+ */
 
 public class FileSessionDAO implements SessionDAO {
 
@@ -18,26 +27,26 @@ public class FileSessionDAO implements SessionDAO {
 	private String OL_FILENAME = "D:\\olists.txt";
 
 	@Override
-	public void saveSession(Session session) throws IOException {
-		List<Session> sessions = new ArrayList<>();
+	public void saveStudy(Study session) throws IOException {
+		List<Study> studies = new ArrayList<Study>();
 
 		List<String> list = getSessionsList();
 		for (String s : list) {
-			sessions.add(readSession(s));
+			studies.add(readStudy(s));
 		}
 
 		int index = -1;
 		boolean exists = false;
-		for (Session s : sessions) {
+		for (Study s : studies) {
 			if (s.getId().equals(session.getId())) {
-				index = sessions.indexOf(s);
+				index = studies.indexOf(s);
 				exists = true;
 			}
 		}
 		if (exists){
-			sessions.set(index, session);
+			studies.set(index, session);
 		} else {
-			sessions.add(session);
+			studies.add(session);
 		}
 		
 		FileWriter sCleaner = new FileWriter(S_FILENAME);
@@ -45,14 +54,15 @@ public class FileSessionDAO implements SessionDAO {
 		
 		FileWriter sFileWriter = new FileWriter(S_FILENAME, true);
 		
-		for (Session s : sessions) {
+		for (Study s : studies) {
 			writeSession(sFileWriter, s);
 		}
 		sFileWriter.close();
 	}
 
+	@SuppressWarnings("unused")
 	@Override
-	public Session readSession(String sessionID) throws IOException {
+	public Study readStudy(String sessionID) throws IOException {
 		FileReader fileReader = new FileReader(S_FILENAME);
 		BufferedReader bufferedReader = new BufferedReader(fileReader);
 		StreamTokenizer streamTokenizer = new StreamTokenizer(bufferedReader);
@@ -82,13 +92,17 @@ public class FileSessionDAO implements SessionDAO {
 			}
 		}
 
-		Session session = new Session(id, topic);
-		session.setOrderListID(oListID);
-		session.setOrderList(readOrderList(oListID));
-		session.setPointer(pointer);
-		session.setHistoryID(histID);
+		//Need to get oList and hist somehow using oListID and histID
+		List<Integer> oList = null; 
+		History hist = null;
+		
+		Study study = new Study(topic, new User());
+		study.setOrderList(oList);
+		study.setOrderList(readOrderList(oListID));
+		study.setPointer(pointer);
+		study.setHistory(hist);
 
-		return session;
+		return study;
 	}
 
 	@Override
@@ -98,7 +112,7 @@ public class FileSessionDAO implements SessionDAO {
 		StreamTokenizer streamTokenizer = new StreamTokenizer(bufferedReader);
 		streamTokenizer.eolIsSignificant(true);
 
-		List<Integer> orderList = new ArrayList<>();
+		List<Integer> orderList = new ArrayList<Integer>();
 		int i;
 
 		while (streamTokenizer.nextToken() != StreamTokenizer.TT_EOF) {
@@ -134,29 +148,34 @@ public class FileSessionDAO implements SessionDAO {
 		return list;
 	}
 
-	private void writeSession(FileWriter sFileWriter, Session session)
+	@SuppressWarnings("unused")
+	private void writeSession(FileWriter sFileWriter, Study study)
 			throws IOException {
 		
 		PrintWriter pw = new PrintWriter(sFileWriter);
 		
-		int oListID;
-		if (session.getOrderListID() != -1) {
-			oListID = session.getOrderListID();
+		int oListID = -1;
+		List<Integer> oList = null;
+		
+		if (study.getOrderList() != null) {
+			oList = study.getOrderList();
 		} else {
 			List<Integer> oListIDs = getOListIDs();
 			oListID = oListIDs.get(oListIDs.size() - 1) + 1;
-			saveOrderList(oListID, session.getOrderList());
+			saveOrderList(oListID, study.getOrderList());
 		}
 		
-		int histID;
-		if (session.getHistoryID() != -1) {
-			histID = session.getHistoryID();
+		int histID = -1;
+		History hist = null;
+		
+		if (study.getHistory() != null) {
+			hist = study.getHistory();
 		} else {
 			histID = -1;
 		}
 		
-		String sessionString = session.getId() + " " + session.getTopic() + " "
-				+ oListID + " " + session.getPointer() + " " + histID;
+		String sessionString = study.getId() + " " + study.getTopic() + " "
+				+ oListID + " " + study.getPointer() + " " + histID;
 		pw.println(sessionString);
 
 	}

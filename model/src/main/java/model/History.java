@@ -1,41 +1,94 @@
 package model;
 
+import java.sql.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.GenericGenerator;
+
+@Entity
+@Table(name = "history")
 public class History {
 
-	private int id;
-	private int answered = 0;
-	private int correct = 0;
+	private Long histID;
+	private Integer answered;
+	private Integer correct;
+	private User user;
+	private Date date;
+	private String topic;
 	
-	public History() {
-		
-	}
+	public History() {}
 	
-	public History(int id) {
-		this.id = id;
-	}
-	
-	public int getId() {
-		return id;
+	public History(User user, Date date, String topic) {
+		super();
+		this.user = user;
+		this.date = date;
+		this.topic = topic;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	@Id
+	@GeneratedValue(generator = "increment")
+	@GenericGenerator(name = "increment", strategy = "increment")
+	@Column(name = "hist_id")
+	public Long getHistID() {
+		return histID;
 	}
 
-	public int getAnswered() {
+	@Column(name = "answered")
+	public Integer getAnswered() {
 		return answered;
 	}
 
-	public void setAnswered(int answered) {
+	@Column(name = "correct")
+	public Integer getCorrect() {
+		return correct;
+	}
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "user_id", nullable = false)
+	public User getUser() {
+		return user;
+	}
+
+	@Column(name = "date")
+	public Date getDate() {
+		return date;
+	}
+	
+	@Column(name = "topic")
+	public String getTopic() {
+		return topic;
+	}
+
+	public void setHistID(Long histID) {
+		this.histID = histID;
+	}
+
+	public void setAnswered(Integer answered) {
 		this.answered = answered;
 	}
 
-	public int getCorrect() {
-		return correct;
+	public void setCorrect(Integer correct) {
+		this.correct = correct;
+	}
+	
+	public void setUser(User user) {
+		this.user = user;
 	}
 
-	public void setCorrect(int correct) {
-		this.correct = correct;
+	public void setDate(Date date) {
+		this.date = date;
+	}
+	
+	public void setTopic(String topic) {
+		this.topic = topic;
 	}
 
 	public void incrementAnswered() {

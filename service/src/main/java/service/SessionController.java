@@ -1,70 +1,78 @@
 package service;
 
 import java.io.IOException;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import db.DAOFactory;
 import db.DictDAO;
-import db.FileDictDAO;
 import db.FileHistoryDAO;
 import db.FileSessionDAO;
 import db.HistoryDAO;
 import db.SessionDAO;
 import model.Card;
 import model.History;
-import model.Session;
+import model.Study;
 import model.User;
 
 public class SessionController {
 
-	private Session session;
+	private Study study;
 	private User user;
-	
+	private List<Card> dict;
 	private CardController cardC = new ConsoleCardController();
 	private ConsoleSessionInterface cSI = new ConsoleSessionInterface();
 	private SessionDAO sDAO = new FileSessionDAO();
 	private HistoryDAO histDAO = new FileHistoryDAO();
 	
+	private DAOFactory daoFactory;
+	
 	public SessionController(User user) {
 		this.user = user;
+		
+		ClassPathXmlApplicationContext context = 
+	             new ClassPathXmlApplicationContext("Beans.xml");
+
+		daoFactory = (DAOFactory) context.getBean("daoFactory");
+		context.close();
 	}
 
-	public void startSession() {
-		String id = cSI.obtainSessionID();
+	public void startStudy() {
 		String topic = cSI.obtainTopic();
-		session = new Session(id, topic);
+		study = new Study(topic, user);
+		setStudyDict(topic);
 		
-		setSessionDict(topic);
-		History history = new History();
-		try {
-			history = new History(histDAO.getNewID());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		session.setHistory(history);
+		Long dateMills = new java.util.Date().getTime();
+		History history = new History(user, new Date(dateMills), topic);
+		study.setHistory(history);
+		
 		prepareSequence();
 	}
 	
-	public void resumeSession() {
+	public void resumeStudy() {
 		String savedID = cSI.obtainSavedSessionID();
 		try {
-			session = sDAO.readSession(savedID);
+			study = sDAO.readStudy(savedID);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		setSessionDict(session.getTopic());
+		setStudyDict(study.getTopic());
 		
 	}
 
-	public void runSession() {
-		History history = session.getHistory();
+	public void runStudy() {
+		HistoryDAO histDAO = daoFactory.createHistoryDAO();
+		History history = study.getHistory();
 		while (true) {
 			Card card = nextCard();
 			if (card == null)
 				break;
 			history.incrementAnswered();
-			if (cardC.showCard(card)) {
+			if (cardC.showCard(card, study.getUser())) {
 				history.incrementCorrect();
 			}
 		}
@@ -73,16 +81,17 @@ public class SessionController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		study = null;
 	}
 	
-	public void saveSession() {
+	public void saveStudy() {
 		try {
-			histDAO.saveHistory(session.getHistory());
+			histDAO.saveHistory(study.getHistory());
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
 		try {
-			sDAO.saveSession(session);
+			sDAO.saveStudy(study);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -92,25 +101,24 @@ public class SessionController {
 		return user;
 	}
 
-	private void setSessionDict(String topic) {
-		DictDAO dictDAO = new FileDictDAO();
+	private void setStudyDict(String topic) {
+		DictDAO dictDAO = daoFactory.createDictDAO();
 		try {
-			session.setDictionary(dictDAO.readDict(topic));
+			dict = dictDAO.readDict(topic);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
 	private void prepareSequence() {
-		List<Card> dict = session.getDictionary();
-		List<Integer> orderList = session.getOrderList();
-		List<Integer> priOne = new ArrayList<>();
-		List<Integer> priTwo = new ArrayList<>();
-		List<Integer> priThree = new ArrayList<>();
+		List<Integer> orderList = study.getOrderList();
+		List<Integer> priOne = new ArrayList<Integer>();
+		List<Integer> priTwo = new ArrayList<Integer>();
+		List<Integer> priThree = new ArrayList<Integer>();
 
 		for (int i = 0; i < dict.size(); i++) {
-			Card c = dict.get(i);
-			switch (c.getPriority()) {
+			Card card = dict.get(i);
+			switch (card.getPriority(user)) {
 			case 1:
 				priOne.add(i);
 				break;
@@ -165,11 +173,10 @@ public class SessionController {
 	}
 
 	private Card nextCard() {
-		List<Card> dict = session.getDictionary();
-		List<Integer> orderList = session.getOrderList();
-		int pointer = session.getPointer();
+		List<Integer> orderList = study.getOrderList();
+		int pointer = study.getPointer();
 		int cardNumber;
-		session.incrementPointer();
+		study.incrementPointer();
 
 		Card card;
 		if (pointer < orderList.size()) {

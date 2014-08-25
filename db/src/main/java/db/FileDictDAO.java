@@ -16,9 +16,8 @@ public class FileDictDAO implements DictDAO {
 	@Override
 	public List<Card> readDict(String dictTopic) throws IOException {
 		
-		List<Card> dict = new ArrayList<>();
-		int cardCounter = 0;
-		
+		List<Card> dict = new ArrayList<Card>();
+				
 		FileReader fileReader = new FileReader(FILENAME);
 		BufferedReader bufferedReader = new BufferedReader(fileReader);
 		StreamTokenizer streamTokenizer = new StreamTokenizer(bufferedReader);
@@ -29,10 +28,8 @@ public class FileDictDAO implements DictDAO {
 				String translation = streamTokenizer.sval;
 				streamTokenizer.nextToken();
 				String topic = streamTokenizer.sval;
-				streamTokenizer.nextToken();
-				int priority = (int) streamTokenizer.nval;
-				
-				Card card = new Card(cardCounter++, word, translation, topic, priority);
+								
+				Card card = new Card(word, translation, topic);
 				if (dictTopic.equals("all")) {
 					dict.add(card);
 				} else if (topic.equals(dictTopic)) {

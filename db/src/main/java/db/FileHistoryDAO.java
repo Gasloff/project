@@ -15,10 +15,10 @@ public class FileHistoryDAO implements HistoryDAO {
 
 	private String FILENAME = "D:\\history.txt";
 
-	@Override
+	
 	public int getNewID() throws IOException {
 		int newID = 0;
-		List<Integer> list = new ArrayList<>();
+		List<Integer> list = new ArrayList<Integer>();
 
 		FileReader fileReader = new FileReader(FILENAME);
 		BufferedReader bufferedReader = new BufferedReader(fileReader);
@@ -38,11 +38,12 @@ public class FileHistoryDAO implements HistoryDAO {
 	}
 
 	@Override
-	public void saveHistory(History history) throws IOException {
+	public Long saveHistory(History history) throws IOException {
 		FileWriter fileWriter = new FileWriter(FILENAME, true);
-		fileWriter.write(history.getId() + " " + history.getAnswered() + " "
+		fileWriter.write(history.getHistID() + " " + history.getAnswered() + " "
 				+ history.getCorrect() + System.getProperty("line.separator"));
 		fileWriter.close();
+		return 0L;
 	}
 
 }

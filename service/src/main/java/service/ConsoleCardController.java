@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 import model.Card;
+import model.User;
 
 public class ConsoleCardController implements CardController {
 
@@ -12,7 +13,7 @@ public class ConsoleCardController implements CardController {
 	
 	
 	@Override
-	public boolean showCard(Card card) {
+	public boolean showCard(Card card, User user) {
 		boolean correct = false;
 				
 		System.out.println("Word: " + card.getWord());
@@ -29,9 +30,9 @@ public class ConsoleCardController implements CardController {
 			System.out.println("Correct!");
 		} else {
 			System.out.println("Not correct!");
-			int priority = card.getPriority();
+			int priority = card.getPriority(user);
 			if (priority < 3) {
-				card.setPriority(++priority);
+				card.incrementPriority(user);
 			}
 		}
 		return correct;

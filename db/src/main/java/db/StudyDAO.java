@@ -5,7 +5,7 @@ import java.util.List;
 
 import model.Study;
 
-public interface SessionDAO {
+public interface StudyDAO {
 	
 	void saveStudy(Study study) throws IOException;
 	
