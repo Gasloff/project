@@ -16,7 +16,7 @@ public class UserController {
 	private DAOFactory daoFactory;
 	private UserInterface uI;
 	private UserDAO uDAO;
-	StudyController sC = new StudyController(user);
+	StudyController sC;
 	
 	public UserController() {
 		ClassPathXmlApplicationContext context = 
@@ -55,11 +55,13 @@ public class UserController {
 	}
 	
 	public void startStudy() {
+		sC = new StudyController(user);
 		if (uI.savedStudy()) {
 			sC.resumeStudy();
 		} else {
 			sC.startStudy();
 		}
+		sC.runStudy();
 	}
 	
 }

@@ -50,7 +50,7 @@ public class Study {
 		return topic;
 	}
 
-	@ElementCollection
+	@ElementCollection(fetch = FetchType.EAGER)
 	@CollectionTable(name="order_lists", joinColumns=@JoinColumn(name="study_id"))
 	@Column(name="position")
 	public List<Integer> getOrderList() {
@@ -62,12 +62,12 @@ public class Study {
 		return pointer;
 	}
 
-	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToOne(cascade = CascadeType.ALL)
 	public History getHistory() {
 		return history;
 	}
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "user_id", nullable = false)
 	public User getUser() {
 		return user;

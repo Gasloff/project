@@ -76,10 +76,16 @@ public class StudyController {
 			Card card = nextCard();
 			if (card == null)
 				break;
-			history.incrementAnswered();
-			if (cardC.showCard(card, study.getUser())) {
+			
+			int response = cardC.showCard(card, study.getUser());
+			if (response == 1) {
 				history.incrementCorrect();
+			} else if (response == 2) {
+				study.setPointer(study.getPointer() - 1);
+				saveStudy();
+				break;
 			}
+			history.incrementAnswered();
 		}
 		try {
 			histDAO.saveHistory(history);
@@ -90,6 +96,7 @@ public class StudyController {
 	}
 	
 	public Long saveStudy() {
+		sDAO = daoFactory.createStudyDAO();
 		Long savedID = null;
 		try {
 			savedID = sDAO.saveStudy(study);
@@ -169,9 +176,6 @@ public class StudyController {
 			orderList.addAll(priOne);
 		}
 
-		for (int i : orderList) {
-			System.out.println(i);
-		}
 	}
 
 	private Card nextCard() {

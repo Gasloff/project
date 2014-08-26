@@ -18,8 +18,8 @@ import org.hibernate.annotations.GenericGenerator;
 public class History {
 
 	private Long histID;
-	private Integer answered;
-	private Integer correct;
+	private Integer answered = 0;
+	private Integer correct = 0;
 	private User user;
 	private Date date;
 	private String topic;

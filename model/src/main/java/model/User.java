@@ -7,9 +7,9 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -17,7 +17,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
-@Table(name = "user")
+@Table(name = "user_table")
 public class User {
 
 	private Long userID;
@@ -51,12 +51,13 @@ public class User {
 		return password;
 	}
 
-	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToOne(cascade = CascadeType.ALL)
 	public History getHistory() {
 		return history;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+	@OneToMany
+	@JoinTable(name = "saved_studies")
 	public Set<Study> getSavedStudies() {
 		return savedStudies;
 	}

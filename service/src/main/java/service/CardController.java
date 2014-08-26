@@ -5,6 +5,6 @@ import model.User;
 
 public interface CardController {
 	
-	boolean showCard(Card card, User user);
+	int showCard(Card card, User user);
 			
 }

@@ -13,8 +13,8 @@ public class ConsoleCardController implements CardController {
 	
 	
 	@Override
-	public boolean showCard(Card card, User user) {
-		boolean correct = false;
+	public int showCard(Card card, User user) {
+		int response = -1;
 				
 		System.out.println("Word: " + card.getWord());
 		System.out.println("Enter translation");
@@ -25,17 +25,20 @@ public class ConsoleCardController implements CardController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		if (card.getTranslation().equals(answer)) {
-			correct = true;
+		if (answer.equals(card.getTranslation())) {
+			response = 1;
 			System.out.println("Correct!");
+		} else if (answer.equals("save")) {
+			response = 2;
 		} else {
 			System.out.println("Not correct!");
 			int priority = card.getPriority(user);
 			if (priority < 3) {
 				card.incrementPriority(user);
 			}
+			response = 0;
 		}
-		return correct;
+		return response;
 	}
 
 }

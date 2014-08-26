@@ -7,6 +7,7 @@ import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -57,21 +58,21 @@ public class Card {
 		return topic;
 	}
 	
-	@ElementCollection
+	@ElementCollection(fetch = FetchType.EAGER)
 	@CollectionTable(name="priority_one", joinColumns=@JoinColumn(name="card_id"))
 	@Column(name="user_id")
 	public Set<Long> getPriorityOne() {
 		return priorityOne;
 	}
 
-	@ElementCollection
+	@ElementCollection(fetch = FetchType.EAGER)
 	@CollectionTable(name="priority_two", joinColumns=@JoinColumn(name="card_id"))
 	@Column(name="user_id")
 	public Set<Long> getPriorityTwo() {
 		return priorityTwo;
 	}
 
-	@ElementCollection
+	@ElementCollection(fetch = FetchType.EAGER)
 	@CollectionTable(name="priority_three", joinColumns=@JoinColumn(name="card_id"))
 	@Column(name="user_id")
 	public Set<Long> getPriorityThree() {

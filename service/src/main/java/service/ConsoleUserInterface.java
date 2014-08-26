@@ -30,7 +30,7 @@ public class ConsoleUserInterface implements UserInterface {
 	
 	@Override
 	public boolean savedStudy() {
-		System.out.println("Do you to resume saved session? y/n.");
+		System.out.println("Do you want to resume saved session? y/n.");
 		String answer = new String();
 		try {
 			answer = br.readLine();
