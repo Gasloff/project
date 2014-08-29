@@ -1,12 +1,9 @@
 package service;
 
-import java.sql.Date;
-
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import db.DAOFactory;
 import db.UserDAO;
-import model.History;
 import model.User;
 
 public class UserController {
@@ -41,9 +38,6 @@ public class UserController {
 			login = uI.obtainNewLogin();
 			password = uI.obtainNewPassword();
 			User newUser = new User(login, password);
-			Long dateMills = new java.util.Date().getTime();
-			History history = new History(newUser, new Date(dateMills), "-");
-			newUser.setHistory(history);
 			uDAO.addUser(newUser);
 		}
 		User candidate = uDAO.getUser(login);
@@ -52,16 +46,6 @@ public class UserController {
 			user = candidate;
 		}
 		return user.getUserID();	
-	}
-	
-	public void startStudy() {
-		sC = new StudyController(user);
-		if (uI.savedStudy()) {
-			sC.resumeStudy();
-		} else {
-			sC.startStudy();
-		}
-		sC.runStudy();
 	}
 	
 }

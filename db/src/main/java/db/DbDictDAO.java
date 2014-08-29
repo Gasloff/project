@@ -1,6 +1,5 @@
 package db;
 
-import java.io.IOException;
 import java.util.List;
 
 import org.hibernate.HibernateException;
@@ -14,20 +13,28 @@ import model.Card;
 public class DbDictDAO implements DictDAO {
 
 	private static SessionFactory factory;
-	
+	private Session session;
+
+	public DbDictDAO() {
+		@SuppressWarnings("resource")
+		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
+				"spring-hibernate.xml");
+		factory = (SessionFactory) context.getBean("sessionFactory");
+		//context.close();
+	}
+
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Card> readDict(String topic) throws IOException {
-
-		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring-hibernate.xml");
-	    factory = (SessionFactory) context.getBean("sessionFactory");
-	    Session session = factory.openSession();
-		
-	    Transaction tx = null;
+	public List<Card> readDict(String topic) {
+		session = factory.openSession();
+		Transaction tx = null;
 		List<Card> dict = null;
 		try {
 			tx = session.beginTransaction();
-			dict = (List<Card>) session.createQuery("FROM Card c WHERE c.topic = :topic ORDER BY c.id").setString("topic", topic).list();
+			dict = (List<Card>) session
+					.createQuery(
+							"FROM Card c WHERE c.topic = :topic ORDER BY c.id")
+					.setString("topic", topic).list();
 			tx.commit();
 		} catch (HibernateException e) {
 			if (tx != null)
@@ -36,17 +43,13 @@ public class DbDictDAO implements DictDAO {
 		} finally {
 			session.close();
 		}
-		
-		context.close();
+
 		return dict;
 	}
 	
+	@Override
 	public Long addCard(Card card) {
-		
-		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring-hibernate.xml");
-	    factory = (SessionFactory) context.getBean("sessionFactory");
-		Session session = factory.openSession();
-	
+		session = factory.openSession();
 		Transaction tx = null;
 		Long cardID = null;
 		try {
@@ -60,7 +63,7 @@ public class DbDictDAO implements DictDAO {
 		} finally {
 			session.close();
 		}
-		context.close();
+		
 		return cardID;
 	}
 

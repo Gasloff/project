@@ -7,7 +7,6 @@
    
 	<bean
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
- 
 		<property name="location">
 			<value>persistence-postgresql.properties</value>
 		</property>

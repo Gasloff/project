@@ -36,12 +36,20 @@ public class App {
 		for (Logger logger : loggers) {
 			logger.setLevel(Level.OFF);
 		}
-		
-		//populateDB();
 
-		UserController uC = new UserController();
-		uC.logIn();
-		uC.startStudy();
+		// populateDB();
+		UserDAO userDAO = new DbUserDAO();
+		User user = userDAO.getUser("Aleksandr");
+		StudyController sC = new StudyController(user);
+		sC.createStudy("animals", user);
+		/*
+		for (int i = 0; i < sC.getDict().size(); i++) {
+			System.out.println(i + " " + sC.getDict().get(i).getWord() + " " + sC.getDict().get(i).getPriority(user));
+		}
+		*/
+		List<Integer> list = sC.getStudy().getOrderList();
+		System.out.println(list);
+
 	}
 
 	public static void populateDB() {
@@ -51,8 +59,6 @@ public class App {
 
 		Long dateMills = new java.util.Date().getTime();
 		User user = new User("Aleksandr", "6131");
-		History history = new History(user, new Date(dateMills), "-");
-		user.setHistory(history);
 		userDAO.addUser(user);
 
 		Card card1 = new Card("wolf", "волк", "animals");
@@ -65,17 +71,17 @@ public class App {
 		Card card8 = new Card("bear", "медведь", "animals");
 		Card card9 = new Card("pear", "груша", "fruits");
 		Card card10 = new Card("goat", "козел", "animals");
-		
-		card1.setPriority(user, 2);
-		card2.setPriority(user, 2);
+
+		card1.setPriority(user, 1);
+		card2.setPriority(user, 3);
 		card3.setPriority(user, 2);
 		card4.setPriority(user, 2);
 		card5.setPriority(user, 2);
 		card6.setPriority(user, 2);
 		card7.setPriority(user, 2);
-		card8.setPriority(user, 2);
+		card8.setPriority(user, 1);
 		card9.setPriority(user, 2);
-		card10.setPriority(user, 2);
+		card10.setPriority(user, 1);
 
 		dictDAO.addCard(card1);
 		dictDAO.addCard(card2);

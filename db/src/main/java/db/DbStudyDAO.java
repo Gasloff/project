@@ -1,7 +1,5 @@
 package db;
 
-import java.io.IOException;
-
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -13,15 +11,18 @@ import model.Study;
 public class DbStudyDAO implements StudyDAO {
 
 	private static SessionFactory factory;
+	private Session session;
 
-	@Override
-	public Long saveStudy(Study study) throws IOException {
-		
+	public DbStudyDAO() {
 		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
 				"spring-hibernate.xml");
 		factory = (SessionFactory) context.getBean("sessionFactory");
-		Session session = factory.openSession();
+		context.close();
+	}
 
+	@Override
+	public Long saveStudy(Study study) {
+		session = factory.openSession();
 		Transaction tx = null;
 		Long savedID = null;
 		Long studyID = study.getId();
@@ -53,18 +54,12 @@ public class DbStudyDAO implements StudyDAO {
 			savedID = studyID;
 		}
 
-		context.close();
 		return savedID;
 	}
 
 	@Override
-	public Study readStudy(Long studyID) throws IOException {
-		
-		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
-				"spring-hibernate.xml");
-		factory = (SessionFactory) context.getBean("sessionFactory");
-		Session session = factory.openSession();
-
+	public Study readStudy(Long studyID) {
+		session = factory.openSession();
 		Transaction tx = null;
 		Study study = null;
 		try {
@@ -79,7 +74,6 @@ public class DbStudyDAO implements StudyDAO {
 			session.close();
 		}
 
-		context.close();
 		return study;
 	}
 
