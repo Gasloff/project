@@ -1,10 +1,14 @@
 package db;
 
-import java.io.IOException;
+import java.util.List;
 
 import model.History;
 
 public interface HistoryDAO {
 
-	Long saveHistory(History history) throws IOException;
+	Long saveHistory(History history);
+	
+	History readHistory(Long histID);
+	
+	List<History> getListByUser(Long userId);
 }

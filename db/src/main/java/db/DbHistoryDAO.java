@@ -1,32 +1,70 @@
 package db;
 
-import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import model.History;
 
 public class DbHistoryDAO implements HistoryDAO {
 
-	private static SessionFactory factory;
-	
-	@Override
-	public Long saveHistory(History history) throws IOException {
-		
-		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring-hibernate.xml");
+	private SessionFactory sessionFactory;
 
-	    factory = (SessionFactory) context.getBean("sessionFactory");
-		
-		Session session = factory.openSession();
+	public DbHistoryDAO() {
+	}
+
+	public DbHistoryDAO(SessionFactory sessionFactory) {
+		this.sessionFactory = sessionFactory;
+	}
+
+	@Override
+	public Long saveHistory(History history) {
+		Session session = sessionFactory.openSession();
 		Transaction tx = null;
-		Long histID = null;
+		Long savedID = null;
+		Long histID = history.getHistID();
+
+		if (histID == -1L) {
+			try {
+				tx = session.beginTransaction();
+				savedID = (Long) session.save(history);
+				tx.commit();
+			} catch (HibernateException e) {
+				if (tx != null)
+					tx.rollback();
+				e.printStackTrace();
+			} finally {
+				session.close();
+			}
+		} else {
+			try {
+				tx = session.beginTransaction();
+				session.update(history);
+				tx.commit();
+			} catch (HibernateException e) {
+				if (tx != null)
+					tx.rollback();
+				e.printStackTrace();
+			} finally {
+				session.close();
+			}
+			savedID = histID;
+		}
+
+		return savedID;
+	}
+
+	public History readHistory(Long histID) {
+		Session session = sessionFactory.openSession();
+		Transaction tx = null;
+		History history = null;
 		try {
 			tx = session.beginTransaction();
-			histID = (Long) session.save(history);
+			history = (History) session.get(History.class, histID);
 			tx.commit();
 		} catch (HibernateException e) {
 			if (tx != null)
@@ -35,8 +73,28 @@ public class DbHistoryDAO implements HistoryDAO {
 		} finally {
 			session.close();
 		}
-		context.close();
-		return histID;
+
+		return history;
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<History> getListByUser(Long userId) {
+		Session session = sessionFactory.openSession();
+		Transaction tx = null;
+		List<History> list = new ArrayList<>();
+		try {
+			tx = session.beginTransaction();
+			list = (List<History>) session.createQuery("from History h where h.user.userID = :id")
+					.setLong("id", userId).list();
+			tx.commit();
+		} catch (HibernateException e) {
+			if (tx != null)
+				tx.rollback();
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+		return list;
 	}
 
 }

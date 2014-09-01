@@ -6,19 +6,20 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class DbUserDAO implements UserDAO {
 
-	private static SessionFactory factory;
+	private SessionFactory sessionFactory;
+
+	public DbUserDAO() {}
+	
+	public DbUserDAO(SessionFactory sessionFactory) {
+		this.sessionFactory = sessionFactory;
+	}
 
 	@Override
 	public Long addUser(User user) {
-		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
-				"spring-hibernate.xml");
-		factory = (SessionFactory) context.getBean("sessionFactory");
-		Session session = factory.openSession();
-
+		Session session = sessionFactory.openSession();
 		Transaction tx = null;
 		Long userID = null;
 		try {
@@ -32,17 +33,12 @@ public class DbUserDAO implements UserDAO {
 		} finally {
 			session.close();
 		}
-		context.close();
 		return userID;
 	}
 
 	@Override
 	public User getUser(String login) {
-		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
-				"spring-hibernate.xml");
-		factory = (SessionFactory) context.getBean("sessionFactory");
-		Session session = factory.openSession();
-
+		Session session = sessionFactory.openSession();
 		Transaction tx = null;
 		User user = null;
 		try {
@@ -58,8 +54,6 @@ public class DbUserDAO implements UserDAO {
 		} finally {
 			session.close();
 		}
-
-		context.close();
 		return user;
 	}
 

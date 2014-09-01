@@ -95,18 +95,6 @@ public class Card {
 		this.topic = topic;
 	}
 
-	public void setPriorityOne(Set<Long> priorityOne) {
-		this.priorityOne = priorityOne;
-	}
-
-	public void setPriorityTwo(Set<Long> priorityTwo) {
-		this.priorityTwo = priorityTwo;
-	}
-
-	public void setPriorityThree(Set<Long> priorityThree) {
-		this.priorityThree = priorityThree;
-	}
-	
 	public Integer getPriority(User user) {
 		Long userID = user.getUserID();
 		Integer priority = -1;

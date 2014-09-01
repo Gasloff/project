@@ -1,51 +1,43 @@
 package service;
 
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import java.util.List;
 
-import db.DAOFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import db.HistoryDAO;
 import db.UserDAO;
+import model.History;
 import model.User;
 
 public class UserController {
 	
 	private User user;
 	
-	private DAOFactory daoFactory;
-	private UserInterface uI;
-	private UserDAO uDAO;
-	StudyController sC;
+	@Autowired
+	private UserDAO uDao;
+	@Autowired
+	private HistoryDAO histDao;
 	
-	public UserController() {
-		ClassPathXmlApplicationContext context = 
-	             new ClassPathXmlApplicationContext("Beans.xml");
-		daoFactory = (DAOFactory) context.getBean("daoFactory");
-		uI = (UserInterface) context.getBean("userInterface");
-		context.close();
-		uDAO = daoFactory.createUserDAO();
+	
+	public UserController() {}
+	
+	public User createUser(String login, String password) {
+		user = new User(login, password);
+		uDao.addUser(user);
+		return user;
+	}
+	
+	public User loadUser(String login) {
+		user = uDao.getUser(login);
+		return user;
+	}
+	
+	public List<History> getHistList() {
+		return histDao.getListByUser(user.getUserID());
 	}
 	
 	public User getUser() {
 		return user;
-	}
-
-	public Long logIn() {
-	
-		String login;
-		String password;
-		if (uI.existingUser()) {
-			login = uI.obtainLogin();
-		} else {
-			login = uI.obtainNewLogin();
-			password = uI.obtainNewPassword();
-			User newUser = new User(login, password);
-			uDAO.addUser(newUser);
-		}
-		User candidate = uDAO.getUser(login);
-		password = uI.obtainPassword();
-		if (password.equals(candidate.getPassword())) {
-			user = candidate;
-		}
-		return user.getUserID();	
 	}
 	
 }

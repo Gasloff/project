@@ -4,25 +4,19 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-
 import model.Study;
 
 public class DbStudyDAO implements StudyDAO {
 
-	private static SessionFactory factory;
-	private Session session;
+	private SessionFactory sessionFactory;
 
-	public DbStudyDAO() {
-		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
-				"spring-hibernate.xml");
-		factory = (SessionFactory) context.getBean("sessionFactory");
-		context.close();
+	public DbStudyDAO(SessionFactory sessionFactory) {
+		this.sessionFactory = sessionFactory;
 	}
 
 	@Override
 	public Long saveStudy(Study study) {
-		session = factory.openSession();
+		Session session = sessionFactory.openSession();
 		Transaction tx = null;
 		Long savedID = null;
 		Long studyID = study.getId();
@@ -59,7 +53,7 @@ public class DbStudyDAO implements StudyDAO {
 
 	@Override
 	public Study readStudy(Long studyID) {
-		session = factory.openSession();
+		Session session = sessionFactory.openSession();
 		Transaction tx = null;
 		Study study = null;
 		try {

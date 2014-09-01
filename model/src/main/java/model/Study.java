@@ -101,4 +101,7 @@ public class Study {
 		pointer++;
 	}
 	
+	public void decrementPointer() {
+		pointer--;
+	}
 }

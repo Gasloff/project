@@ -1,14 +1,12 @@
 package service;
 
-import java.io.IOException;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import db.DAOFactory;
 import db.DictDAO;
 import db.HistoryDAO;
 import db.StudyDAO;
@@ -22,31 +20,24 @@ public class StudyController {
 	private Study study;
 	private User user;
 	private List<Card> dict;
-	private CardController cardC = new ConsoleCardController();
+	
+	@Autowired
 	private StudyDAO sDAO;
+	@Autowired
 	private DictDAO dictDAO;
+	@Autowired
 	private HistoryDAO histDAO;
-
-	private DAOFactory daoFactory;
-
+	
 	public StudyController(User user) {
 		this.user = user;
-		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
-				"Beans.xml");
-		daoFactory = (DAOFactory) context.getBean("daoFactory");
-		sDAO = daoFactory.createStudyDAO();
-		dictDAO = daoFactory.createDictDAO();
-		context.close();
 	}
 
 	public Study createStudy(String topic, User user) {
 		study = new Study(topic, user);
-		Long dateMills = new java.util.Date().getTime();
-		History history = new History(user, new Date(dateMills), topic);
+		History history = new History(user, new Date(System.currentTimeMillis()), topic);
 		study.setHistory(history);
 		dict = dictDAO.readDict(topic);
 		prepareSequence();
-
 		return study;
 	}
 
@@ -59,7 +50,6 @@ public class StudyController {
 	public Long saveStudy() {
 		Long savedID = null;
 		savedID = sDAO.saveStudy(study);
-
 		return savedID;
 	}
 
@@ -79,49 +69,43 @@ public class StudyController {
 		return card;
 	}
 
-	public void runStudy() {
-		histDAO = daoFactory.createHistoryDAO();
-
+	public boolean pocessAnswer(Card card, String answer) {
 		History history = study.getHistory();
-		while (true) {
-			Card card = nextCard();
-			if (card == null)
-				break;
-
-			int response = cardC.showCard(card, study.getUser());
-			if (response == 1) {
-				history.incrementCorrect();
-			} else if (response == 2) {
-				study.setPointer(study.getPointer() - 1);
-				saveStudy();
-				break;
-			}
-			history.incrementAnswered();
+		history.incrementAnswered();
+		if (answer.equals(card.getTranslation())) {
+			history.incrementCorrect();
+			return true;
+		} else {
+			card.incrementPriority(user);
+			return false;
 		}
-		try {
-			histDAO.saveHistory(history);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		study = null;
+	}
+	
+	public Long saveHistory() {
+		History history = study.getHistory();
+		return histDAO.saveHistory(history);
+	}
+	
+	public History getHistory() {
+		return study.getHistory();
 	}
 
 	public User getUser() {
 		return user;
 	}
-	
+
 	public Study getStudy() {
 		return study;
 	}
-	
+
 	public List<Card> getDict() {
 		return dict;
 	}
 
 	/*
-	 * Prepares random sequence based on priority.
-	 * Order is: priority "1" --> priority "2" --> priority "1" --> priority "3"
-	*/
+	 * Prepares random sequence based on priority. Order is: priority "1" -->
+	 * priority "2" --> priority "1" --> priority "3"
+	 */
 	private void prepareSequence() {
 		List<Integer> orderList = study.getOrderList();
 		List<Integer> priOne = new ArrayList<Integer>();
@@ -141,7 +125,7 @@ public class StudyController {
 				break;
 			}
 		}
-		
+
 		Collections.shuffle(priOne);
 
 		if (priTwo.size() > 0) {
@@ -153,8 +137,7 @@ public class StudyController {
 			}
 			while (priOne.get(priOne.size() - 1) == priTwo.get(0)
 					|| priOne.get(priOne.size() - 1) == priTwo.get(1)
-					|| priOne.get(priOne.size() - 2) == priTwo.get(0)
-					) {
+					|| priOne.get(priOne.size() - 2) == priTwo.get(0)) {
 				Collections.shuffle(priOne);
 			}
 			orderList.addAll(priOne);
@@ -200,7 +183,7 @@ public class StudyController {
 			}
 			orderList.addAll(priOne);
 		}
-		
+
 	}
 
 }

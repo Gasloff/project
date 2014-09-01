@@ -17,7 +17,7 @@ import org.hibernate.annotations.GenericGenerator;
 @Table(name = "history")
 public class History {
 
-	private Long histID;
+	private Long histID = -1L;
 	private Integer answered = 0;
 	private Integer correct = 0;
 	private User user;
@@ -27,7 +27,6 @@ public class History {
 	public History() {}
 	
 	public History(User user, Date date, String topic) {
-		super();
 		this.user = user;
 		this.date = date;
 		this.topic = topic;
