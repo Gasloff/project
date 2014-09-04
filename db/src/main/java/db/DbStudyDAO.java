@@ -10,6 +10,8 @@ public class DbStudyDAO implements StudyDAO {
 
 	private SessionFactory sessionFactory;
 
+	public DbStudyDAO() {}
+	
 	public DbStudyDAO(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}
@@ -21,7 +23,7 @@ public class DbStudyDAO implements StudyDAO {
 		Long savedID = null;
 		Long studyID = study.getId();
 
-		if (studyID == -1L) {
+		if (studyID.equals(-1L)) {
 			try {
 				tx = session.beginTransaction();
 				savedID = (Long) session.save(study);

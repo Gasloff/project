@@ -19,7 +19,7 @@ import org.hibernate.annotations.GenericGenerator;
 @Table(name = "card")
 public class Card {
 	
-	private Long id;
+	private Long id = -1L;
 	private String word;
 	private String translation;
 	private String topic;
@@ -93,6 +93,18 @@ public class Card {
 	
 	public void setTopic(String topic) {
 		this.topic = topic;
+	}
+		
+	public void setPriorityOne(Set<Long> priorityOne) {
+		this.priorityOne = priorityOne;
+	}
+
+	public void setPriorityTwo(Set<Long> priorityTwo) {
+		this.priorityTwo = priorityTwo;
+	}
+
+	public void setPriorityThree(Set<Long> priorityThree) {
+		this.priorityThree = priorityThree;
 	}
 
 	public Integer getPriority(User user) {

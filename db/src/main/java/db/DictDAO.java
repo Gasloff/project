@@ -10,4 +10,7 @@ public interface DictDAO {
 	
 	Long addCard(Card card);
 	
+	public Long saveCard(Card card);
+	
+	public void saveList(List<Card> list);
 }

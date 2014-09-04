@@ -14,9 +14,8 @@ public class DbHistoryDAO implements HistoryDAO {
 
 	private SessionFactory sessionFactory;
 
-	public DbHistoryDAO() {
-	}
-
+	public DbHistoryDAO() {}
+	
 	public DbHistoryDAO(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}
@@ -28,7 +27,7 @@ public class DbHistoryDAO implements HistoryDAO {
 		Long savedID = null;
 		Long histID = history.getHistID();
 
-		if (histID == -1L) {
+		if (histID.equals(-1L)) {
 			try {
 				tx = session.beginTransaction();
 				savedID = (Long) session.save(history);

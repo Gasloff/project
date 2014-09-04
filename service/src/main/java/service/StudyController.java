@@ -22,11 +22,13 @@ public class StudyController {
 	private List<Card> dict;
 	
 	@Autowired
-	private StudyDAO sDAO;
+	private StudyDAO studyDAO;
 	@Autowired
 	private DictDAO dictDAO;
 	@Autowired
 	private HistoryDAO histDAO;
+	
+	public StudyController() {}
 	
 	public StudyController(User user) {
 		this.user = user;
@@ -42,14 +44,14 @@ public class StudyController {
 	}
 
 	public Study loadStudy(Long studyID) {
-		study = sDAO.readStudy(studyID);
+		study = studyDAO.readStudy(studyID);
 		dict = dictDAO.readDict(study.getTopic());
 		return study;
 	}
 
 	public Long saveStudy() {
 		Long savedID = null;
-		savedID = sDAO.saveStudy(study);
+		savedID = studyDAO.saveStudy(study);
 		return savedID;
 	}
 
@@ -100,6 +102,14 @@ public class StudyController {
 
 	public List<Card> getDict() {
 		return dict;
+	}
+	
+	public void setStudy(Study study) {
+		this.study = study;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	/*

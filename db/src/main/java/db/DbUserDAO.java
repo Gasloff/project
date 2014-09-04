@@ -1,5 +1,7 @@
 package db;
 
+import java.util.List;
+
 import model.User;
 
 import org.hibernate.HibernateException;
@@ -37,7 +39,7 @@ public class DbUserDAO implements UserDAO {
 	}
 
 	@Override
-	public User getUser(String login) {
+	public User loadUser(String login) {
 		Session session = sessionFactory.openSession();
 		Transaction tx = null;
 		User user = null;
@@ -56,5 +58,28 @@ public class DbUserDAO implements UserDAO {
 		}
 		return user;
 	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<User> getUserList() {
+		Session session = sessionFactory.openSession();
+		Transaction tx = null;
+		List<User> users = null;
+		try {
+			tx = session.beginTransaction();
+			users = (List<User>) session
+					.createQuery("FROM User u ORDER BY u.userID").list();
+			tx.commit();
+		} catch (HibernateException e) {
+			if (tx != null)
+				tx.rollback();
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+		return users;
+	}
+	
+	
 
 }

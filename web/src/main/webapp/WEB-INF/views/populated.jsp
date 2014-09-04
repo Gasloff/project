@@ -4,6 +4,6 @@
 		<title>Spring MVC and Hibrenate</title>
 	</head>
 	<body>
-		<h2>${password}</h2>
+		<h2>Populated</h2>
 	</body>
 </html>
