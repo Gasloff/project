@@ -1,15 +1,9 @@
 package model;
 
-
-import java.util.HashSet;
-import java.util.Set;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinTable;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -21,8 +15,7 @@ public class User {
 	private Long userID;
 	private String login;
 	private String password;
-	private Set<Study> savedStudies = new HashSet<>(0);
-	
+
 	public User() {}
 	
 	public User(String login, String password) {
@@ -48,12 +41,6 @@ public class User {
 		return password;
 	}
 
-	@OneToMany
-	@JoinTable(name = "saved_studies")
-	public Set<Study> getSavedStudies() {
-		return savedStudies;
-	}
-
 	public void setUserID(Long user_id) {
 		this.userID = user_id;
 	}
@@ -64,10 +51,6 @@ public class User {
 	
 	public void setPassword(String password) {
 		this.password = password;
-	}
-
-	public void setSavedStudies(Set<Study> savedStudies) {
-		this.savedStudies = savedStudies;
 	}
 	
 }

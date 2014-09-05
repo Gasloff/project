@@ -43,10 +43,15 @@ public class StudyController {
 		return study;
 	}
 
-	public Study loadStudy(Long studyID) {
-		study = studyDAO.readStudy(studyID);
+	public Study loadStudy(Long studyId) {
+		study = studyDAO.readStudy(studyId);
 		dict = dictDAO.readDict(study.getTopic());
 		return study;
+	}
+	
+	public List<Study> loadListByUser(Long userId) {
+		List<Study> studyList = studyDAO.getListByUser(userId);
+		return studyList;
 	}
 
 	public Long saveStudy() {
@@ -71,7 +76,7 @@ public class StudyController {
 		return card;
 	}
 
-	public boolean pocessAnswer(Card card, String answer) {
+	public boolean processAnswer(Card card, String answer) {
 		History history = study.getHistory();
 		history.incrementAnswered();
 		if (answer.equals(card.getTranslation())) {

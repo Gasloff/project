@@ -72,14 +72,22 @@
 	background-color: #66CCFF;
 }
 
-#studyTopic {
+#topField {
 	margin-left: auto;
     margin-right: auto;
     width: 1180px;
+	height: 60px;
 	padding: 10px;
 	font-family: "Verdana";
-	color: #66CCFF;
-	visibility: hidden;
+	color: #66CCFF;	
+}
+
+#studyTopic {
+	display: none;
+}
+
+#studyId {
+	display: none;
 }
 
 #main {
@@ -90,4 +98,71 @@
 	background-color: #66CCFF;
 	margin-top: 20px;
 	padding: 10px;
+	font-family: "Verdana";
+	font-size: 24px;
+	color: #FFFFFF;
+    text-align: center;	
 }
+
+#studyList {
+	display: none;
+}
+
+#showCard {
+	display: none;
+}
+
+#next , #saveStudy {
+	font-family: "Verdana";
+	font-weight: bold;
+    color: #FFFFFF;
+    text-align: center;
+    padding: 4px;
+    text-transform: uppercase;
+	background-color: #66CCFF;
+}
+
+#histList {
+	display: none;
+}
+
+.histHeader {
+	border-width: 1px;
+	border-style: solid;
+    border-color: #52A3CC;
+	background-color: #5CB8E6;
+	color: #FFFFFF;
+	text-transform: uppercase;
+	font-weight: normal;
+	padding: 10px;
+	padding-left: 30px;
+	padding-right: 30px;
+}
+
+.histData {
+	border-width: 1px;
+	border-style: solid;
+    border-color: #52A3CC;
+	background-color: #FFFFFF;
+	padding: 6px;
+}
+
+#histTable {
+	border-width: 1px;
+	border-style: solid;
+    border-color: #52A3CC;
+	background-color: #FFFFFF;
+	border-collapse: collapse;
+	color: #52A3CC;
+	font-size: 16px;
+	font-weight: normal;
+	
+}
+
+
+
+
+
+
+
+
