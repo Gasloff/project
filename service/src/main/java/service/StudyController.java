@@ -20,6 +20,7 @@ public class StudyController {
 	private Study study;
 	private User user;
 	private List<Card> dict;
+	private List<Integer> correctList = new ArrayList<>();
 	
 	@Autowired
 	private StudyDAO studyDAO;
@@ -38,14 +39,14 @@ public class StudyController {
 		study = new Study(topic, user);
 		History history = new History(user, new Date(System.currentTimeMillis()), topic);
 		study.setHistory(history);
-		dict = dictDAO.readDict(topic);
+		createDict(topic);
 		prepareSequence();
 		return study;
 	}
 
 	public Study loadStudy(Long studyId) {
 		study = studyDAO.readStudy(studyId);
-		dict = dictDAO.readDict(study.getTopic());
+		createDict(study.getTopic());
 		return study;
 	}
 	
@@ -81,9 +82,22 @@ public class StudyController {
 		history.incrementAnswered();
 		if (answer.equals(card.getTranslation())) {
 			history.incrementCorrect();
+			int index = dict.indexOf(card);
+			int counter = correctList.get(index); 
+			if (counter == 1) {
+				correctList.set(index, 0);
+				card.decrementPriority(user);
+				dictDAO.saveCard(card);
+			} else {
+				counter++;
+				correctList.set(index, counter);
+			}
 			return true;
 		} else {
 			card.incrementPriority(user);
+			int index = dict.indexOf(card);
+			correctList.set(index, 0);
+			dictDAO.saveCard(card);
 			return false;
 		}
 	}
@@ -117,6 +131,13 @@ public class StudyController {
 		this.user = user;
 	}
 
+	private void createDict(String topic) {
+		dict = dictDAO.readDict(topic);
+		for (int i = 0; i < dict.size(); i++) {
+			correctList.add(0);
+		}
+	}
+	
 	/*
 	 * Prepares random sequence based on priority. Order is: priority "1" -->
 	 * priority "2" --> priority "1" --> priority "3"

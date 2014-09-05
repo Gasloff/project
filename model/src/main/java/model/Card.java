@@ -144,6 +144,17 @@ public class Card {
 			priorityThree.add(userID);
 		}
 	}
+	
+	public void decrementPriority(User user) {
+		Long userID = user.getUserID();
+		if (priorityTwo.contains(userID)) {
+			priorityTwo.remove(userID);
+			priorityOne.add(userID);
+		} else if (priorityThree.contains(userID)) {
+			priorityThree.remove(userID);
+			priorityTwo.add(userID);
+		}
+	}
 }
 	
 
