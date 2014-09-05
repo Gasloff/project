@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import service.HashCode;
 import service.StudyController;
 import service.UserController;
 
@@ -132,7 +133,7 @@ public class AppController {
 		
 	@RequestMapping(value = "/adduser")
 	public String adduser(@RequestParam("username") String login, @RequestParam("password") String password) {
-		user = userController.createUser(login, password);
+		user = userController.createUser(login, HashCode.getHashPassword(password));
 		return "added";
 	}
 

@@ -55,7 +55,7 @@ public class UserController {
 	
 	public void populateDB() {
 
-		User user = new User("Aleksandr", "6131");
+		User user = new User("Aleksandr", HashCode.getHashPassword("6131"));
 		userDao.addUser(user);
 
 		Card card1 = new Card("wolf", "волк", "animals");

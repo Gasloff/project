@@ -12,7 +12,7 @@
 
 	<authentication-manager>
 		<authentication-provider user-service-ref="myUserDetailsService">
-			<password-encoder hash="plaintext" />
+			<password-encoder ref="encoder" />
 		</authentication-provider>
 	</authentication-manager>
 </beans:beans>
