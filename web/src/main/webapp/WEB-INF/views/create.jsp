@@ -1,15 +1,21 @@
 <!DOCTYPE html>
 <html>
 <head>
-New user
+	<link href="${pageContext.servletContext.contextPath}/resources/app_css.css" rel="stylesheet"/>
 </head>
 <body>
-	<h2>Please enter username and password</h2>
-	<form action="/web/adduser" method="POST">
-		UserName: <input type="text" name="username" />
-		<br />
-		Password: <input type="password" name="password" />
-		<input type="submit" value="Submit" />
-	</form>
+	<header id="appHeader">
+		Card Study		
+	</header>
+	
+	<main id="main">
+		<form action="/web/adduser" method="POST">
+			<p>Please enter new account registration data</p>
+			Username: <input type="text" name="username" /><br>
+			Password: <input type="password" name="password" /><br>
+			<input type="submit" value="Create" />
+		</form>
+		<span><a class="appIndex" href="/web/">Back</a></span>
+	</main>
 </body>
 </html>

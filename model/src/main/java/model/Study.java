@@ -1,5 +1,6 @@
 package model;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,6 +29,7 @@ public class Study {
 	private Integer pointer = 0;
 	private History history;
 	private User user;
+	private Date date;
 
 	public Study() {
 	}
@@ -72,6 +74,11 @@ public class Study {
 	public User getUser() {
 		return user;
 	}
+	
+	@Column(name = "date")
+	public Date getDate() {
+		return date;
+	}
 
 	public void setId(Long id) {
 		this.id = id;
@@ -97,6 +104,10 @@ public class Study {
 		this.user = user;
 	}
 	
+	public void setDate(Date date) {
+		this.date = date;
+	}
+
 	public void incrementPointer() {
 		pointer++;
 	}

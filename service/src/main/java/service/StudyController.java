@@ -21,6 +21,7 @@ public class StudyController {
 	private User user;
 	private List<Card> dict;
 	private List<Integer> correctList = new ArrayList<>();
+	private boolean loaded = false;
 	
 	@Autowired
 	private StudyDAO studyDAO;
@@ -41,12 +42,14 @@ public class StudyController {
 		study.setHistory(history);
 		createDict(topic);
 		prepareSequence();
+		loaded = false;
 		return study;
 	}
 
 	public Study loadStudy(Long studyId) {
 		study = studyDAO.readStudy(studyId);
 		createDict(study.getTopic());
+		loaded = true;
 		return study;
 	}
 	
@@ -57,6 +60,8 @@ public class StudyController {
 
 	public Long saveStudy() {
 		Long savedID = null;
+		Date date = new Date(System.currentTimeMillis());
+		study.setDate(date);
 		savedID = studyDAO.saveStudy(study);
 		return savedID;
 	}
@@ -73,6 +78,9 @@ public class StudyController {
 			card = dict.get(cardNumber);
 		} else {
 			card = null;
+			if (loaded) {
+				studyDAO.deleteStudy(study);
+			}
 		}
 		return card;
 	}
@@ -123,12 +131,20 @@ public class StudyController {
 		return dict;
 	}
 	
+	public boolean isLoaded() {
+		return loaded;
+	}
+	
 	public void setStudy(Study study) {
 		this.study = study;
 	}
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+		
+	public void setLoaded(boolean loaded) {
+		this.loaded = loaded;
 	}
 
 	private void createDict(String topic) {

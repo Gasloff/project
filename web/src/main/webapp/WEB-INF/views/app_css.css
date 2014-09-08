@@ -11,6 +11,28 @@
 	padding: 10px;
 }
 
+.appIndex:link, .appIndex:visited {
+	margin-top: 10px;
+	margin-left: auto;
+    margin-right: auto;
+	text-decoration: none;
+    text-transform: uppercase;
+	text-align: center;
+	width: 300px;
+	padding: 10px;
+    color: #FFFFFF;
+	background-color: #66CCFF;
+	display: block;
+}
+
+.appIndex:hover, .appIndex:active {
+	background-color: #52A3CC;
+}
+
+#logIn {
+	margin-top: 100px;
+}
+
 #appUser {
 	margin-left: auto;
     margin-right: auto;
@@ -26,7 +48,6 @@
 	float: right;
 	padding: 10px;
 }
-
 
 #appLogout:link, #appLogout:visited {
 	text-decoration: none;
@@ -126,7 +147,7 @@
 	display: none;
 }
 
-.histHeader {
+.tableHeader {
 	border-width: 1px;
 	border-style: solid;
     border-color: #52A3CC;
@@ -139,7 +160,7 @@
 	padding-right: 30px;
 }
 
-.histData {
+.tableData {
 	border-width: 1px;
 	border-style: solid;
     border-color: #52A3CC;
@@ -147,7 +168,9 @@
 	padding: 6px;
 }
 
-#histTable {
+#histTable, #savedStudyTable {
+	margin-left: auto;
+    margin-right: auto;
 	border-width: 1px;
 	border-style: solid;
     border-color: #52A3CC;

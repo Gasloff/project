@@ -56,6 +56,27 @@ public class DbStudyDAO implements StudyDAO {
 
 		return savedID;
 	}
+	
+	@Override
+	public void deleteStudy(Study study) {
+		Session session = sessionFactory.openSession();
+		Transaction tx = null;
+		Long studyID = study.getId();
+
+		if (!studyID.equals(-1L)) {
+			try {
+				tx = session.beginTransaction();
+				session.delete(study);
+				tx.commit();
+			} catch (HibernateException e) {
+				if (tx != null)
+					tx.rollback();
+				e.printStackTrace();
+			} finally {
+				session.close();
+			}
+		}		
+	}
 
 	@Override
 	public Study readStudy(Long studyID) {

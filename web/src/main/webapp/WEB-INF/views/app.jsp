@@ -47,7 +47,18 @@
 	</div>
 	
 	<main id="main">
-		<div id="studyList"></div>
+		<div id="studyList">
+			<p>List of saved studies:</p>
+			<table id="savedStudyTable">
+				<tr>
+					<th class="tableHeader">ID</th>
+					<th class="tableHeader">Topic</th>
+					<th class="tableHeader">Cards done</th>
+					<th class="tableHeader">Cards remaining</th>
+					<th class="tableHeader">Date</th>
+				</tr>
+			</table>
+		</div>
 		
 		<div id="showCard">
 			<div id="word">Word:</div>
@@ -67,13 +78,14 @@
 		</div>
 		
 		<div id="histList">
+			<p>Study history for current user</p>
 			<table id="histTable">
 				<tr>
-					<th class="histHeader">ID</th>
-					<th class="histHeader">Cards answered</th>
-					<th class="histHeader">Correct answers</th>
-					<th class="histHeader">Date</th>
-					<th class="histHeader">Topic</th>
+					<th class="tableHeader">ID</th>
+					<th class="tableHeader">Cards answered</th>
+					<th class="tableHeader">Correct answers</th>
+					<th class="tableHeader">Date</th>
+					<th class="tableHeader">Topic</th>
 				</tr>
 			</table>
 		</div>

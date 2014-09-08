@@ -99,6 +99,9 @@ public class AppController {
 			JSONObject jObj = new JSONObject();
 			jObj.put("id", st.getId());
 			jObj.put("topic", st.getTopic());
+			jObj.put("done", st.getPointer());
+			jObj.put("remaining", (st.getOrderList().size() - st.getPointer()));
+			jObj.put("date", st.getDate().toString());
 			jArray.add(jObj);
 		}
 		return jArray.toJSONString();

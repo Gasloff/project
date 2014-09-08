@@ -14,7 +14,12 @@ $(document).ready(function(){
 
 $(document).ready(function(){
 	$("#newStudy").click(
-		function(){$("#studyTopic").css("display","initial");}
+		function(){$("#studyTopic").css("display","initial");
+			$("#studyId").css("display","none");
+			$("#studyList").css("display","none");
+			$("#histList").css("display","none");
+			$("#showCard").css("display","none");
+		}
 	);  
 });
 
@@ -22,11 +27,14 @@ $(document).ready(function(){
 	$("#loadStudy").click(function(){
 		$.get("/web/app/listStudy/",
 			function(data,status){
-				$("#studyList").html(jsonStudy(data));
+				$("#savedStudyTable").append(jsonStudy(data));
 			}
 		);
 		$("#studyId").css("display","initial");
 		$("#studyList").css("display","initial");
+		$("#studyTopic").css("display","none");
+		$("#histList").css("display","none");
+		$("#showCard").css("display","none");
 	});	  
 });
 
@@ -34,7 +42,12 @@ function jsonStudy(data) {
 	var arr = data;
 	var result = "";
 	for (i = 0; i < arr.length; i++) { 
-		result = result + arr[i].id + ": " + arr[i].topic + "<br>";
+		result = result + "<tr><td class='tableData'>" + 
+			arr[i].id + "</td><td class='tableData'>" + 			
+			arr[i].topic + "</td><td class='tableData'>" + 
+			arr[i].done + "</td><td class='tableData'>" + 
+			arr[i].remaining + "</td><td class='tableData'>" + 
+			arr[i].date + "</td></tr>";
 	}
 	return result;
 }
@@ -54,11 +67,11 @@ function jsonHist(data) {
 	var arr = data;
 	var result = "";
 	for (i = 0; i < arr.length; i++) { 
-		result = result + "<tr><td class='histData'>" + 
-			arr[i].id + "</td><td class='histData'>" + 
-			arr[i].answ + "</td><td class='histData'>" + 
-			arr[i].corr + "</td><td class='histData'>" + 
-			arr[i].histDate + "</td><td class='histData'>" + 
+		result = result + "<tr><td class='tableData'>" + 
+			arr[i].id + "</td><td class='tableData'>" + 
+			arr[i].answ + "</td><td class='tableData'>" + 
+			arr[i].corr + "</td><td class='tableData'>" + 
+			arr[i].histDate + "</td><td class='tableData'>" + 
 			arr[i].topic + "</td></tr>";
 	}
 	return result;
