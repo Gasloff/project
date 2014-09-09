@@ -124,4 +124,25 @@ public class DbDictDAO implements DictDAO {
 			session.close();
 		}
 	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<String> readTopicList() {
+		Session session = sessionFactory.openSession();
+		Transaction tx = null;
+		List<String> list = null;
+		try {
+			tx = session.beginTransaction();
+			list = (List<String>) session.createQuery(
+						"SELECT DISTINCT c.topic FROM Card c").list();
+			tx.commit();
+		} catch (HibernateException e) {
+			if (tx != null)
+				tx.rollback();
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+		return list;
+	}
 }

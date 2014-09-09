@@ -1,3 +1,6 @@
+var topicList;
+
+//Request for User name
 $(document).ready(function(){
 	$.get("/web/app/user/",
 	function(data,status){
@@ -6,33 +9,61 @@ $(document).ready(function(){
 });
 
 $(document).ready(function(){
-	$(".menu").hover(
+	$(".button").hover(
 		function(){$(this).css({"background-color":"#52A3CC","cursor":"pointer"});},
 		function(){$(this).css({"background-color":"#66CCFF","cursor":"default"});}
 	);  
 });
 
+//New study button
 $(document).ready(function(){
 	$("#newStudy").click(
 		function(){$("#studyTopic").css("display","initial");
+			$("#topicListDiv").css("display","initial");
 			$("#studyId").css("display","none");
 			$("#studyList").css("display","none");
 			$("#histList").css("display","none");
 			$("#showCard").css("display","none");
+			$.get("/web/app/listTopic/",
+			function(data,status){
+				$("#topicList").html("");
+				$("#topicList").append(jsonTopic(data));
+			});
 		}
-	);  
+	); 
 });
 
+function jsonTopic(data) {
+	topicList = data;
+	var result = "";
+	for (i = 0; i < topicList.length; i++) { 
+		result = result + "<li class='topicElement'>" + 
+			topicList[i].topic + "</li>";
+	}
+	return result;
+}
+
+//Load study button
 $(document).ready(function(){
 	$("#loadStudy").click(function(){
 		$.get("/web/app/listStudy/",
 			function(data,status){
+				$("#savedStudyTable").html(
+					"<tr>" +
+						"<th class='tableHeader'>ID</th>" +
+						"<th class='tableHeader'>Topic</th>" +
+						"<th class='tableHeader'>Cards done</th>" +
+						"<th class='tableHeader'>Cards remaining</th>" +
+						"<th class='tableHeader'>Date</th>" +
+					"</tr>"
+				);
 				$("#savedStudyTable").append(jsonStudy(data));
 			}
 		);
 		$("#studyId").css("display","initial");
 		$("#studyList").css("display","initial");
 		$("#studyTopic").css("display","none");
+		$("#topicListDiv").css("display","none");
 		$("#histList").css("display","none");
 		$("#showCard").css("display","none");
 	});	  
@@ -52,14 +83,29 @@ function jsonStudy(data) {
 	return result;
 }
 
+//History button
 $(document).ready(function(){
 	$("#history").click(function(){
 		$.get("/web/app/listHist/",
 			function(data,status){
+				$("#histTable").html(
+					"<tr>" +
+						"<th class='tableHeader'>ID</th>" +
+						"<th class='tableHeader'>Cards answered</th>" +
+						"<th class='tableHeader'>Correct answers</th>" +
+						"<th class='tableHeader'>Date</th>" +
+						"<th class='tableHeader'>Topic</th>" +
+					"</tr>"
+				);
 				$("#histTable").append(jsonHist(data));
 			}
 		);
 		$("#histList").css("display","initial");
+		$("#studyTopic").css("display","none");
+		$("#topicListDiv").css("display","none");
+		$("#studyId").css("display","none");
+		$("#studyList").css("display","none");
+		$("#showCard").css("display","none");		
 	});	  
 });
 
@@ -77,23 +123,39 @@ function jsonHist(data) {
 	return result;
 }
 
-function call() {
-	var msg   = $("#topicForm").serialize();
-	$.ajax({
-		type: "POST",
-		url: "/web/app/topic/",
-		data: msg,
-		success: function(data) {
-			$("#word").html("Word: " + data);
-			},
-		error:  function(xhr, str){
-			alert('Error: ' + xhr.responseCode);
+function newStudy() {
+	var valid;
+	if ($("#topic").val() == "all") {
+		valid = true;
+	} else {
+		for (i = 0; i < topicList.length; i++) {	
+			if ($("#topic").val() == topicList[i].topic) {
+				valid = true;
+			}
 		}
-	});
-	$("#studyTopic").css("display","none");
-	$("#showCard").css("display","initial");
+	}
+	if (valid) {
+		var msg   = $("#topicForm").serialize();
+		$.ajax({
+			type: "POST",
+			url: "/web/app/topic/",
+			data: msg,
+			success: function(data) {
+				$("#word").html("Word: " + data);
+				},
+			error:  function(xhr, str){
+				alert('Error: ' + xhr.responseCode);
+			}
+		});
+		$("#showCard").css("display","initial");
+		$("#studyTopic").css("display","none");
+		$("#topicListDiv").css("display","none");
+	} else {
+		$("#topicFormText").html("There is no such topic, please try again:");		
+	}
 }
 
+//Loads study by ID
 function studyById() {
 	var msg   = $("#studyForm").serialize();
 	$.ajax({
@@ -112,6 +174,7 @@ function studyById() {
 	$("#showCard").css("display","initial");
 }
 
+//Process answer
 function answ() {
 	var msg   = $("#answerForm").serialize();
 	$.ajax({
@@ -127,13 +190,7 @@ function answ() {
 	});
 }
 
-$(document).ready(function(){
-	$("#next").hover(
-		function(){$(this).css({"background-color":"#52A3CC","cursor":"pointer"});},
-		function(){$(this).css({"background-color":"#66CCFF","cursor":"default"});}
-	);  
-});
-
+//Request for next card
 $(document).ready(function(){
 	$("#next").click(function(){
 		$.get("/web/app/next/",
@@ -145,13 +202,7 @@ $(document).ready(function(){
 	});  
 });
 
-$(document).ready(function(){
-	$("#saveStudy").hover(
-		function(){$(this).css({"background-color":"#52A3CC","cursor":"pointer"});},
-		function(){$(this).css({"background-color":"#66CCFF","cursor":"default"});}
-	);  
-});
-
+//Save study button
 $(document).ready(function(){
 	$("#saveStudy").click(function(){
 		$.get("/web/app/saveStudy/",

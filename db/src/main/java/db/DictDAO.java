@@ -13,4 +13,6 @@ public interface DictDAO {
 	public Long saveCard(Card card);
 	
 	public void saveList(List<Card> list);
+
+	List<String> readTopicList();
 }

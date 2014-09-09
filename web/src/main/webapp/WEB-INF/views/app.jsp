@@ -22,17 +22,18 @@
 	
 	<div id="appMenu">
 		<ul id="menulist">
-			<li class="menu" id="newStudy">New study</li>
-			<li class="menu" id="loadStudy">Load study</li>
-			<li class="menu" id="history">History</li>			
+			<li class="menu button" id="newStudy">New study</li>
+			<li class="menu button" class="button" id="loadStudy">Load study</li>
+			<li class="menu button" class="button" id="history">History</li>			
 		</ul>		
 	</div>
 	
 	<div id="topField">
 		
 		<div id="studyTopic">
-			<form name="topicForm" id="topicForm" action="javascript:void(null);" onsubmit="call()">
-				Please enter new study topic: <input id="topic" type="text" name="topic" value =""/>
+			<form name="topicForm" id="topicForm" action="javascript:void(null);" onsubmit="newStudy()">
+				<span id="topicFormText">Please enter new study topic ("all" for all cards in database):</span>
+				<input id="topic" type="text" name="topic" value =""/>
 				<input type="submit" value="OK">
 			</form>
 		</div>
@@ -47,16 +48,14 @@
 	</div>
 	
 	<main id="main">
+		<div id="topicListDiv">		
+			<p>List of available topics:</p>
+			<ul id='topicList'></ul>
+		</div>
+		
 		<div id="studyList">
 			<p>List of saved studies:</p>
 			<table id="savedStudyTable">
-				<tr>
-					<th class="tableHeader">ID</th>
-					<th class="tableHeader">Topic</th>
-					<th class="tableHeader">Cards done</th>
-					<th class="tableHeader">Cards remaining</th>
-					<th class="tableHeader">Date</th>
-				</tr>
 			</table>
 		</div>
 		
@@ -70,23 +69,16 @@
 			</div>
 			<div id="comment"><br></div>
 			<div>
-				<p id="next">Next card</p>
+				<p id="next" class="button">Next card</p>
 			</div>
 			<div>
-				<p id="saveStudy">Save study</p>
+				<p id="saveStudy" class="button">Save study</p>
 			</div>
 		</div>
 		
 		<div id="histList">
-			<p>Study history for current user</p>
+			<p>Study history for current user:</p>
 			<table id="histTable">
-				<tr>
-					<th class="tableHeader">ID</th>
-					<th class="tableHeader">Cards answered</th>
-					<th class="tableHeader">Correct answers</th>
-					<th class="tableHeader">Date</th>
-					<th class="tableHeader">Topic</th>
-				</tr>
 			</table>
 		</div>
 	</main>

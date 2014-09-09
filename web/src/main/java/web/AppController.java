@@ -124,6 +124,19 @@ public class AppController {
 		return jArray.toJSONString();
 	}
 	
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value = "/app/listTopic/", produces="application/json")
+	@ResponseBody public String listTopic() {
+		JSONArray jArray = new JSONArray();
+		List<String> list = studyController.readTopicList();
+		for (String topic : list) {
+			JSONObject jObj = new JSONObject();
+			jObj.put("topic", topic);
+			jArray.add(jObj);
+		}
+		return jArray.toJSONString();
+	}
+	
 	@RequestMapping(value = "/app")
 	public String app() {
 		return "app";
@@ -134,10 +147,22 @@ public class AppController {
 		return "create";
 	}
 		
-	@RequestMapping(value = "/adduser")
-	public String adduser(@RequestParam("username") String login, @RequestParam("password") String password) {
-		user = userController.createUser(login, HashCode.getHashPassword(password));
-		return "added";
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value = "/adduser", produces="application/json")
+	@ResponseBody public String adduser(@RequestParam("username") String login, @RequestParam("password") String password) {
+		List <User> list = userController.getUserList();
+		boolean exists = false;
+		for (User u : list) {
+			if (login.equals(u.getLogin())) {
+				exists = true;
+			}
+		}
+		if (!exists) {
+			user = userController.createUser(login, HashCode.getHashPassword(password));
+		}
+		JSONObject jObj = new JSONObject();
+		jObj.put("exists", exists);
+		jObj.put("username", login);
+		return jObj.toJSONString();
 	}
-
 }

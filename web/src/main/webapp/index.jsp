@@ -6,7 +6,7 @@
 
 <body>
 	<header id="appHeader">
-		Card Study		
+		Card Study
 	</header>
 	
 	<main>

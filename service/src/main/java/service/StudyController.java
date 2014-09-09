@@ -80,6 +80,9 @@ public class StudyController {
 			card = null;
 			if (loaded) {
 				studyDAO.deleteStudy(study);
+				History history = study.getHistory();
+				history.setHistID(-1L);
+				histDAO.saveHistory(history);
 			}
 		}
 		return card;
@@ -113,6 +116,10 @@ public class StudyController {
 	public Long saveHistory() {
 		History history = study.getHistory();
 		return histDAO.saveHistory(history);
+	}
+	
+	public List<String> readTopicList() {
+		return dictDAO.readTopicList();
 	}
 	
 	public History getHistory() {
