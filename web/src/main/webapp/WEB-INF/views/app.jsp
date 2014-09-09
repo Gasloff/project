@@ -9,6 +9,7 @@
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 	<script src="${pageContext.servletContext.contextPath}/resources/app_js.js"></script>
 </head>
+
 <body>
 	<header id="appHeader">
 		Card Study		
@@ -23,8 +24,8 @@
 	<div id="appMenu">
 		<ul id="menulist">
 			<li class="menu button" id="newStudy">New study</li>
-			<li class="menu button" class="button" id="loadStudy">Load study</li>
-			<li class="menu button" class="button" id="history">History</li>			
+			<li class="menu button" id="loadStudy">Load study</li>
+			<li class="menu button" id="history">History</li>			
 		</ul>		
 	</div>
 	
@@ -61,7 +62,7 @@
 		
 		<div id="showCard">
 			<div id="word">Word:</div>
-			<div id="transl">
+			<div id="translation">
 				<form name="answerForm" id="answerForm" action="javascript:void(null);" onsubmit="answ()">
 					Translation: <input id="answer" type="text" name="answer" value =""/>
 					<input type="submit" value="SEND">
@@ -82,10 +83,6 @@
 			</table>
 		</div>
 	</main>
-	
-	<footer>
-		<p></p>		
-	</footer>
 
 </body>
 </html>

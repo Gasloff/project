@@ -22,23 +22,32 @@ public class StudyController {
 	private List<Card> dict;
 	private List<Integer> correctList = new ArrayList<>();
 	private boolean loaded = false;
-	
+
 	@Autowired
 	private StudyDAO studyDAO;
 	@Autowired
 	private DictDAO dictDAO;
 	@Autowired
 	private HistoryDAO histDAO;
-	
-	public StudyController() {}
-	
+
+	public StudyController() {
+	}
+
 	public StudyController(User user) {
 		this.user = user;
 	}
 
+	/**
+	 * Creates new Study object with given topic and user.
+	 * Creates corresponding History object with current date.
+	 * @param topic Topic for the new Study
+	 * @param user User for the new Study
+	 * @return new Study object
+	 */
 	public Study createStudy(String topic, User user) {
 		study = new Study(topic, user);
-		History history = new History(user, new Date(System.currentTimeMillis()), topic);
+		History history = new History(user,
+				new Date(System.currentTimeMillis()), topic);
 		study.setHistory(history);
 		createDict(topic);
 		prepareSequence();
@@ -46,18 +55,41 @@ public class StudyController {
 		return study;
 	}
 
+	/**
+	 * Returns list of available Card's topics
+	 * @return list of topics
+	 */
+	public List<String> readTopicList() {
+		return dictDAO.readTopicList();
+	}
+
+	/**
+	 * Loads previously saved study with given id
+	 * @param studyId id of given saved study
+	 * @return Study object
+	 */
 	public Study loadStudy(Long studyId) {
 		study = studyDAO.readStudy(studyId);
 		createDict(study.getTopic());
 		loaded = true;
 		return study;
 	}
-	
+
+	/**
+	 * Returns list of saved studies for given user.
+	 * @param userId id of given user
+	 * @return list of saved studies
+	 */
 	public List<Study> loadListByUser(Long userId) {
 		List<Study> studyList = studyDAO.getListByUser(userId);
 		return studyList;
 	}
 
+	
+	/**
+	 * Saves current study with current date.
+	 * @return saved study id
+	 */
 	public Long saveStudy() {
 		Long savedID = null;
 		Date date = new Date(System.currentTimeMillis());
@@ -66,6 +98,13 @@ public class StudyController {
 		return savedID;
 	}
 
+	/**
+	 * Returns next Card from previously prepared shuffled list.
+	 * Cards with priority '3' appears 4 times per study.
+	 * Cards with priority '2' appears 3 times per study.
+	 * Cards with priority '1' appears 2 times per study.
+	 * @return next Card according its priority or null if there is no next Card 
+	 */
 	public Card nextCard() {
 		List<Integer> orderList = study.getOrderList();
 		int pointer = study.getPointer();
@@ -88,13 +127,25 @@ public class StudyController {
 		return card;
 	}
 
+	/**
+	 * Returns if received answer match Card's translation. Increments counter
+	 * of questions of the corresponding History object. If answer is correct,
+	 * increments counter of correct answers of the corresponding History
+	 * object. If correct answer is second in succession for given Card, Card's
+	 * priority decrements. If answer is not correct, Card's priority
+	 * increments.
+	 * 
+	 * @param card - Card being answered
+	 * @param answer - user's answer 
+	 * @return true if answer is correct, false otherwise
+	 */
 	public boolean processAnswer(Card card, String answer) {
 		History history = study.getHistory();
 		history.incrementAnswered();
 		if (answer.equals(card.getTranslation())) {
 			history.incrementCorrect();
 			int index = dict.indexOf(card);
-			int counter = correctList.get(index); 
+			int counter = correctList.get(index);
 			if (counter == 1) {
 				correctList.set(index, 0);
 				card.decrementPriority(user);
@@ -112,16 +163,12 @@ public class StudyController {
 			return false;
 		}
 	}
-	
+
 	public Long saveHistory() {
 		History history = study.getHistory();
 		return histDAO.saveHistory(history);
 	}
-	
-	public List<String> readTopicList() {
-		return dictDAO.readTopicList();
-	}
-	
+
 	public History getHistory() {
 		return study.getHistory();
 	}
@@ -137,11 +184,11 @@ public class StudyController {
 	public List<Card> getDict() {
 		return dict;
 	}
-	
+
 	public boolean isLoaded() {
 		return loaded;
 	}
-	
+
 	public void setStudy(Study study) {
 		this.study = study;
 	}
@@ -149,21 +196,25 @@ public class StudyController {
 	public void setUser(User user) {
 		this.user = user;
 	}
-		
+
 	public void setLoaded(boolean loaded) {
 		this.loaded = loaded;
 	}
 
+	/*
+	 * Prepares list of Cards with specified topic. Prepares list of Integers,
+	 * where Integer is a number of correct answers in succession.
+	 */
 	private void createDict(String topic) {
 		dict = dictDAO.readDict(topic);
 		for (int i = 0; i < dict.size(); i++) {
 			correctList.add(0);
 		}
 	}
-	
+
 	/*
 	 * Prepares random sequence based on priority. Order is: priority "1" -->
-	 * priority "2" --> priority "1" --> priority "3"
+	 * priority "2" --> priority "1" --> priority "3".
 	 */
 	private void prepareSequence() {
 		List<Integer> orderList = study.getOrderList();

@@ -33,6 +33,10 @@
 	margin-top: 100px;
 }
 
+#created {
+	display: none;
+}
+
 #appUser {
 	margin-left: auto;
     margin-right: auto;
@@ -134,16 +138,16 @@
     text-align: center;	
 }
 
-#created {
-	display: none;
-}
-
 #studyList {
 	display: none;
 }
 
 #showCard {
 	display: none;
+}
+
+#word, #translation, #comment {
+	padding: 20px;
 }
 
 #next , #saveStudy {

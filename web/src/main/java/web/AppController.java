@@ -30,11 +30,40 @@ public class AppController {
 	
 	private User user;
 	private Card card;
+		
+	@RequestMapping(value = "/create")
+	public String create() {
+		return "create";
+	}
 	
 	@RequestMapping(value = "/populate")
 	public String populate() {
 		userController.populateDB();
 		return "populated";
+	}
+	
+	@RequestMapping(value = "/app")
+	public String app() {
+		return "app";
+	}
+	
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value = "/adduser", produces="application/json")
+	@ResponseBody public String adduser(@RequestParam("username") String login, @RequestParam("password") String password) {
+		List <User> list = userController.getUserList();
+		boolean exists = false;
+		for (User u : list) {
+			if (login.equals(u.getLogin())) {
+				exists = true;
+			}
+		}
+		if (!exists) {
+			user = userController.createUser(login, HashCode.getHashPassword(password));
+		}
+		JSONObject jObj = new JSONObject();
+		jObj.put("exists", exists);
+		jObj.put("username", login);
+		return jObj.toJSONString();
 	}
 	
 	@RequestMapping(value = "/app/user/")
@@ -52,12 +81,42 @@ public class AppController {
 		return card.getWord();
 	}
 	
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value = "/app/listTopic/", produces="application/json")
+	@ResponseBody public String listTopic() {
+		JSONArray jArray = new JSONArray();
+		List<String> list = studyController.readTopicList();
+		for (String topic : list) {
+			JSONObject jObj = new JSONObject();
+			jObj.put("topic", topic);
+			jArray.add(jObj);
+		}
+		return jArray.toJSONString();
+	}
+	
 	@RequestMapping(value = "/app/loadStudy/")
 	@ResponseBody public String loadStudy(@RequestParam("studyId") String id) {
 		Long studyId = Long.parseLong(id);
 		studyController.loadStudy(studyId);
 		card = studyController.nextCard();
 		return card.getWord();
+	}
+	
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value = "/app/listStudy/", produces="application/json")
+	@ResponseBody public String listStudy() {
+		JSONArray jArray = new JSONArray();
+		List<Study> list = studyController.loadListByUser(user.getUserID());
+		for (Study st : list) {
+			JSONObject jObj = new JSONObject();
+			jObj.put("id", st.getId());
+			jObj.put("topic", st.getTopic());
+			jObj.put("done", st.getPointer());
+			jObj.put("remaining", (st.getOrderList().size() - st.getPointer()));
+			jObj.put("date", st.getDate().toString());
+			jArray.add(jObj);
+		}
+		return jArray.toJSONString();
 	}
 	
 	@RequestMapping(value = "/app/answer/", produces = "text/plain;charset=UTF-8")
@@ -91,23 +150,6 @@ public class AppController {
 	}
 	
 	@SuppressWarnings("unchecked")
-	@RequestMapping(value = "/app/listStudy/", produces="application/json")
-	@ResponseBody public String listStudy() {
-		JSONArray jArray = new JSONArray();
-		List<Study> list = studyController.loadListByUser(user.getUserID());
-		for (Study st : list) {
-			JSONObject jObj = new JSONObject();
-			jObj.put("id", st.getId());
-			jObj.put("topic", st.getTopic());
-			jObj.put("done", st.getPointer());
-			jObj.put("remaining", (st.getOrderList().size() - st.getPointer()));
-			jObj.put("date", st.getDate().toString());
-			jArray.add(jObj);
-		}
-		return jArray.toJSONString();
-	}
-	
-	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/app/listHist/", produces="application/json")
 	@ResponseBody public String listHist() {
 		JSONArray jArray = new JSONArray();
@@ -124,45 +166,4 @@ public class AppController {
 		return jArray.toJSONString();
 	}
 	
-	@SuppressWarnings("unchecked")
-	@RequestMapping(value = "/app/listTopic/", produces="application/json")
-	@ResponseBody public String listTopic() {
-		JSONArray jArray = new JSONArray();
-		List<String> list = studyController.readTopicList();
-		for (String topic : list) {
-			JSONObject jObj = new JSONObject();
-			jObj.put("topic", topic);
-			jArray.add(jObj);
-		}
-		return jArray.toJSONString();
-	}
-	
-	@RequestMapping(value = "/app")
-	public String app() {
-		return "app";
-	}
-	
-	@RequestMapping(value = "/create")
-	public String create() {
-		return "create";
-	}
-		
-	@SuppressWarnings("unchecked")
-	@RequestMapping(value = "/adduser", produces="application/json")
-	@ResponseBody public String adduser(@RequestParam("username") String login, @RequestParam("password") String password) {
-		List <User> list = userController.getUserList();
-		boolean exists = false;
-		for (User u : list) {
-			if (login.equals(u.getLogin())) {
-				exists = true;
-			}
-		}
-		if (!exists) {
-			user = userController.createUser(login, HashCode.getHashPassword(password));
-		}
-		JSONObject jObj = new JSONObject();
-		jObj.put("exists", exists);
-		jObj.put("username", login);
-		return jObj.toJSONString();
-	}
 }

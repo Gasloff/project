@@ -14,8 +14,5 @@
 		<span><a class="appIndex" href="/web/create">Create new User account</a></span>
 	</main>
 	
-	<footer>
-		<p></p>		
-	</footer>	
 </body>
 </html>

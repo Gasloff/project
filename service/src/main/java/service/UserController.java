@@ -25,6 +25,13 @@ public class UserController {
 	
 	public UserController() {}
 	
+	/**
+	 * Creates new User object with given login and password.
+	 * Sets priority '2' for all Cards for this new User.
+	 * @param login - given login (user name)
+	 * @param password - given password
+	 * @return new User object
+	 */
 	public User createUser(String login, String password) {
 		user = new User(login, password);
 		userDao.addUser(user);
@@ -32,15 +39,28 @@ public class UserController {
 		return user;
 	}
 	
+	/**
+	 * Loads User with given login.
+	 * @param login - given login
+	 * @return loaded User object
+	 */
 	public User loadUser(String login) {
 		user = userDao.loadUser(login);
 		return user;
 	}
 	
+	/**
+	 * Returns list of existing users
+	 * @return list of existing Users
+	 */
 	public List<User> getUserList() {
 		return userDao.getUserList();
 	}
 	
+	/**
+	 * Returns list of saved History objects for current user
+	 * @return list of History objects
+	 */
 	public List<History> getHistList() {
 		return histDao.getListByUser(user.getUserID());
 	}
@@ -53,6 +73,9 @@ public class UserController {
 		this.user = user;
 	}
 	
+	/*
+	 * Service method for populating database with cards and user 
+	 */
 	public void populateDB() {
 
 		User user = new User("Aleksandr", HashCode.getHashPassword("6131"));
@@ -92,6 +115,9 @@ public class UserController {
 		dictDao.addCard(card10);
 	}
 	
+	/*
+	 * Sets default priority for new User for all Cards in base
+	 */
 	private void setNewUserPriority() {
 		List<Card> list = dictDao.readDict("all");
 		for (Card card : list) {
