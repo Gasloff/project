@@ -46,9 +46,9 @@
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 
-	<bean id="userController" class="service.UserController"></bean>
+	<bean id="userController" class="service.UserService"></bean>
 
-	<bean id="studyController" class="service.StudyController"></bean>
+	<bean id="studyController" class="service.StudyService"></bean>
 
 	<bean id="myUserDetailsService" class="web.MyUserDetailsService"></bean>
 

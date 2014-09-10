@@ -46,7 +46,7 @@ public class DbUserDAO implements UserDAO {
 		try {
 			tx = session.beginTransaction();
 			user = (User) session
-					.createQuery("FROM User u WHERE u.login = :login")
+					.getNamedQuery("findUserByLogin")
 					.setString("login", login).uniqueResult();
 			tx.commit();
 		} catch (HibernateException e) {

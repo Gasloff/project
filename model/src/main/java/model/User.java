@@ -4,12 +4,24 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "user_table")
+@NamedQueries({
+	@NamedQuery(
+			name = "findUserByLogin",
+			query = "from User u where u.login = :login"
+	),
+	@NamedQuery(
+			name = "allUsers",
+			query = "from User u order by u.userID"
+	)
+})
 public class User {
 
 	private Long userID;

@@ -15,7 +15,7 @@ import model.History;
 import model.Study;
 import model.User;
 
-public class StudyController {
+public class StudyService {
 
 	private Study study;
 	private User user;
@@ -30,10 +30,10 @@ public class StudyController {
 	@Autowired
 	private HistoryDAO histDAO;
 
-	public StudyController() {
+	public StudyService() {
 	}
 
-	public StudyController(User user) {
+	public StudyService(User user) {
 		this.user = user;
 	}
 

@@ -29,12 +29,12 @@ public class DbDictDAO implements DictDAO {
 		try {
 			tx = session.beginTransaction();
 			if (topic.equals("all")) {
-				dict = (List<Card>) session.createQuery(
-						"FROM Card c ORDER BY c.id").list();
+				dict = (List<Card>) session.getNamedQuery(
+						"allCards").list();
 			} else {
 				dict = (List<Card>) session
-						.createQuery(
-								"FROM Card c WHERE c.topic = :topic ORDER BY c.id")
+						.getNamedQuery(
+								"findCardsByTopic")
 						.setString("topic", topic).list();
 			}
 			tx.commit();
@@ -133,8 +133,8 @@ public class DbDictDAO implements DictDAO {
 		List<String> list = null;
 		try {
 			tx = session.beginTransaction();
-			list = (List<String>) session.createQuery(
-						"SELECT DISTINCT c.topic FROM Card c").list();
+			list = (List<String>) session.getNamedQuery(
+						"allTopics").list();
 			tx.commit();
 		} catch (HibernateException e) {
 			if (tx != null)

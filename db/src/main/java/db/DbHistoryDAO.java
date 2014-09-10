@@ -83,8 +83,8 @@ public class DbHistoryDAO implements HistoryDAO {
 		List<History> list = new ArrayList<>();
 		try {
 			tx = session.beginTransaction();
-			list = (List<History>) session.createQuery("from History h where h.user.userID = :id")
-					.setLong("id", userId).list();
+			list = (List<History>) session.getNamedQuery("allHistoryByUser")
+					.setLong("userId", userId).list();
 			tx.commit();
 		} catch (HibernateException e) {
 			if (tx != null)

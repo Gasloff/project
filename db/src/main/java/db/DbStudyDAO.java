@@ -106,8 +106,8 @@ public class DbStudyDAO implements StudyDAO {
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
-			list = (List<Study>) session.createQuery("from Study s where s.user.userID = :id")
-					.setLong("id", userId).list();
+			list = (List<Study>) session.getNamedQuery("allStudyByUser")
+					.setLong("userId", userId).list();
 			tx.commit();
 		} catch (HibernateException e) {
 			if (tx != null)

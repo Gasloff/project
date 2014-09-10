@@ -17,19 +17,23 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import service.HashCode;
-import service.StudyController;
-import service.UserController;
+import service.StudyService;
+import service.UserService;
 
 @Controller
 public class AppController {
 	
 	@Autowired	
-	private UserController userController;
+	private UserService userService;
 	@Autowired
-	private StudyController studyController;
+	private StudyService studyService;
 	
 	private User user;
 	private Card card;
+	
+	private final String CORRECT = "Correct";
+	private final String NOT_CORRECT = "Not correct. Answer is: ";
+	private final String OVER = "Study is over";
 		
 	@RequestMapping(value = "/create")
 	public String create() {
@@ -38,7 +42,7 @@ public class AppController {
 	
 	@RequestMapping(value = "/populate")
 	public String populate() {
-		userController.populateDB();
+		userService.populateDB();
 		return "populated";
 	}
 	
@@ -50,7 +54,7 @@ public class AppController {
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/adduser", produces="application/json")
 	@ResponseBody public String adduser(@RequestParam("username") String login, @RequestParam("password") String password) {
-		List <User> list = userController.getUserList();
+		List <User> list = userService.getUserList();
 		boolean exists = false;
 		for (User u : list) {
 			if (login.equals(u.getLogin())) {
@@ -58,7 +62,7 @@ public class AppController {
 			}
 		}
 		if (!exists) {
-			user = userController.createUser(login, HashCode.getHashPassword(password));
+			user = userService.createUser(login, HashCode.getHashPassword(password));
 		}
 		JSONObject jObj = new JSONObject();
 		jObj.put("exists", exists);
@@ -69,15 +73,15 @@ public class AppController {
 	@RequestMapping(value = "/app/user/")
 	@ResponseBody public String sendUserName() {
 		String userName = SecurityContextHolder.getContext().getAuthentication().getName();
-		user = userController.loadUser(userName);
-		studyController.setUser(user);
+		user = userService.loadUser(userName);
+		studyService.setUser(user);
 		return user.getLogin();
 	}
 	
 	@RequestMapping(value = "/app/topic/")
 	@ResponseBody public String newStudy(@RequestParam("topic") String topic) {
-		studyController.createStudy(topic, user);
-		card = studyController.nextCard();
+		studyService.createStudy(topic, user);
+		card = studyService.nextCard();
 		return card.getWord();
 	}
 	
@@ -85,7 +89,7 @@ public class AppController {
 	@RequestMapping(value = "/app/listTopic/", produces="application/json")
 	@ResponseBody public String listTopic() {
 		JSONArray jArray = new JSONArray();
-		List<String> list = studyController.readTopicList();
+		List<String> list = studyService.readTopicList();
 		for (String topic : list) {
 			JSONObject jObj = new JSONObject();
 			jObj.put("topic", topic);
@@ -97,8 +101,8 @@ public class AppController {
 	@RequestMapping(value = "/app/loadStudy/")
 	@ResponseBody public String loadStudy(@RequestParam("studyId") String id) {
 		Long studyId = Long.parseLong(id);
-		studyController.loadStudy(studyId);
-		card = studyController.nextCard();
+		studyService.loadStudy(studyId);
+		card = studyService.nextCard();
 		return card.getWord();
 	}
 	
@@ -106,7 +110,7 @@ public class AppController {
 	@RequestMapping(value = "/app/listStudy/", produces="application/json")
 	@ResponseBody public String listStudy() {
 		JSONArray jArray = new JSONArray();
-		List<Study> list = studyController.loadListByUser(user.getUserID());
+		List<Study> list = studyService.loadListByUser(user.getUserID());
 		for (Study st : list) {
 			JSONObject jObj = new JSONObject();
 			jObj.put("id", st.getId());
@@ -121,39 +125,39 @@ public class AppController {
 	
 	@RequestMapping(value = "/app/answer/", produces = "text/plain;charset=UTF-8")
 	@ResponseBody public String answer(@RequestParam("answer") String answer) {
-		boolean correct = studyController.processAnswer(card, answer);
+		boolean correct = studyService.processAnswer(card, answer);
 		String response;
 		if (correct) {
-			response = "Correct";
+			response = CORRECT;
 		} else {
-			response = "Not correct. Answer is: " + card.getTranslation();
+			response = NOT_CORRECT + card.getTranslation();
 		}
 		return response;
 	}
 	
 	@RequestMapping(value = "/app/next/")
 	@ResponseBody public String nextCard() {
-		card = studyController.nextCard();
+		card = studyService.nextCard();
 		String response;
 		if (card != null) {
 			response = card.getWord();
 		} else {
-			studyController.saveHistory();
-			response = "Study is over";
+			studyService.saveHistory();
+			response = OVER;
 		}
 		return response;
 	}
 	
 	@RequestMapping(value = "/app/saveStudy/")
 	@ResponseBody public String saveStudy() {
-		return "Study saved with ID: " + studyController.saveStudy();		
+		return "Study saved with ID: " + studyService.saveStudy();		
 	}
 	
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/app/listHist/", produces="application/json")
 	@ResponseBody public String listHist() {
 		JSONArray jArray = new JSONArray();
-		List<History> list = userController.getHistList();
+		List<History> list = userService.getHistList();
 		for (History hist : list) {
 			JSONObject jObj = new JSONObject();
 			jObj.put("id", hist.getHistID());

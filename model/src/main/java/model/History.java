@@ -9,12 +9,17 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "history")
+@NamedQuery(
+		name = "allHistoryByUser",
+		query = "from History h where h.user.userID = :userId order by h.histID"
+)
 public class History {
 
 	private Long histID = -1L;

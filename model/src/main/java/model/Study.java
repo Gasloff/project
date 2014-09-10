@@ -13,6 +13,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.JoinColumn;
@@ -21,6 +22,10 @@ import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "study")
+@NamedQuery(
+		name = "allStudyByUser",
+		query = "from Study s where s.user.userID = :userId order by s.id"
+)
 public class Study {
 
 	private Long id = -1L;

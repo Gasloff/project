@@ -11,7 +11,7 @@ import model.Card;
 import model.History;
 import model.User;
 
-public class UserController {
+public class UserService {
 	
 	private User user = null;
 	private int defaultPriority = 2;
@@ -23,7 +23,7 @@ public class UserController {
 	@Autowired
 	private DictDAO dictDao;
 	
-	public UserController() {}
+	public UserService() {}
 	
 	/**
 	 * Creates new User object with given login and password.
