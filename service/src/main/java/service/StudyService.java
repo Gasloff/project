@@ -15,6 +15,14 @@ import model.History;
 import model.Study;
 import model.User;
 
+/**
+ * StudyService class provides methods for dealing with Study objects, getting
+ * list of available topics, getting next Card object from some shuffled
+ * sequence and processing user's answers.
+ * 
+ * @author Aleksandr Gaslov
+ * 
+ */
 public class StudyService {
 
 	private Study study;
@@ -38,16 +46,18 @@ public class StudyService {
 	}
 
 	/**
-	 * Creates new Study object with given topic and user.
-	 * Creates corresponding History object with current date.
-	 * @param topic Topic for the new Study
-	 * @param user User for the new Study
+	 * Creates new Study object with given topic and user. Creates corresponding
+	 * History object with current date.
+	 * 
+	 * @param topic
+	 *            Topic for the new Study
+	 * @param user
+	 *            User for the new Study
 	 * @return new Study object
 	 */
 	public Study createStudy(String topic, User user) {
 		study = new Study(topic, user);
-		History history = new History(user,
-				new Date(System.currentTimeMillis()), topic);
+		History history = new History(user, topic);
 		study.setHistory(history);
 		createDict(topic);
 		prepareSequence();
@@ -56,7 +66,8 @@ public class StudyService {
 	}
 
 	/**
-	 * Returns list of available Card's topics
+	 * Returns list of available Card's topics.
+	 * 
 	 * @return list of topics
 	 */
 	public List<String> readTopicList() {
@@ -64,8 +75,10 @@ public class StudyService {
 	}
 
 	/**
-	 * Loads previously saved study with given id
-	 * @param studyId id of given saved study
+	 * Loads previously saved study with given id.
+	 * 
+	 * @param studyId
+	 *            id of given saved study
 	 * @return Study object
 	 */
 	public Study loadStudy(Long studyId) {
@@ -77,7 +90,9 @@ public class StudyService {
 
 	/**
 	 * Returns list of saved studies for given user.
-	 * @param userId id of given user
+	 * 
+	 * @param userId
+	 *            id of given user
 	 * @return list of saved studies
 	 */
 	public List<Study> loadListByUser(Long userId) {
@@ -85,9 +100,9 @@ public class StudyService {
 		return studyList;
 	}
 
-	
 	/**
 	 * Saves current study with current date.
+	 * 
 	 * @return saved study id
 	 */
 	public Long saveStudy() {
@@ -99,11 +114,11 @@ public class StudyService {
 	}
 
 	/**
-	 * Returns next Card from previously prepared shuffled list.
-	 * Cards with priority '3' appears 4 times per study.
-	 * Cards with priority '2' appears 3 times per study.
-	 * Cards with priority '1' appears 2 times per study.
-	 * @return next Card according its priority or null if there is no next Card 
+	 * Returns next Card from previously prepared shuffled list. Cards with
+	 * priority '3' appears 4 times per study. Cards with priority '2' appears 3
+	 * times per study. Cards with priority '1' appears 2 times per study.
+	 * 
+	 * @return next Card according its priority or null if there is no next Card
 	 */
 	public Card nextCard() {
 		List<Integer> orderList = study.getOrderList();
@@ -135,8 +150,10 @@ public class StudyService {
 	 * priority decrements. If answer is not correct, Card's priority
 	 * increments.
 	 * 
-	 * @param card - Card being answered
-	 * @param answer - user's answer 
+	 * @param card
+	 *            - Card being answered
+	 * @param answer
+	 *            - user's answer
 	 * @return true if answer is correct, false otherwise
 	 */
 	public boolean processAnswer(Card card, String answer) {

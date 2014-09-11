@@ -10,12 +10,25 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
+/**
+ * DbStudyDAO class provides access to Study entities in database.
+ * 
+ * @author Aleksandr Gaslov
+ * 
+ */
 public class DbStudyDAO implements StudyDAO {
 
 	private SessionFactory sessionFactory;
 
-	public DbStudyDAO() {}
-	
+	public DbStudyDAO() {
+	}
+
+	/**
+	 * Returns new DbStudyDAO object with given Hibernate SessionFactory.
+	 * 
+	 * @param sessionFactory
+	 *            - given Hibernate SessionFactory object
+	 */
 	public DbStudyDAO(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}
@@ -56,7 +69,7 @@ public class DbStudyDAO implements StudyDAO {
 
 		return savedID;
 	}
-	
+
 	@Override
 	public void deleteStudy(Study study) {
 		Session session = sessionFactory.openSession();
@@ -75,7 +88,7 @@ public class DbStudyDAO implements StudyDAO {
 			} finally {
 				session.close();
 			}
-		}		
+		}
 	}
 
 	@Override

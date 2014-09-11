@@ -9,12 +9,24 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
+/**
+ * DbUserDAO class provides access to User entities in database
+ * 
+ * @author Aleksandr Gaslov
+ *
+ */
 public class DbUserDAO implements UserDAO {
 
 	private SessionFactory sessionFactory;
 
 	public DbUserDAO() {}
 	
+	/**
+	 * Returns new DbUserDAO object with given Hibernate SessionFactory.
+	 * 
+	 * @param sessionFactory
+	 *            - given Hibernate SessionFactory object
+	 */
 	public DbUserDAO(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}

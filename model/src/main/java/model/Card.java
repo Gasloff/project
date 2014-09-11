@@ -17,25 +17,21 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
-
+/**
+ * Card class contains word and translation, topic of the word and priorities.
+ * for all registered Users
+ * 
+ * @author Aleksandr Gaslov
+ * 
+ */
 @Entity
 @Table(name = "card")
 @NamedQueries({
-	@NamedQuery(
-			name = "allCards",
-			query = "from Card c order by c.id"
-	),
-	@NamedQuery(
-			name = "findCardsByTopic",
-			query = "from Card c where c.topic = :topic order by c.id"
-	),
-	@NamedQuery(
-			name = "allTopics",
-			query = "select distinct c.topic FROM Card c"
-	)
-})
+		@NamedQuery(name = "allCards", query = "from Card c order by c.id"),
+		@NamedQuery(name = "findCardsByTopic", query = "from Card c where c.topic = :topic order by c.id"),
+		@NamedQuery(name = "allTopics", query = "select distinct c.topic FROM Card c") })
 public class Card {
-	
+
 	private Long id = -1L;
 	private String word;
 	private String translation;
@@ -43,9 +39,20 @@ public class Card {
 	private Set<Long> priorityOne = new HashSet<Long>(0);
 	private Set<Long> priorityTwo = new HashSet<Long>(0);
 	private Set<Long> priorityThree = new HashSet<Long>(0);
-	
-	public Card() {}
-	
+
+	public Card() {
+	}
+
+	/**
+	 * Returns new Card object with given word, translation and topic.
+	 * 
+	 * @param word
+	 *            - word for new Card
+	 * @param translation
+	 *            - translation for given word
+	 * @param topic
+	 *            - topic of given word
+	 */
 	public Card(String word, String translation, String topic) {
 		this.word = word;
 		this.translation = translation;
@@ -69,29 +76,29 @@ public class Card {
 	public String getTranslation() {
 		return translation;
 	}
-	
+
 	@Column(name = "card_topic")
 	public String getTopic() {
 		return topic;
 	}
-	
+
 	@ElementCollection(fetch = FetchType.EAGER)
-	@CollectionTable(name="priority_one", joinColumns=@JoinColumn(name="card_id"))
-	@Column(name="user_id")
+	@CollectionTable(name = "priority_one", joinColumns = @JoinColumn(name = "card_id"))
+	@Column(name = "user_id")
 	public Set<Long> getPriorityOne() {
 		return priorityOne;
 	}
 
 	@ElementCollection(fetch = FetchType.EAGER)
-	@CollectionTable(name="priority_two", joinColumns=@JoinColumn(name="card_id"))
-	@Column(name="user_id")
+	@CollectionTable(name = "priority_two", joinColumns = @JoinColumn(name = "card_id"))
+	@Column(name = "user_id")
 	public Set<Long> getPriorityTwo() {
 		return priorityTwo;
 	}
 
 	@ElementCollection(fetch = FetchType.EAGER)
-	@CollectionTable(name="priority_three", joinColumns=@JoinColumn(name="card_id"))
-	@Column(name="user_id")
+	@CollectionTable(name = "priority_three", joinColumns = @JoinColumn(name = "card_id"))
+	@Column(name = "user_id")
 	public Set<Long> getPriorityThree() {
 		return priorityThree;
 	}
@@ -107,11 +114,11 @@ public class Card {
 	public void setTranslation(String translation) {
 		this.translation = translation;
 	}
-	
+
 	public void setTopic(String topic) {
 		this.topic = topic;
 	}
-		
+
 	public void setPriorityOne(Set<Long> priorityOne) {
 		this.priorityOne = priorityOne;
 	}
@@ -133,10 +140,18 @@ public class Card {
 			priority = 2;
 		} else if (priorityThree.contains(userID)) {
 			priority = 3;
-		}		
+		}
 		return priority;
 	}
-	
+
+	/**
+	 * Sets given priority of owning Card for given User.
+	 * 
+	 * @param user
+	 *            - given User
+	 * @param priority
+	 *            - value of priority for given User
+	 */
 	public void setPriority(User user, Integer priority) {
 		switch (priority) {
 		case 1:
@@ -150,7 +165,13 @@ public class Card {
 			break;
 		}
 	}
-	
+
+	/**
+	 * Increments priority of owning Card for given User.
+	 * 
+	 * @param user
+	 *            - given User
+	 */
 	public void incrementPriority(User user) {
 		Long userID = user.getUserID();
 		if (priorityOne.contains(userID)) {
@@ -161,7 +182,13 @@ public class Card {
 			priorityThree.add(userID);
 		}
 	}
-	
+
+	/**
+	 * Decrements priority of owning Card for given User.
+	 * 
+	 * @param user
+	 *            - given User
+	 */
 	public void decrementPriority(User user) {
 		Long userID = user.getUserID();
 		if (priorityTwo.contains(userID)) {
@@ -173,5 +200,3 @@ public class Card {
 		}
 	}
 }
-	
-

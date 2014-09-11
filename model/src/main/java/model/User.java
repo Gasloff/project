@@ -10,26 +10,26 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
+/**
+ * User class contains registration data - login and password.
+ * 
+ * @author Aleksandr Gaslov
+ * 
+ */
 @Entity
 @Table(name = "user_table")
 @NamedQueries({
-	@NamedQuery(
-			name = "findUserByLogin",
-			query = "from User u where u.login = :login"
-	),
-	@NamedQuery(
-			name = "allUsers",
-			query = "from User u order by u.userID"
-	)
-})
+		@NamedQuery(name = "findUserByLogin", query = "from User u where u.login = :login"),
+		@NamedQuery(name = "allUsers", query = "from User u order by u.userID") })
 public class User {
 
 	private Long userID;
 	private String login;
 	private String password;
 
-	public User() {}
-	
+	public User() {
+	}
+
 	public User(String login, String password) {
 		this.login = login;
 		this.password = password;
@@ -47,7 +47,7 @@ public class User {
 	public String getLogin() {
 		return login;
 	}
-	
+
 	@Column(name = "password")
 	public String getPassword() {
 		return password;
@@ -60,9 +60,9 @@ public class User {
 	public void setLogin(String login) {
 		this.login = login;
 	}
-	
+
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
+
 }

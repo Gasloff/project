@@ -10,12 +10,25 @@ import org.hibernate.Transaction;
 
 import model.History;
 
+/**
+ * DbHistoryDAO class provides access to History entities in database.
+ * 
+ * @author Aleksandr Gaslov
+ * 
+ */
 public class DbHistoryDAO implements HistoryDAO {
 
 	private SessionFactory sessionFactory;
 
-	public DbHistoryDAO() {}
-	
+	public DbHistoryDAO() {
+	}
+
+	/**
+	 * Returns new DbHistoryDAO object with given Hibernate SessionFactory.
+	 * 
+	 * @param sessionFactory
+	 *            - given Hibernate SessionFactory object
+	 */
 	public DbHistoryDAO(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}

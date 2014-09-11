@@ -9,6 +9,12 @@ import org.hibernate.Transaction;
 
 import model.Card;
 
+/**
+ * DbDictDAO class provides access to Card entities in database
+ * 
+ * @author Aleksandr Gaslov
+ * 
+ */
 public class DbDictDAO implements DictDAO {
 
 	private SessionFactory sessionFactory;
@@ -16,6 +22,12 @@ public class DbDictDAO implements DictDAO {
 	public DbDictDAO() {
 	}
 
+	/**
+	 * Returns new DbDictDAO object with given Hibernate SessionFactory.
+	 * 
+	 * @param sessionFactory
+	 *            - given Hibernate SessionFactory object
+	 */
 	public DbDictDAO(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}
@@ -29,12 +41,9 @@ public class DbDictDAO implements DictDAO {
 		try {
 			tx = session.beginTransaction();
 			if (topic.equals("all")) {
-				dict = (List<Card>) session.getNamedQuery(
-						"allCards").list();
+				dict = (List<Card>) session.getNamedQuery("allCards").list();
 			} else {
-				dict = (List<Card>) session
-						.getNamedQuery(
-								"findCardsByTopic")
+				dict = (List<Card>) session.getNamedQuery("findCardsByTopic")
 						.setString("topic", topic).list();
 			}
 			tx.commit();
@@ -47,26 +56,6 @@ public class DbDictDAO implements DictDAO {
 		}
 
 		return dict;
-	}
-
-	@Override
-	public Long addCard(Card card) {
-		Session session = sessionFactory.openSession();
-		Transaction tx = null;
-		Long cardID = null;
-		try {
-			tx = session.beginTransaction();
-			cardID = (Long) session.save(card);
-			tx.commit();
-		} catch (HibernateException e) {
-			if (tx != null)
-				tx.rollback();
-			e.printStackTrace();
-		} finally {
-			session.close();
-		}
-
-		return cardID;
 	}
 
 	@Override
@@ -124,7 +113,7 @@ public class DbDictDAO implements DictDAO {
 			session.close();
 		}
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<String> readTopicList() {
@@ -133,8 +122,7 @@ public class DbDictDAO implements DictDAO {
 		List<String> list = null;
 		try {
 			tx = session.beginTransaction();
-			list = (List<String>) session.getNamedQuery(
-						"allTopics").list();
+			list = (List<String>) session.getNamedQuery("allTopics").list();
 			tx.commit();
 		} catch (HibernateException e) {
 			if (tx != null)

@@ -14,12 +14,15 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
+/**
+ * History class contains statistics for given User.
+ * 
+ * @author Aleksandr Gaslov
+ * 
+ */
 @Entity
 @Table(name = "history")
-@NamedQuery(
-		name = "allHistoryByUser",
-		query = "from History h where h.user.userID = :userId order by h.histID"
-)
+@NamedQuery(name = "allHistoryByUser", query = "from History h where h.user.userID = :userId order by h.histID")
 public class History {
 
 	private Long histID = -1L;
@@ -28,12 +31,18 @@ public class History {
 	private User user;
 	private Date date;
 	private String topic;
-	
-	public History() {}
-	
-	public History(User user, Date date, String topic) {
+
+	public History() {
+	}
+
+	/**
+	 * Returns new History object with given User, Date and topic.
+	 * @param user - User owning History object being created
+	 * @param topic - topic of related study 
+	 */
+	public History(User user, String topic) {
 		this.user = user;
-		this.date = date;
+		this.date = new Date(System.currentTimeMillis());
 		this.topic = topic;
 	}
 
@@ -54,7 +63,7 @@ public class History {
 	public Integer getCorrect() {
 		return correct;
 	}
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id", nullable = false)
 	public User getUser() {
@@ -65,7 +74,7 @@ public class History {
 	public Date getDate() {
 		return date;
 	}
-	
+
 	@Column(name = "topic")
 	public String getTopic() {
 		return topic;
@@ -82,7 +91,7 @@ public class History {
 	public void setCorrect(Integer correct) {
 		this.correct = correct;
 	}
-	
+
 	public void setUser(User user) {
 		this.user = user;
 	}
@@ -90,17 +99,23 @@ public class History {
 	public void setDate(Date date) {
 		this.date = date;
 	}
-	
+
 	public void setTopic(String topic) {
 		this.topic = topic;
 	}
-
+	
+	/**
+	 * Increments value of answered cards.
+	 */
 	public void incrementAnswered() {
 		answered++;
 	}
-	
+
+	/**
+	 * Increments value of correct answers.
+	 */
 	public void incrementCorrect() {
 		correct++;
 	}
-	
+
 }

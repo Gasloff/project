@@ -20,12 +20,16 @@ import javax.persistence.JoinColumn;
 
 import org.hibernate.annotations.GenericGenerator;
 
+/**
+ * Study class contains topic of the study, sequence of Cards, pointer to the
+ * current Card, link to the related History and User objects and date of saving.
+ * 
+ * @author Aleksandr Gaslov
+ * 
+ */
 @Entity
 @Table(name = "study")
-@NamedQuery(
-		name = "allStudyByUser",
-		query = "from Study s where s.user.userID = :userId order by s.id"
-)
+@NamedQuery(name = "allStudyByUser", query = "from Study s where s.user.userID = :userId order by s.id")
 public class Study {
 
 	private Long id = -1L;
@@ -39,6 +43,14 @@ public class Study {
 	public Study() {
 	}
 
+	/**
+	 * Returns new Study object with given topic and User.
+	 * 
+	 * @param topic
+	 *            - topic for new study
+	 * @param user
+	 *            - User who owns Study being created
+	 */
 	public Study(String topic, User user) {
 		this.topic = topic;
 		this.user = user;
@@ -58,8 +70,8 @@ public class Study {
 	}
 
 	@ElementCollection(fetch = FetchType.EAGER)
-	@CollectionTable(name="order_lists", joinColumns=@JoinColumn(name="study_id"))
-	@Column(name="position")
+	@CollectionTable(name = "order_lists", joinColumns = @JoinColumn(name = "study_id"))
+	@Column(name = "position")
 	public List<Integer> getOrderList() {
 		return orderList;
 	}
@@ -73,13 +85,13 @@ public class Study {
 	public History getHistory() {
 		return history;
 	}
-	
+
 	@ManyToOne
 	@JoinColumn(name = "user_id", nullable = false)
 	public User getUser() {
 		return user;
 	}
-	
+
 	@Column(name = "date")
 	public Date getDate() {
 		return date;
@@ -108,15 +120,21 @@ public class Study {
 	public void setUser(User user) {
 		this.user = user;
 	}
-	
+
 	public void setDate(Date date) {
 		this.date = date;
 	}
 
+	/**
+	 * Increments pointer to the current Card.
+	 */
 	public void incrementPointer() {
 		pointer++;
 	}
-	
+
+	/**
+	 * Decrements pointer to the current Card.
+	 */
 	public void decrementPointer() {
 		pointer--;
 	}
