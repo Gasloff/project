@@ -21,7 +21,8 @@ import model.User;
 public class UserService {
 
 	private User user = null;
-	private int defaultPriority = 2;
+	private final int DEFAULT_PRIORITY = 2;
+	private final String ALL = "all";
 
 	@Autowired
 	private UserDAO userDao;
@@ -87,6 +88,14 @@ public class UserService {
 	public void setUser(User user) {
 		this.user = user;
 	}
+	
+	public void setUserDao(UserDAO userDao) {
+		this.userDao = userDao;
+	}
+
+	public void setDictDao(DictDAO dictDao) {
+		this.dictDao = dictDao;
+	}
 
 	/*
 	 * Service method for populating database with cards and user
@@ -134,9 +143,9 @@ public class UserService {
 	 * Sets default priority for new User for all Cards in base
 	 */
 	private void setNewUserPriority() {
-		List<Card> list = dictDao.readDict("all");
+		List<Card> list = dictDao.readDict(ALL);
 		for (Card card : list) {
-			card.setPriority(user, defaultPriority);
+			card.setPriority(user, DEFAULT_PRIORITY);
 		}
 		dictDao.saveList(list);
 	}

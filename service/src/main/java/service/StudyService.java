@@ -143,7 +143,7 @@ public class StudyService {
 	}
 
 	/**
-	 * Returns if received answer match Card's translation. Increments counter
+	 * Returns if received answer matches Card's translation. Increments counter
 	 * of questions of the corresponding History object. If answer is correct,
 	 * increments counter of correct answers of the corresponding History
 	 * object. If correct answer is second in succession for given Card, Card's
@@ -201,6 +201,10 @@ public class StudyService {
 	public List<Card> getDict() {
 		return dict;
 	}
+	
+	public List<Integer> getCorrectList() {
+		return correctList;
+	}
 
 	public boolean isLoaded() {
 		return loaded;
@@ -213,9 +217,29 @@ public class StudyService {
 	public void setUser(User user) {
 		this.user = user;
 	}
+	
+	public void setDict(List<Card> dict) {
+		this.dict = dict;
+	}
+
+	public void setCorrectList(List<Integer> correctList) {
+		this.correctList = correctList;
+	}
 
 	public void setLoaded(boolean loaded) {
 		this.loaded = loaded;
+	}
+	
+	public void setStudyDAO(StudyDAO studyDAO) {
+		this.studyDAO = studyDAO;
+	}
+
+	public void setDictDAO(DictDAO dictDAO) {
+		this.dictDAO = dictDAO;
+	}
+
+	public void setHistDAO(HistoryDAO histDAO) {
+		this.histDAO = histDAO;
 	}
 
 	/*
@@ -292,9 +316,9 @@ public class StudyService {
 			while (priOne.get(priOne.size() - 1) == priThree.get(0)
 					|| priOne.get(priOne.size() - 1) == priThree.get(1)
 					|| priOne.get(priOne.size() - 2) == priThree.get(0)
-					|| orderList.get(priOne.size() - 1) == priOne.get(0)
-					|| orderList.get(priOne.size() - 1) == priOne.get(1)
-					|| orderList.get(priOne.size() - 2) == priOne.get(0)) {
+					|| orderList.get(orderList.size() - 1) == priOne.get(0)
+					|| orderList.get(orderList.size() - 1) == priOne.get(1)
+					|| orderList.get(orderList.size() - 2) == priOne.get(0)) {
 				Collections.shuffle(priOne);
 			}
 			orderList.addAll(priOne);
@@ -304,8 +328,8 @@ public class StudyService {
 			orderList.addAll(priThree);
 		} else {
 			while (orderList.get(priOne.size() - 1) == priOne.get(0)
-					|| orderList.get(priOne.size() - 1) == priOne.get(1)
-					|| orderList.get(priOne.size() - 2) == priOne.get(0)) {
+					|| orderList.get(orderList.size() - 1) == priOne.get(1)
+					|| orderList.get(orderList.size() - 2) == priOne.get(0)) {
 				Collections.shuffle(priOne);
 			}
 			orderList.addAll(priOne);
