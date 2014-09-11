@@ -36,7 +36,7 @@
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-core</artifactId>
 			<version>3.2.5.RELEASE</version>
-		</dependency>		
+		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.security</groupId>
@@ -57,10 +57,11 @@
 		</dependency>
 
 		<dependency>
-			<groupId>com.googlecode.json-simple</groupId>
-			<artifactId>json-simple</artifactId>
-			<version>1.1.1</version>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>20140107</version>
 		</dependency>
+
 
 		<dependency>
 			<groupId>com.epam.training</groupId>

@@ -6,6 +6,8 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import model.Card;
 
@@ -15,6 +17,7 @@ import model.Card;
  * @author Aleksandr Gaslov
  * 
  */
+@Component
 public class DbDictDAO implements DictDAO {
 
 	private SessionFactory sessionFactory;
@@ -28,6 +31,7 @@ public class DbDictDAO implements DictDAO {
 	 * @param sessionFactory
 	 *            - given Hibernate SessionFactory object
 	 */
+	@Autowired
 	public DbDictDAO(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}

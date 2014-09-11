@@ -7,6 +7,8 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import model.History;
 
@@ -16,6 +18,7 @@ import model.History;
  * @author Aleksandr Gaslov
  * 
  */
+@Component
 public class DbHistoryDAO implements HistoryDAO {
 
 	private SessionFactory sessionFactory;
@@ -29,6 +32,7 @@ public class DbHistoryDAO implements HistoryDAO {
 	 * @param sessionFactory
 	 *            - given Hibernate SessionFactory object
 	 */
+	@Autowired
 	public DbHistoryDAO(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}

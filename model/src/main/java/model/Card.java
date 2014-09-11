@@ -14,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -25,7 +26,7 @@ import org.hibernate.annotations.GenericGenerator;
  * 
  */
 @Entity
-@Table(name = "card")
+@Table(name = "card", uniqueConstraints = @UniqueConstraint(columnNames = "word"))
 @NamedQueries({
 		@NamedQuery(name = "allCards", query = "from Card c order by c.id"),
 		@NamedQuery(name = "findCardsByTopic", query = "from Card c where c.topic = :topic order by c.id"),

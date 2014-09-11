@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import db.DictDAO;
 import db.HistoryDAO;
@@ -23,6 +24,7 @@ import model.User;
  * @author Aleksandr Gaslov
  * 
  */
+@Component
 public class StudyService {
 
 	private Study study;

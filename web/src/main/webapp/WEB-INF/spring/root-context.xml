@@ -46,39 +46,11 @@
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 
-	<bean id="userController" class="service.UserService"></bean>
-
-	<bean id="studyController" class="service.StudyService"></bean>
-
 	<bean id="myUserDetailsService" class="web.MyUserDetailsService"></bean>
 
 	<bean id="encoder"
 		class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
 		<constructor-arg name="strength" value="11" />
-	</bean>
-
-	<bean id="userDao" class="db.DbUserDAO">
-		<constructor-arg>
-			<ref bean="sessionFactory" />
-		</constructor-arg>
-	</bean>
-
-	<bean id="dictDao" class="db.DbDictDAO">
-		<constructor-arg>
-			<ref bean="sessionFactory" />
-		</constructor-arg>
-	</bean>
-
-	<bean id="studyDao" class="db.DbStudyDAO">
-		<constructor-arg>
-			<ref bean="sessionFactory" />
-		</constructor-arg>
-	</bean>
-
-	<bean id="histDao" class="db.DbHistoryDAO">
-		<constructor-arg>
-			<ref bean="sessionFactory" />
-		</constructor-arg>
 	</bean>
 
 </beans>

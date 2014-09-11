@@ -7,8 +7,8 @@ import model.History;
 import model.Study;
 import model.User;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -81,7 +81,6 @@ public class AppController {
 	 *            - entered password
 	 * @return if entered login exists in data storage, entered login
 	 */
-	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/adduser", produces = "application/json")
 	@ResponseBody
 	public String adduser(@RequestParam("username") String login,
@@ -100,7 +99,7 @@ public class AppController {
 		JSONObject jObj = new JSONObject();
 		jObj.put("exists", exists);
 		jObj.put("username", login);
-		return jObj.toJSONString();
+		return jObj.toString();
 	}
 
 	/**
@@ -139,7 +138,6 @@ public class AppController {
 	 * 
 	 * @return JSON Array of JSON Objects containing available topics
 	 */
-	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/app/listTopic/", produces = "application/json")
 	@ResponseBody
 	public String listTopic() {
@@ -148,9 +146,9 @@ public class AppController {
 		for (String topic : list) {
 			JSONObject jObj = new JSONObject();
 			jObj.put("topic", topic);
-			jArray.add(jObj);
+			jArray.put(jObj);
 		}
-		return jArray.toJSONString();
+		return jArray.toString();
 	}
 
 	/**
@@ -176,7 +174,6 @@ public class AppController {
 	 * @return JSON Array of JSON Objects containing id, topic, number of cards
 	 *         answered, number of cards remaining and date of saving
 	 */
-	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/app/listStudy/", produces = "application/json")
 	@ResponseBody
 	public String listStudy() {
@@ -189,9 +186,9 @@ public class AppController {
 			jObj.put("done", st.getPointer());
 			jObj.put("remaining", (st.getOrderList().size() - st.getPointer()));
 			jObj.put("date", st.getDate().toString());
-			jArray.add(jObj);
+			jArray.put(jObj);
 		}
-		return jArray.toJSONString();
+		return jArray.toString();
 	}
 
 	/**
@@ -254,22 +251,16 @@ public class AppController {
 	 * @return JSON Array of JSON Objects containing id, number of cards
 	 *         answered, number of correct answers, date and topic
 	 */
-	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/app/listHist/", produces = "application/json")
 	@ResponseBody
 	public String listHist() {
 		JSONArray jArray = new JSONArray();
 		List<History> list = userService.getHistList();
 		for (History hist : list) {
-			JSONObject jObj = new JSONObject();
-			jObj.put("id", hist.getHistID());
-			jObj.put("answ", hist.getAnswered());
-			jObj.put("corr", hist.getCorrect());
-			jObj.put("histDate", hist.getDate().toString());
-			jObj.put("topic", hist.getTopic());
-			jArray.add(jObj);
+			JSONObject jObj = new JSONObject(hist);
+			jArray.put(jObj);
 		}
-		return jArray.toJSONString();
+		return jArray.toString();
 	}
 
 }

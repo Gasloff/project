@@ -9,6 +9,8 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * DbStudyDAO class provides access to Study entities in database.
@@ -16,6 +18,7 @@ import org.hibernate.Transaction;
  * @author Aleksandr Gaslov
  * 
  */
+@Component
 public class DbStudyDAO implements StudyDAO {
 
 	private SessionFactory sessionFactory;
@@ -29,6 +32,7 @@ public class DbStudyDAO implements StudyDAO {
 	 * @param sessionFactory
 	 *            - given Hibernate SessionFactory object
 	 */
+	@Autowired
 	public DbStudyDAO(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}

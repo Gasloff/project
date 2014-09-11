@@ -114,10 +114,10 @@ function jsonHist(data) {
 	var result = "";
 	for (i = 0; i < arr.length; i++) { 
 		result = result + "<tr><td class='tableData'>" + 
-			arr[i].id + "</td><td class='tableData'>" + 
-			arr[i].answ + "</td><td class='tableData'>" + 
-			arr[i].corr + "</td><td class='tableData'>" + 
-			arr[i].histDate + "</td><td class='tableData'>" + 
+			arr[i].histID + "</td><td class='tableData'>" + 
+			arr[i].answered + "</td><td class='tableData'>" + 
+			arr[i].correct + "</td><td class='tableData'>" + 
+			arr[i].date + "</td><td class='tableData'>" + 
 			arr[i].topic + "</td></tr>";
 	}
 	return result;

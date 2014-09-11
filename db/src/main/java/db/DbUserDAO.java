@@ -8,6 +8,8 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * DbUserDAO class provides access to User entities in database
@@ -15,6 +17,7 @@ import org.hibernate.Transaction;
  * @author Aleksandr Gaslov
  *
  */
+@Component
 public class DbUserDAO implements UserDAO {
 
 	private SessionFactory sessionFactory;
@@ -27,6 +30,7 @@ public class DbUserDAO implements UserDAO {
 	 * @param sessionFactory
 	 *            - given Hibernate SessionFactory object
 	 */
+	@Autowired
 	public DbUserDAO(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}
