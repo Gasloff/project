@@ -38,7 +38,7 @@ function jsonTopic(data) {
 	var result = "";
 	for (i = 0; i < topicList.length; i++) { 
 		result = result + "<li class='topicElement'>" + 
-			topicList[i].topic + "</li>";
+			topicList[i] + "</li>";
 	}
 	return result;
 }
@@ -76,8 +76,8 @@ function jsonStudy(data) {
 		result = result + "<tr><td class='tableData'>" + 
 			arr[i].id + "</td><td class='tableData'>" + 			
 			arr[i].topic + "</td><td class='tableData'>" + 
-			arr[i].done + "</td><td class='tableData'>" + 
-			arr[i].remaining + "</td><td class='tableData'>" + 
+			arr[i].pointer + "</td><td class='tableData'>" + 
+			(arr[i].orderList.length - arr[i].pointer) + "</td><td class='tableData'>" + 
 			arr[i].date + "</td></tr>";
 	}
 	return result;

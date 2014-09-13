@@ -18,6 +18,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.JoinColumn;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 
 /**
@@ -36,11 +37,11 @@ public class Study {
 	private Long id = -1L;
 	private String topic;
 	private List<Integer> orderList = new ArrayList<>();
-	private Integer pointer = 0;
+	private int pointer = 0;
 	private History history;
 	private User user;
 	private Date date;
-
+	
 	public Study() {
 	}
 
@@ -82,11 +83,13 @@ public class Study {
 		return pointer;
 	}
 
+	@JsonIgnore
 	@OneToOne(cascade = CascadeType.ALL)
 	public History getHistory() {
 		return history;
 	}
 
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "user_id", nullable = false)
 	public User getUser() {
@@ -97,7 +100,7 @@ public class Study {
 	public Date getDate() {
 		return date;
 	}
-
+	
 	public void setId(Long id) {
 		this.id = id;
 	}

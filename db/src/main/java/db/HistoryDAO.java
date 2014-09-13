@@ -3,6 +3,7 @@ package db;
 import java.util.List;
 
 import model.History;
+import model.User;
 
 /**
  * HistoryDAO interface provides access to {@link History} objects in some data storage.

@@ -7,7 +7,6 @@ import model.History;
 import model.Study;
 import model.User;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -72,8 +71,8 @@ public class AppController {
 
 	/**
 	 * Returns if entered login exists in data storage. Creates and saves new
-	 * {@link User} with given login and password if given login doesn't exist in data
-	 * storage.
+	 * {@link User} with given login and password if given login doesn't exist
+	 * in data storage.
 	 * 
 	 * @param login
 	 *            - entered login
@@ -134,26 +133,19 @@ public class AppController {
 	}
 
 	/**
-	 * Returns JSON Array of available topics.
+	 * Returns list of available topics.
 	 * 
-	 * @return JSON Array of JSON Objects containing available topics
+	 * @return list of available topics
 	 */
 	@RequestMapping(value = "/app/listTopic/", produces = "application/json")
 	@ResponseBody
-	public String listTopic() {
-		JSONArray jArray = new JSONArray();
-		List<String> list = studyService.readTopicList();
-		for (String topic : list) {
-			JSONObject jObj = new JSONObject();
-			jObj.put("topic", topic);
-			jArray.put(jObj);
-		}
-		return jArray.toString();
+	public List<String> listTopic() {
+		return studyService.readTopicList();
 	}
 
 	/**
-	 * Loads previously saved {@link Study} with given id and returns word of next {@link Card}
-	 * of loaded Study
+	 * Loads previously saved {@link Study} with given id and returns word of
+	 * next {@link Card} of loaded Study
 	 * 
 	 * @param id
 	 *            - given study id
@@ -169,26 +161,16 @@ public class AppController {
 	}
 
 	/**
-	 * Returns JSON Array of available saved studies.
+	 * Returns list of available saved {@link Study} objects for current user.
+	 * JSON representation of mentioned list doesn't contain
+	 * <code>history</code> and <code>user</code> fields.
 	 * 
-	 * @return JSON Array of JSON Objects containing id, topic, number of cards
-	 *         answered, number of cards remaining and date of saving
+	 * @return list of saved {@link Study} objects for current user
 	 */
 	@RequestMapping(value = "/app/listStudy/", produces = "application/json")
 	@ResponseBody
-	public String listStudy() {
-		JSONArray jArray = new JSONArray();
-		List<Study> list = studyService.loadListByUser(user.getUserID());
-		for (Study st : list) {
-			JSONObject jObj = new JSONObject();
-			jObj.put("id", st.getId());
-			jObj.put("topic", st.getTopic());
-			jObj.put("done", st.getPointer());
-			jObj.put("remaining", (st.getOrderList().size() - st.getPointer()));
-			jObj.put("date", st.getDate().toString());
-			jArray.put(jObj);
-		}
-		return jArray.toString();
+	public List<Study> listStudy() {
+		return studyService.loadListByUser(user.getUserID());
 	}
 
 	/**
@@ -246,21 +228,15 @@ public class AppController {
 	}
 
 	/**
-	 * Returns JSON Array of JSON objects containing statistics data.
+	 * Returns list of {@link History} objects for current user. JSON
+	 * representation of mentioned list doesn't contain <code>user</code> field.
 	 * 
-	 * @return JSON Array of JSON Objects containing id, number of cards
-	 *         answered, number of correct answers, date and topic
+	 * @return list of {@link History} objects for current user.
 	 */
 	@RequestMapping(value = "/app/listHist/", produces = "application/json")
 	@ResponseBody
-	public String listHist() {
-		JSONArray jArray = new JSONArray();
-		List<History> list = userService.getHistList();
-		for (History hist : list) {
-			JSONObject jObj = new JSONObject(hist);
-			jArray.put(jObj);
-		}
-		return jArray.toString();
+	public List<History> listHist() {
+		return userService.getHistList();
 	}
 
 }

@@ -3,6 +3,7 @@ package db;
 import java.util.List;
 
 import model.Study;
+import model.User;
 
 /**
  * StudyDAO interface provides access to {@link Study} objects in some data storage.

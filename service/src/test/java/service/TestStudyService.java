@@ -29,7 +29,6 @@ public class TestStudyService {
 	private final Integer ZERO = new Integer(0);
 	private final Integer ONE = new Integer(1);
 	private final Integer TWO = new Integer(2);
-	private final Integer THREE = new Integer(3);
 	private int orderListSize;
 
 	@Before
@@ -136,13 +135,13 @@ public class TestStudyService {
 		testStudyService.getStudy().setOrderList(testOrderList);
 		testStudyService.setDict(shortListCards);
 
-		// First card in listCards has priority 1
-		assertEquals(ONE, testStudyService.nextCard().getPriority(testUser));
-		// Second card in listCards has priority 2
-		assertEquals(TWO, testStudyService.nextCard().getPriority(testUser));
-		// Third card in listCards has priority 3
-		assertEquals(THREE, testStudyService.nextCard().getPriority(testUser));
-		// There is no cards in listCards, method should return null
+		// First card in shortlistCards should be returned
+		assertEquals(shortListCards.get(0), testStudyService.nextCard());
+		// Second card in shortlistCards should be returned
+		assertEquals(shortListCards.get(1), testStudyService.nextCard());
+		// Third card in shortlistCards should be returned
+		assertEquals(shortListCards.get(2), testStudyService.nextCard());
+		// There is no cards in shortlistCards, method should return null
 		assertEquals(null, testStudyService.nextCard());
 	}
 

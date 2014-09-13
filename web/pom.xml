@@ -62,7 +62,6 @@
 			<version>20140107</version>
 		</dependency>
 
-
 		<dependency>
 			<groupId>com.epam.training</groupId>
 			<artifactId>model</artifactId>
