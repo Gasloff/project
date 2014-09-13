@@ -5,7 +5,7 @@ import java.util.List;
 import model.User;
 
 /**
- * UserDAO interface provides access to User objects in some data storage.
+ * UserDAO interface provides access to {@link User} objects in some data storage.
  * 
  * @author Aleksandr Gaslov
  * 
@@ -13,27 +13,27 @@ import model.User;
 public interface UserDAO {
 
 	/**
-	 * Adds given User to data storage.
+	 * Adds given {@link User} to data storage.
 	 * 
 	 * @param user
-	 *            - given User object
-	 * @return id of added User
+	 *            - given {@link User} object
+	 * @return <code>userID</code> of added {@link User}
 	 */
 	Long addUser(User user);
 
 	/**
-	 * Returns User object with given login.
+	 * Returns {@link User} object with given login.
 	 * 
 	 * @param login
 	 *            - given login
-	 * @return User object with given login
+	 * @return User object with given <code>login</code>
 	 */
 	User loadUser(String login);
 
 	/**
 	 * Returns list of available Users.
 	 * 
-	 * @return list of stored User objects
+	 * @return list of stored {@link User} objects
 	 */
 	List<User> getUserList();
 }

@@ -12,7 +12,8 @@ import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 
 /**
- * User class contains registration data - login and password.
+ * User class contains registration data - <code>login</code> and
+ * <code>password</code>.
  * 
  * @author Aleksandr Gaslov
  * 

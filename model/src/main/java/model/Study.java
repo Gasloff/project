@@ -21,8 +21,9 @@ import javax.persistence.JoinColumn;
 import org.hibernate.annotations.GenericGenerator;
 
 /**
- * Study class contains topic of the study, sequence of Cards, pointer to the
- * current Card, link to the related History and User objects and date of saving.
+ * Study class contains topic of the study, order of cards, pointer to the
+ * current card, link to the related {@link History} and {@link User} objects
+ * and date of saving.
  * 
  * @author Aleksandr Gaslov
  * 
@@ -44,12 +45,12 @@ public class Study {
 	}
 
 	/**
-	 * Returns new Study object with given topic and User.
+	 * Returns new Study object with given <code>topic</code> and {@link User}.
 	 * 
 	 * @param topic
 	 *            - topic for new study
 	 * @param user
-	 *            - User who owns Study being created
+	 *            - {@link User} who owns Study being created
 	 */
 	public Study(String topic, User user) {
 		this.topic = topic;
@@ -126,14 +127,14 @@ public class Study {
 	}
 
 	/**
-	 * Increments pointer to the current Card.
+	 * Shifts pointer to the next card.
 	 */
 	public void incrementPointer() {
 		pointer++;
 	}
 
 	/**
-	 * Decrements pointer to the current Card.
+	 * Shifts pointer to the previous card.
 	 */
 	public void decrementPointer() {
 		pointer--;

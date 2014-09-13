@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 import model.History;
 
 /**
- * DbHistoryDAO class provides access to History entities in database.
+ * DbHistoryDAO class provides access to {@link History} entities in database.
  * 
  * @author Aleksandr Gaslov
  * 

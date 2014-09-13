@@ -5,7 +5,7 @@ import java.util.List;
 import model.Card;
 
 /**
- * DictDAO interface provides access to Card objects in some data storage.
+ * DictDAO interface provides access to {@link Card} objects in some data storage.
  * 
  * @author Aleksandr Gaslov
  * 
@@ -13,26 +13,26 @@ import model.Card;
 public interface DictDAO {
 
 	/**
-	 * Returns list of Cards with given topic.
+	 * Returns list of {@link Card} objects with given topic.
 	 * 
 	 * @param topic
 	 *            - given topic
-	 * @return List of Cards with given topic
+	 * @return List of {@link Card} objects with given <code>topic</code>
 	 */
 	List<Card> readDict(String topic);
 
 	/**
-	 * Adds Card to data storage if it doesn't contain given Card. Overwrite
-	 * existing one if given Card is already contains in data storage.
+	 * Adds {@link Card} to data storage if it doesn't contain given {@link Card}. Overwrite
+	 * existing one if given {@link Card} is already contains in data storage.
 	 * 
 	 * @param card
-	 *            - given Card
-	 * @return id of saved Card
+	 *            - given {@link Card}
+	 * @return <code>id</code> of saved {@link Card}
 	 */
 	Long saveCard(Card card);
 
 	/**
-	 * Saves list of given Cards to data storage.
+	 * Saves list of given {@link Card} objects to data storage.
 	 * 
 	 * @param list
 	 */

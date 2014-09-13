@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
- * DbStudyDAO class provides access to Study entities in database.
+ * DbStudyDAO class provides access to {@link Study} entities in database.
  * 
  * @author Aleksandr Gaslov
  * 

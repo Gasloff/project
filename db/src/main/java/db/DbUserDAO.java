@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
- * DbUserDAO class provides access to User entities in database
+ * DbUserDAO class provides access to {@link User} entities in database
  * 
  * @author Aleksandr Gaslov
  *

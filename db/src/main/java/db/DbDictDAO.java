@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 import model.Card;
 
 /**
- * DbDictDAO class provides access to Card entities in database
+ * DbDictDAO class provides access to {@link Card} entities in database
  * 
  * @author Aleksandr Gaslov
  * 

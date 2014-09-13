@@ -5,7 +5,7 @@ import java.util.List;
 import model.History;
 
 /**
- * HistoryDAO interface provides access to History objects in some data storage.
+ * HistoryDAO interface provides access to {@link History} objects in some data storage.
  * 
  * @author Aleksandr Gaslov
  * 
@@ -13,31 +13,31 @@ import model.History;
 public interface HistoryDAO {
 
 	/**
-	 * Adds History to data storage if it doesn't contain given History.
-	 * Overwrite existing one if given History is already contains in data
+	 * Adds {@link History} to data storage if it doesn't contain given {@link History}.
+	 * Overwrite existing one if given {@link History} is already contains in data
 	 * storage.
 	 * 
 	 * @param history
-	 *            - given History object
-	 * @return id of saved History
+	 *            - given {@link History} object
+	 * @return <code>histID</code> of saved {@link History}
 	 */
 	Long saveHistory(History history);
 
 	/**
-	 * Returns History with given id.
+	 * Returns {@link History} with given id.
 	 * 
 	 * @param histID
 	 *            - given id
-	 * @return History object with given id
+	 * @return {@link History} object with given <code>histID</code>
 	 */
 	History readHistory(Long histID);
 
 	/**
-	 * Returns list of History objects with given User.
+	 * Returns list of {@link History} objects with given User.
 	 * 
 	 * @param userId
-	 *            - id of given User
-	 * @return list of History objects with given User
+	 *            - id of given {@link User}
+	 * @return list of {@link History} objects with given {@link User}
 	 */
 	List<History> getListByUser(Long userId);
 }

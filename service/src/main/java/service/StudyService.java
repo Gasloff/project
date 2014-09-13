@@ -17,9 +17,9 @@ import model.Study;
 import model.User;
 
 /**
- * StudyService class provides methods for dealing with Study objects, getting
- * list of available topics, getting next Card object from some shuffled
- * sequence and processing user's answers.
+ * StudyService class provides methods for dealing with {@link Study} objects,
+ * getting list of available topics, getting next {@link Card} object from some
+ * shuffled sequence and processing user's answers.
  * 
  * @author Aleksandr Gaslov
  * 
@@ -48,14 +48,15 @@ public class StudyService {
 	}
 
 	/**
-	 * Creates new Study object with given topic and user. Creates corresponding
-	 * History object with current date.
+	 * Creates new {@link Study} object with given <code>topic</code> and
+	 * <code>user</code>. Creates corresponding {@link History} object with
+	 * current date.
 	 * 
 	 * @param topic
-	 *            Topic for the new Study
+	 *            - topic for the new {@link Study}
 	 * @param user
-	 *            User for the new Study
-	 * @return new Study object
+	 *            - {@link User} for the new {@link Study}
+	 * @return new {@link Study} object
 	 */
 	public Study createStudy(String topic, User user) {
 		study = new Study(topic, user);
@@ -68,7 +69,7 @@ public class StudyService {
 	}
 
 	/**
-	 * Returns list of available Card's topics.
+	 * Returns list of available {@link Card} topics.
 	 * 
 	 * @return list of topics
 	 */
@@ -77,11 +78,11 @@ public class StudyService {
 	}
 
 	/**
-	 * Loads previously saved study with given id.
+	 * Loads previously saved {@link Study} with given id.
 	 * 
 	 * @param studyId
-	 *            id of given saved study
-	 * @return Study object
+	 *            id of given saved {@link Study}
+	 * @return {@link Study} object
 	 */
 	public Study loadStudy(Long studyId) {
 		study = studyDAO.readStudy(studyId);
@@ -91,11 +92,11 @@ public class StudyService {
 	}
 
 	/**
-	 * Returns list of saved studies for given user.
+	 * Returns list of saved {@link Study} objects for given {@link User}.
 	 * 
 	 * @param userId
-	 *            id of given user
-	 * @return list of saved studies
+	 *            id of given {@link User}
+	 * @return list of saved {@link Study} objects
 	 */
 	public List<Study> loadListByUser(Long userId) {
 		List<Study> studyList = studyDAO.getListByUser(userId);
@@ -103,9 +104,9 @@ public class StudyService {
 	}
 
 	/**
-	 * Saves current study with current date.
+	 * Saves current {@link Study} objects with current date.
 	 * 
-	 * @return saved study id
+	 * @return saved {@link Study} <code>id</code>
 	 */
 	public Long saveStudy() {
 		Long savedID = null;
@@ -116,11 +117,13 @@ public class StudyService {
 	}
 
 	/**
-	 * Returns next Card from previously prepared shuffled list. Cards with
-	 * priority '3' appears 4 times per study. Cards with priority '2' appears 3
-	 * times per study. Cards with priority '1' appears 2 times per study.
+	 * Returns next {@link Card} from previously prepared shuffled list. Cards
+	 * with priority '3' appears 4 times per study. Cards with priority '2'
+	 * appears 3 times per study. Cards with priority '1' appears 2 times per
+	 * study.
 	 * 
-	 * @return next Card according its priority or null if there is no next Card
+	 * @return next {@link Card} according its priority or null if there is no
+	 *         next {@link Card}
 	 */
 	public Card nextCard() {
 		List<Integer> orderList = study.getOrderList();
@@ -145,18 +148,20 @@ public class StudyService {
 	}
 
 	/**
-	 * Returns if received answer matches Card's translation. Increments counter
-	 * of questions of the corresponding History object. If answer is correct,
-	 * increments counter of correct answers of the corresponding History
-	 * object. If correct answer is second in succession for given Card, Card's
-	 * priority decrements. If answer is not correct, Card's priority
-	 * increments.
+	 * Returns if received answer matches {@link Card} <code>translation</code>.
+	 * Increments counter of <code>answered</code> questions of the
+	 * corresponding {@link History} object. If answer is correct, increments
+	 * counter of <code>correct</code> answers of the corresponding
+	 * {@link History} object. If correct answer is second in succession for
+	 * given {@link Card}, Card's priority decrements. If answer is not correct,
+	 * Card's priority increments.
 	 * 
 	 * @param card
-	 *            - Card being answered
+	 *            - {@link Card} being answered
 	 * @param answer
 	 *            - user's answer
-	 * @return true if answer is correct, false otherwise
+	 * @return <code>true</code> if answer is correct, <code>false</code>
+	 *         otherwise
 	 */
 	public boolean processAnswer(Card card, String answer) {
 		History history = study.getHistory();
@@ -203,7 +208,7 @@ public class StudyService {
 	public List<Card> getDict() {
 		return dict;
 	}
-	
+
 	public List<Integer> getCorrectList() {
 		return correctList;
 	}
@@ -219,7 +224,7 @@ public class StudyService {
 	public void setUser(User user) {
 		this.user = user;
 	}
-	
+
 	public void setDict(List<Card> dict) {
 		this.dict = dict;
 	}
@@ -231,7 +236,7 @@ public class StudyService {
 	public void setLoaded(boolean loaded) {
 		this.loaded = loaded;
 	}
-	
+
 	public void setStudyDAO(StudyDAO studyDAO) {
 		this.studyDAO = studyDAO;
 	}

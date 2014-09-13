@@ -72,7 +72,7 @@ public class AppController {
 
 	/**
 	 * Returns if entered login exists in data storage. Creates and saves new
-	 * User with given login and password if given login doesn't exist in data
+	 * {@link User} with given login and password if given login doesn't exist in data
 	 * storage.
 	 * 
 	 * @param login
@@ -123,7 +123,7 @@ public class AppController {
 	 * 
 	 * @param topic
 	 *            - given topic
-	 * @return word of first Card of created Study
+	 * @return word of first {@link Card} of created {@link Study}
 	 */
 	@RequestMapping(value = "/app/topic/")
 	@ResponseBody
@@ -152,12 +152,12 @@ public class AppController {
 	}
 
 	/**
-	 * Loads previously saved Study with given id and returns word of next Card
+	 * Loads previously saved {@link Study} with given id and returns word of next {@link Card}
 	 * of loaded Study
 	 * 
 	 * @param id
-	 *            - given Study id
-	 * @return word of next Card of loaded Study
+	 *            - given study id
+	 * @return word of next {@link Card} of loaded {@link Study}
 	 */
 	@RequestMapping(value = "/app/loadStudy/")
 	@ResponseBody

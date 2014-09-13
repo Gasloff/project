@@ -13,8 +13,8 @@ import model.History;
 import model.User;
 
 /**
- * UserService class provides methods for dealing with User and related History
- * objects.
+ * UserService class provides methods for dealing with {@link User} and related
+ * {@link History} objects.
  * 
  * @author Aleksandr Gaslov
  * 
@@ -37,14 +37,14 @@ public class UserService {
 	}
 
 	/**
-	 * Creates new User object with given login and password. Sets priority '2'
-	 * for all Cards for this new User.
+	 * Creates new {@link User} object with given login and password. Sets
+	 * priority '2' for all {@link Card} objects for this new {@link User}.
 	 * 
 	 * @param login
 	 *            - given login (user name)
 	 * @param password
 	 *            - given password
-	 * @return new User object
+	 * @return new {@link User} object with given login and password
 	 */
 	public User createUser(String login, String password) {
 		user = new User(login, password);
@@ -54,11 +54,11 @@ public class UserService {
 	}
 
 	/**
-	 * Loads User with given login.
+	 * Loads {@link User} with given <code>login</code>.
 	 * 
 	 * @param login
 	 *            - given login
-	 * @return loaded User object
+	 * @return loaded {@link User} object
 	 */
 	public User loadUser(String login) {
 		user = userDao.loadUser(login);
@@ -68,16 +68,16 @@ public class UserService {
 	/**
 	 * Returns list of existing users.
 	 * 
-	 * @return list of existing Users
+	 * @return list of existing {@link User} objects
 	 */
 	public List<User> getUserList() {
 		return userDao.getUserList();
 	}
 
 	/**
-	 * Returns list of saved History objects for current user.
+	 * Returns list of saved {@link History} objects for current user.
 	 * 
-	 * @return list of History objects
+	 * @return list of {@link History} objects
 	 */
 	public List<History> getHistList() {
 		return histDao.getListByUser(user.getUserID());
@@ -90,7 +90,7 @@ public class UserService {
 	public void setUser(User user) {
 		this.user = user;
 	}
-	
+
 	public void setUserDao(UserDAO userDao) {
 		this.userDao = userDao;
 	}

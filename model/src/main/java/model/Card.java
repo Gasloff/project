@@ -19,8 +19,8 @@ import javax.persistence.UniqueConstraint;
 import org.hibernate.annotations.GenericGenerator;
 
 /**
- * Card class contains word and translation, topic of the word and priorities.
- * for all registered Users
+ * Card class contains <code>word</code>, <code>translation</code>, <code>topic</code> and priorities.
+ * for all registered {@link User} objects.
  * 
  * @author Aleksandr Gaslov
  * 
@@ -45,7 +45,8 @@ public class Card {
 	}
 
 	/**
-	 * Returns new Card object with given word, translation and topic.
+	 * Returns new Card object with given <code>word</code>,
+	 * <code>translation</code> and <code>topic</code>.
 	 * 
 	 * @param word
 	 *            - word for new Card
@@ -146,12 +147,12 @@ public class Card {
 	}
 
 	/**
-	 * Sets given priority of owning Card for given User.
+	 * Sets given priority of owning Card for given {@link User}.
 	 * 
 	 * @param user
-	 *            - given User
+	 *            - given {@link User}
 	 * @param priority
-	 *            - value of priority for given User
+	 *            - value of priority for given {@link User}
 	 */
 	public void setPriority(User user, Integer priority) {
 		switch (priority) {
@@ -168,10 +169,10 @@ public class Card {
 	}
 
 	/**
-	 * Increments priority of owning Card for given User.
+	 * Increments priority of owning Card for given {@link User}.
 	 * 
 	 * @param user
-	 *            - given User
+	 *            - given {@link User}
 	 */
 	public void incrementPriority(User user) {
 		Long userID = user.getUserID();

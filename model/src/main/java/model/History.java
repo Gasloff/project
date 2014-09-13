@@ -15,7 +15,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 
 /**
- * History class contains statistics for given User.
+ * History class contains statistics for given {@link User}.
  * 
  * @author Aleksandr Gaslov
  * 
@@ -36,9 +36,9 @@ public class History {
 	}
 
 	/**
-	 * Returns new History object with given User, Date and topic.
-	 * @param user - User owning History object being created
-	 * @param topic - topic of related study 
+	 * Returns new History object with given {@link User} and <code>topic</code>.
+	 * @param user - {@link User} owning History object being created
+	 * @param topic - topic of related {@link Study} 
 	 */
 	public History(User user, String topic) {
 		this.user = user;

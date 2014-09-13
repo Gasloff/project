@@ -13,6 +13,12 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import db.UserDAO;
 
+/**
+ * Provides loading user data by username and setting ROLE_USER to loaded user
+ * 
+ * @author Aleksandr Gaslov
+ * 
+ */
 public class MyUserDetailsService implements UserDetailsService {
 
 	@Autowired
