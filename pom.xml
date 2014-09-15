@@ -21,7 +21,7 @@
 			<version>4.11</version>
 			<scope>test</scope>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
@@ -39,7 +39,7 @@
 			<artifactId>spring-orm</artifactId>
 			<version>4.0.6.RELEASE</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-web</artifactId>
@@ -60,10 +60,11 @@
 
 		<dependency>
 			<groupId>org.postgresql</groupId>
-			<artifactId>Driver</artifactId>
-			<version>9.3-1102</version>
+			<artifactId>postgresql</artifactId>
+			<version>9.3-1102-jdbc41</version>
 		</dependency>
-		
+
+
 		<dependency>
 			<groupId>org.codehaus.jackson</groupId>
 			<artifactId>jackson-mapper-asl</artifactId>

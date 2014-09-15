@@ -23,14 +23,15 @@ public class DbHistoryDAO implements HistoryDAO {
 
 	private SessionFactory sessionFactory;
 
+	private static final long DEFAULT_ID = -1L;
+
 	public DbHistoryDAO() {
 	}
 
 	/**
 	 * Returns new DbHistoryDAO object with given Hibernate SessionFactory.
 	 * 
-	 * @param sessionFactory
-	 *            - given Hibernate SessionFactory object
+	 * @param sessionFactory given Hibernate SessionFactory object
 	 */
 	@Autowired
 	public DbHistoryDAO(SessionFactory sessionFactory) {
@@ -44,7 +45,7 @@ public class DbHistoryDAO implements HistoryDAO {
 		Long savedID = null;
 		Long histID = history.getHistID();
 
-		if (histID.equals(-1L)) {
+		if (histID.equals(DEFAULT_ID)) {
 			try {
 				tx = session.beginTransaction();
 				savedID = (Long) session.save(history);
@@ -97,7 +98,7 @@ public class DbHistoryDAO implements HistoryDAO {
 	public List<History> getListByUser(Long userId) {
 		Session session = sessionFactory.openSession();
 		Transaction tx = null;
-		List<History> list = new ArrayList<>();
+		List<History> list = new ArrayList<History>();
 		try {
 			tx = session.beginTransaction();
 			list = (List<History>) session.getNamedQuery("allHistoryByUser")

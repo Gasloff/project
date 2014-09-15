@@ -34,9 +34,11 @@ import org.hibernate.annotations.GenericGenerator;
 @NamedQuery(name = "allStudyByUser", query = "from Study s where s.user.userID = :userId order by s.id")
 public class Study {
 
-	private Long id = -1L;
+	private static final long DEFAULT_ID = -1L;
+	
+	private Long id = DEFAULT_ID;
 	private String topic;
-	private List<Integer> orderList = new ArrayList<>();
+	private List<Integer> orderList = new ArrayList<Integer>();
 	private int pointer = 0;
 	private History history;
 	private User user;
@@ -48,10 +50,8 @@ public class Study {
 	/**
 	 * Returns new Study object with given <code>topic</code> and {@link User}.
 	 * 
-	 * @param topic
-	 *            - topic for new study
-	 * @param user
-	 *            - {@link User} who owns Study being created
+	 * @param topic topic for new study
+	 * @param user {@link User} who owns Study being created
 	 */
 	public Study(String topic, User user) {
 		this.topic = topic;

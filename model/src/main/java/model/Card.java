@@ -19,8 +19,8 @@ import javax.persistence.UniqueConstraint;
 import org.hibernate.annotations.GenericGenerator;
 
 /**
- * Card class contains <code>word</code>, <code>translation</code>, <code>topic</code> and priorities.
- * for all registered {@link User} objects.
+ * Card class contains <code>word</code>, <code>translation</code>,
+ * <code>topic</code> and priorities. for all registered {@link User} objects.
  * 
  * @author Aleksandr Gaslov
  * 
@@ -33,7 +33,10 @@ import org.hibernate.annotations.GenericGenerator;
 		@NamedQuery(name = "allTopics", query = "select distinct c.topic FROM Card c") })
 public class Card {
 
-	private Long id = -1L;
+	private static final long DEFAULT_ID = -1L;
+	private static final String ILLEGAL_PRIORITY = "Not valid priority value. Should b in [1,2,3]";
+
+	private Long id = DEFAULT_ID;
 	private String word;
 	private String translation;
 	private String topic;
@@ -48,12 +51,9 @@ public class Card {
 	 * Returns new Card object with given <code>word</code>,
 	 * <code>translation</code> and <code>topic</code>.
 	 * 
-	 * @param word
-	 *            - word for new Card
-	 * @param translation
-	 *            - translation for given word
-	 * @param topic
-	 *            - topic of given word
+	 * @param word word for new Card
+	 * @param translation translation for given word
+	 * @param topic topic of given word
 	 */
 	public Card(String word, String translation, String topic) {
 		this.word = word;
@@ -133,6 +133,12 @@ public class Card {
 		this.priorityThree = priorityThree;
 	}
 
+	/**
+	 * Returns priority of <code>this<code> Card for given {@link User}.
+	 * 
+	 * @param user given {@link User}
+	 * @return <code>priority</code> for given {@link User}
+	 */
 	public Integer getPriority(User user) {
 		Long userID = user.getUserID();
 		Integer priority = -1;
@@ -149,12 +155,14 @@ public class Card {
 	/**
 	 * Sets given priority of owning Card for given {@link User}.
 	 * 
-	 * @param user
-	 *            - given {@link User}
-	 * @param priority
-	 *            - value of priority for given {@link User}
+	 * @param user given {@link User}
+	 * @param priority value of priority for given {@link User}
 	 */
 	public void setPriority(User user, Integer priority) {
+		priorityOne.remove(user);
+		priorityTwo.remove(user);
+		priorityThree.remove(user);
+		
 		switch (priority) {
 		case 1:
 			priorityOne.add(user.getUserID());
@@ -165,14 +173,15 @@ public class Card {
 		case 3:
 			priorityThree.add(user.getUserID());
 			break;
+		default:
+			throw new IllegalArgumentException(ILLEGAL_PRIORITY);
 		}
 	}
 
 	/**
 	 * Increments priority of owning Card for given {@link User}.
 	 * 
-	 * @param user
-	 *            - given {@link User}
+	 * @param user given {@link User}
 	 */
 	public void incrementPriority(User user) {
 		Long userID = user.getUserID();
@@ -186,10 +195,9 @@ public class Card {
 	}
 
 	/**
-	 * Decrements priority of owning Card for given User.
+	 * Decrements priority of owning Card for given {@link User}.
 	 * 
-	 * @param user
-	 *            - given User
+	 * @param user given {@link User}
 	 */
 	public void decrementPriority(User user) {
 		Long userID = user.getUserID();

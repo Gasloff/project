@@ -1,5 +1,8 @@
 package service;
 
+import static org.junit.Assert.*;
+import static org.mockito.Matchers.any;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,35 +11,50 @@ import model.History;
 import model.Study;
 import model.User;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 
 import db.DictDAO;
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
 
-public class TestStudyService {
+/**
+ * StudyServiceUnitTest provides testing {@link StudyService} class.
+ * 
+ * @author Aleksandr Gaslov
+ *
+ */
+public class StudyServiceUnitTest {
 
-	StudyService testStudyService;
-	User testUser;
-	String testTopic;
-	List<Card> listCards;
-	List<Card> shortListCards;
-	List<Integer> testCorrectList;
-	List<Integer> testOrderList;
-
-	private final Integer ZERO = new Integer(0);
-	private final Integer ONE = new Integer(1);
-	private final Integer TWO = new Integer(2);
-	private int orderListSize;
-
+	private User testUser;
+	private String testTopic;
+	private List<Card> listCards;
+	private List<Card> shortListCards;
+	private List<Integer> testCorrectList;
+	private List<Integer> testOrderList;
+		
+	@Mock
+	private DictDAO mockDictDAO;
+	@InjectMocks
+	private StudyService testStudyService;
+	
+	private static final Integer ZERO = new Integer(0);
+	private static final Integer ONE = new Integer(1);
+	private static final Integer TWO = new Integer(2);
+		
+	/**
+	 * Sets up necessary test objects and mocks.
+	 */
 	@Before
 	public void setUp() {
 
 		testUser = new User("Test", "pass");
 		testUser.setUserID(1L);
 		testTopic = "topic";
+		
+		testStudyService = new StudyService(testUser);
 
 		Card card1 = new Card("one", "1", testTopic);
 		Card card2 = new Card("two", "2", testTopic);
@@ -44,6 +62,7 @@ public class TestStudyService {
 		Card card4 = new Card("four", "4", testTopic);
 		Card card5 = new Card("five", "5", testTopic);
 		Card card6 = new Card("six", "6", testTopic);
+		
 
 		card1.setPriority(testUser, 1);
 		card2.setPriority(testUser, 1);
@@ -51,18 +70,10 @@ public class TestStudyService {
 		card4.setPriority(testUser, 2);
 		card5.setPriority(testUser, 3);
 		card6.setPriority(testUser, 3);
+		
 
-		/*
-		 * Order list contains cards with priority 1 two times, cards with
-		 * priority 2 three times cards with priority 3 four times
-		 * 
-		 * two cards with priority 1, two cards with priority 2, two cards with
-		 * priority 3
-		 */
-		orderListSize = 2 * 2 + 2 * 3 + 2 * 4;
-
-		listCards = new ArrayList<>();
-		shortListCards = new ArrayList<>();
+		listCards = new ArrayList<Card>();
+		shortListCards = new ArrayList<Card>();
 
 		listCards.add(card1);
 		listCards.add(card2);
@@ -70,12 +81,13 @@ public class TestStudyService {
 		listCards.add(card4);
 		listCards.add(card5);
 		listCards.add(card6);
-
+		
+		
 		shortListCards.add(card1);
 		shortListCards.add(card3);
 		shortListCards.add(card5);
 
-		testCorrectList = new ArrayList<>();
+		testCorrectList = new ArrayList<Integer>();
 		testCorrectList.add(1);
 		testCorrectList.add(0);
 		testCorrectList.add(0);
@@ -85,49 +97,31 @@ public class TestStudyService {
 		testOrderList.add(1);
 		testOrderList.add(2);
 
-		DictDAO mockDictDAO = mock(DictDAO.class);
-		when(mockDictDAO.readDict(testTopic)).thenReturn(listCards);
-		when(mockDictDAO.saveCard((Card) any())).thenReturn(-1L);
-
-		testStudyService = new StudyService(testUser);
-		testStudyService.setDictDAO(mockDictDAO);
+		MockitoAnnotations.initMocks(this);
+		Mockito.when(mockDictDAO.readDict(testTopic)).thenReturn(listCards);
+		Mockito.when(mockDictDAO.saveCard((Card) any())).thenReturn(-1L);
 	}
 
-	@After
-	public void tearDown() {
-
-		testStudyService = null;
-		testUser = null;
-		testTopic = null;
-		listCards = null;
-		shortListCards = null;
-		testCorrectList = null;
-		testOrderList = null;
-	}
-
+	/**
+	 * Tests {@link StudyService#createStudy(String, User)} method.
+	 */
 	@Test
 	public void testCreateStudy() {
 
 		Study testStudy = testStudyService.createStudy(testTopic, testUser);
 		testOrderList = testStudy.getOrderList();
 		
-		// In correct order list two identical cards should be separated at
-		// least by two another cards
-		boolean rightOrder = true;
-		for (int i = 0; i < testOrderList.size() - 3; i++) {
-			if (testOrderList.get(i).equals(testOrderList.get(i + 1))
-					|| testOrderList.get(i).equals(testOrderList.get(i + 2))) {
-				rightOrder = false;
-			}
-		}
-
 		assertEquals(testTopic, testStudy.getTopic());
 		assertEquals(testUser, testStudy.getUser());
 		assertEquals(listCards, testStudyService.getDict());
-		assertEquals(orderListSize, testOrderList.size());
-		assertEquals(true, rightOrder);
+		assertFalse(testStudyService.isLoaded());
+	
 	}
 
+	/**
+	 * Tests {@link StudyService#nextCard()} method. Checks if correct card is
+	 * returned or null if there are no cards left.
+	 */
 	@Test
 	public void testNextCard() {
 
@@ -141,10 +135,19 @@ public class TestStudyService {
 		assertEquals(shortListCards.get(1), testStudyService.nextCard());
 		// Third card in shortlistCards should be returned
 		assertEquals(shortListCards.get(2), testStudyService.nextCard());
-		// There is no cards in shortlistCards, method should return null
+		// There are no cards in shortlistCards, method should return null
 		assertEquals(null, testStudyService.nextCard());
 	}
-
+	
+	/**
+	 * Tests {@link StudyService#processAnswer(Card, String)} method.<br>
+	 * After wrong answer card's priority should be increased and number of
+	 * correct answers in success should be set to zero.<br>
+	 * After correct answer number of correct answers in success should be
+	 * increased.<br>
+	 * After second correct answer in success card's priority should be
+	 * decreased and number of correct answers in success should be set to zero.
+	 */
 	@Test
 	public void testProcessAnswer() {
 
@@ -157,18 +160,18 @@ public class TestStudyService {
 		final String WRONG = testCard.getTranslation().concat(" - wrong");
 		final String RIGHT = testCard.getTranslation();
 
-		assertEquals(false, testStudyService.processAnswer(testCard, WRONG));
+		assertFalse(testStudyService.processAnswer(testCard, WRONG));
 		// After wrong answer card's priority should be increased
 		assertEquals(TWO, testCard.getPriority(testUser));
 		// After wrong answer number of correct answers in success should be set
 		// to zero
 		assertEquals(ZERO, testStudyService.getCorrectList().get(0));
 
-		assertEquals(true, testStudyService.processAnswer(testCard, RIGHT));
+		assertTrue(testStudyService.processAnswer(testCard, RIGHT));
 		// After correct answer number of correct answers in success should be
 		// increased
 		assertEquals(ONE, testStudyService.getCorrectList().get(0));
-		assertEquals(true, testStudyService.processAnswer(testCard, RIGHT));
+		assertTrue(testStudyService.processAnswer(testCard, RIGHT));
 		// After second correct answer in success number of correct answers in
 		// success should be set to zero
 		assertEquals(ZERO, testStudyService.getCorrectList().get(0));
@@ -176,5 +179,23 @@ public class TestStudyService {
 		// decreased
 		assertEquals(ONE, testCard.getPriority(testUser));
 	}
+	
+	/**
+	 * Tests {@link StudyService} <code>createDict()<code> protected method.
+	 * Checks if number of correct answers by success for all cards in dictionary
+	 * is set to zero. 
+	 */
+	@Test
+	public void testCreateDict() {
 
+		testStudyService.createDict(testTopic);
+		boolean rightCorrectList = true; 
+		for (int i : testStudyService.getCorrectList()) {
+			if (i != 0) {
+				rightCorrectList = false;
+			}
+		}
+		assertEquals(listCards.size(), testStudyService.getCorrectList().size());
+		assertTrue(rightCorrectList);
+	}
 }

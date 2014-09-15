@@ -21,15 +21,17 @@ import model.Card;
 public class DbDictDAO implements DictDAO {
 
 	private SessionFactory sessionFactory;
-
+	
+	private static final String ALL = "all";
+	private static final long DEFAULT_ID = -1L;
+	
 	public DbDictDAO() {
 	}
 
 	/**
 	 * Returns new DbDictDAO object with given Hibernate SessionFactory.
 	 * 
-	 * @param sessionFactory
-	 *            - given Hibernate SessionFactory object
+	 * @param sessionFactory given Hibernate SessionFactory object
 	 */
 	@Autowired
 	public DbDictDAO(SessionFactory sessionFactory) {
@@ -44,7 +46,7 @@ public class DbDictDAO implements DictDAO {
 		List<Card> dict = null;
 		try {
 			tx = session.beginTransaction();
-			if (topic.equals("all")) {
+			if (topic.equals(ALL)) {
 				dict = (List<Card>) session.getNamedQuery("allCards").list();
 			} else {
 				dict = (List<Card>) session.getNamedQuery("findCardsByTopic")
@@ -69,7 +71,7 @@ public class DbDictDAO implements DictDAO {
 		Long savedID = null;
 		Long cardID = card.getId();
 
-		if (cardID.equals(-1L)) {
+		if (cardID.equals(DEFAULT_ID)) {
 			try {
 				tx = session.beginTransaction();
 				savedID = (Long) session.save(card);

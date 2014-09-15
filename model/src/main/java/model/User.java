@@ -32,6 +32,13 @@ public class User {
 	public User() {
 	}
 
+	/**
+	 * Returns new User object with given <code>login</code> and
+	 * <code>password</code>.
+	 * 
+	 * @param login for new User
+	 * @param password for new User
+	 */
 	public User(String login, String password) {
 		this.login = login;
 		this.password = password;

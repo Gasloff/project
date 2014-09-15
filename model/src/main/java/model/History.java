@@ -26,7 +26,9 @@ import org.hibernate.annotations.GenericGenerator;
 @NamedQuery(name = "allHistoryByUser", query = "from History h where h.user.userID = :userId order by h.histID")
 public class History {
 
-	private Long histID = -1L;
+	private final long DEFAULT_ID = -1L;
+	
+	private Long histID = DEFAULT_ID;
 	private Integer answered = 0;
 	private Integer correct = 0;
 	private User user;
@@ -38,8 +40,9 @@ public class History {
 
 	/**
 	 * Returns new History object with given {@link User} and <code>topic</code>.
-	 * @param user - {@link User} owning History object being created
-	 * @param topic - topic of related {@link Study} 
+	 * 
+	 * @param user {@link User} owning History object being created
+	 * @param topic topic of related {@link Study} 
 	 */
 	public History(User user, String topic) {
 		this.user = user;

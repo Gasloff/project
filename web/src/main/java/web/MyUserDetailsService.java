@@ -21,6 +21,8 @@ import db.UserDAO;
  */
 public class MyUserDetailsService implements UserDetailsService {
 
+	private static final String ROLE = "ROLE_USER";
+	
 	@Autowired
 	private UserDAO userDao;
 
@@ -33,7 +35,7 @@ public class MyUserDetailsService implements UserDetailsService {
 
 		model.User user = userDao.loadUser(username);
 		List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-		authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+		authorities.add(new SimpleGrantedAuthority(ROLE));
 
 		return buildUserForAuthentication(user, authorities);
 	}

@@ -16,8 +16,7 @@ public interface DictDAO {
 	/**
 	 * Returns list of {@link Card} objects with given topic.
 	 * 
-	 * @param topic
-	 *            - given topic
+	 * @param topic given topic
 	 * @return List of {@link Card} objects with given <code>topic</code>
 	 */
 	List<Card> readDict(String topic);
@@ -27,8 +26,7 @@ public interface DictDAO {
 	 * {@link Card}. Overwrite existing one if given {@link Card} is already
 	 * contains in data storage.
 	 * 
-	 * @param card
-	 *            - given {@link Card}
+	 * @param card given {@link Card}
 	 * @return <code>id</code> of saved {@link Card}
 	 */
 	Long saveCard(Card card);

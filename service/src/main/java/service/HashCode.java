@@ -11,7 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 public class HashCode {
 
 	/**
-	 * Returns hash value for given password
+	 * Returns hash value for given password.
 	 * 
 	 * @param password
 	 * @return hashed password

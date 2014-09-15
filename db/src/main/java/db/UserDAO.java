@@ -15,8 +15,7 @@ public interface UserDAO {
 	/**
 	 * Adds given {@link User} to data storage.
 	 * 
-	 * @param user
-	 *            - given {@link User} object
+	 * @param user given {@link User} object
 	 * @return <code>userID</code> of added {@link User}
 	 */
 	Long addUser(User user);
@@ -24,8 +23,7 @@ public interface UserDAO {
 	/**
 	 * Returns {@link User} object with given login.
 	 * 
-	 * @param login
-	 *            - given login
+	 * @param login given login
 	 * @return User object with given <code>login</code>
 	 */
 	User loadUser(String login);

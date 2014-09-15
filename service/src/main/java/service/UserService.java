@@ -23,8 +23,8 @@ import model.User;
 public class UserService {
 
 	private User user = null;
-	private final int DEFAULT_PRIORITY = 2;
-	private final String ALL = "all";
+	private static final int DEFAULT_PRIORITY = 2;
+	private static final String ALL = "all";
 
 	@Autowired
 	private UserDAO userDao;
@@ -38,26 +38,29 @@ public class UserService {
 
 	/**
 	 * Creates new {@link User} object with given login and password. Sets
-	 * priority '2' for all {@link Card} objects for this new {@link User}.
+	 * default priority '2' for all {@link Card} objects for this new {@link User}.
 	 * 
-	 * @param login
-	 *            - given login (user name)
-	 * @param password
-	 *            - given password
+	 * @param login given login (user name)
+	 * @param password given password
 	 * @return new {@link User} object with given login and password
 	 */
 	public User createUser(String login, String password) {
 		user = new User(login, password);
 		userDao.addUser(user);
-		setNewUserPriority();
+		
+		List<Card> list = dictDao.readDict(ALL);
+		for (Card card : list) {
+			card.setPriority(user, DEFAULT_PRIORITY);
+		}
+		dictDao.saveList(list);
+		
 		return user;
 	}
 
 	/**
 	 * Loads {@link User} with given <code>login</code>.
 	 * 
-	 * @param login
-	 *            - given login
+	 * @param login given login
 	 * @return loaded {@link User} object
 	 */
 	public User loadUser(String login) {
@@ -139,17 +142,6 @@ public class UserService {
 		dictDao.saveCard(card8);
 		dictDao.saveCard(card9);
 		dictDao.saveCard(card10);
-	}
-
-	/*
-	 * Sets default priority for new User for all Cards in base
-	 */
-	private void setNewUserPriority() {
-		List<Card> list = dictDao.readDict(ALL);
-		for (Card card : list) {
-			card.setPriority(user, DEFAULT_PRIORITY);
-		}
-		dictDao.saveList(list);
 	}
 
 }

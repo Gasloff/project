@@ -30,7 +30,7 @@ public class StudyService {
 	private Study study;
 	private User user;
 	private List<Card> dict;
-	private List<Integer> correctList = new ArrayList<>();
+	private List<Integer> correctList = new ArrayList<Integer>();
 	private boolean loaded = false;
 
 	@Autowired
@@ -53,9 +53,9 @@ public class StudyService {
 	 * current date.
 	 * 
 	 * @param topic
-	 *            - topic for the new {@link Study}
+	 *            topic for the new {@link Study}
 	 * @param user
-	 *            - {@link User} for the new {@link Study}
+	 *            {@link User} for the new {@link Study}
 	 * @return new {@link Study} object
 	 */
 	public Study createStudy(String topic, User user) {
@@ -157,9 +157,9 @@ public class StudyService {
 	 * Card's priority increments.
 	 * 
 	 * @param card
-	 *            - {@link Card} being answered
+	 *            {@link Card} being answered
 	 * @param answer
-	 *            - user's answer
+	 *            user's answer
 	 * @return <code>true</code> if answer is correct, <code>false</code>
 	 *         otherwise
 	 */
@@ -188,6 +188,11 @@ public class StudyService {
 		}
 	}
 
+	/**
+	 * Saves {@link History} object related to current {@link Study}.
+	 * 
+	 * @return histID of saved {@link History} object
+	 */
 	public Long saveHistory() {
 		History history = study.getHistory();
 		return histDAO.saveHistory(history);
@@ -253,7 +258,7 @@ public class StudyService {
 	 * Prepares list of Cards with specified topic. Prepares list of Integers,
 	 * where Integer is a number of correct answers in succession.
 	 */
-	private void createDict(String topic) {
+	protected void createDict(String topic) {
 		dict = dictDAO.readDict(topic);
 		for (int i = 0; i < dict.size(); i++) {
 			correctList.add(0);
@@ -264,7 +269,7 @@ public class StudyService {
 	 * Prepares random sequence based on priority. Order is: priority "1" -->
 	 * priority "2" --> priority "1" --> priority "3".
 	 */
-	private void prepareSequence() {
+	protected void prepareSequence() {
 		List<Integer> orderList = study.getOrderList();
 		List<Integer> priOne = new ArrayList<Integer>();
 		List<Integer> priTwo = new ArrayList<Integer>();
@@ -284,64 +289,69 @@ public class StudyService {
 			}
 		}
 
-		Collections.shuffle(priOne);
-
-		if (priTwo.size() > 0) {
-			Collections.shuffle(priTwo);
-			boolean flag = false;
-			if (priTwo.size() == 1) {
-				flag = true;
-				priTwo.add(-1);
-			}
-			while (priOne.get(priOne.size() - 1) == priTwo.get(0)
-					|| priOne.get(priOne.size() - 1) == priTwo.get(1)
-					|| priOne.get(priOne.size() - 2) == priTwo.get(0)) {
-				Collections.shuffle(priOne);
-			}
-			orderList.addAll(priOne);
-			if (flag) {
-				priTwo.remove(1);
-			}
-			orderList.addAll(priTwo);
-		} else {
-			while (priOne.get(priOne.size() - 1) == priOne.get(0)
-					|| priOne.get(priOne.size() - 1) == priOne.get(1)
-					|| priOne.get(priOne.size() - 2) == priOne.get(0)) {
-				Collections.shuffle(priOne);
-			}
-			orderList.addAll(priOne);
-		}
-
-		Collections.shuffle(priOne);
-		if (priThree.size() > 0) {
+		if (priOne.size() == priThree.size() && priTwo.size() == priThree.size() && priThree.size() < 5) {
 			Collections.shuffle(priThree);
-			boolean flag = false;
-			if (priThree.size() == 1) {
-				flag = true;
-				priThree.add(-1);
-			}
-			while (priOne.get(priOne.size() - 1) == priThree.get(0)
-					|| priOne.get(priOne.size() - 1) == priThree.get(1)
-					|| priOne.get(priOne.size() - 2) == priThree.get(0)
-					|| orderList.get(orderList.size() - 1) == priOne.get(0)
-					|| orderList.get(orderList.size() - 1) == priOne.get(1)
-					|| orderList.get(orderList.size() - 2) == priOne.get(0)) {
-				Collections.shuffle(priOne);
-			}
-			orderList.addAll(priOne);
-			if (flag) {
-				priThree.remove(1);
-			}
-			orderList.addAll(priThree);
+			for (int i = 0; i < 4; i++)
+				orderList.addAll(priThree);
 		} else {
-			while (orderList.get(priOne.size() - 1) == priOne.get(0)
-					|| orderList.get(orderList.size() - 1) == priOne.get(1)
-					|| orderList.get(orderList.size() - 2) == priOne.get(0)) {
-				Collections.shuffle(priOne);
-			}
-			orderList.addAll(priOne);
-		}
+			Collections.shuffle(priOne);
 
+			if (priTwo.size() > 0) {
+				Collections.shuffle(priTwo);
+				boolean flag = false;
+				if (priTwo.size() == 1) {
+					flag = true;
+					priTwo.add(-1);
+				}
+				while (priOne.get(priOne.size() - 1) == priTwo.get(0)
+						|| priOne.get(priOne.size() - 1) == priTwo.get(1)
+						|| priOne.get(priOne.size() - 2) == priTwo.get(0)) {
+					Collections.shuffle(priOne);
+				}
+				orderList.addAll(priOne);
+				if (flag) {
+					priTwo.remove(1);
+				}
+				orderList.addAll(priTwo);
+			} else {
+				while (priOne.get(priOne.size() - 1) == priOne.get(0)
+						|| priOne.get(priOne.size() - 1) == priOne.get(1)
+						|| priOne.get(priOne.size() - 2) == priOne.get(0)) {
+					Collections.shuffle(priOne);
+				}
+				orderList.addAll(priOne);
+			}
+
+			Collections.shuffle(priOne);
+			if (priThree.size() > 0) {
+				Collections.shuffle(priThree);
+				boolean flag = false;
+				if (priThree.size() == 1) {
+					flag = true;
+					priThree.add(-1);
+				}
+				while (priOne.get(priOne.size() - 1) == priThree.get(0)
+						|| priOne.get(priOne.size() - 1) == priThree.get(1)
+						|| priOne.get(priOne.size() - 2) == priThree.get(0)
+						|| orderList.get(orderList.size() - 1) == priOne.get(0)
+						|| orderList.get(orderList.size() - 1) == priOne.get(1)
+						|| orderList.get(orderList.size() - 2) == priOne.get(0)) {
+					Collections.shuffle(priOne);
+				}
+				orderList.addAll(priOne);
+				if (flag) {
+					priThree.remove(1);
+				}
+				orderList.addAll(priThree);
+			} else {
+				while (orderList.get(orderList.size() - 1) == priOne.get(0)
+						|| orderList.get(orderList.size() - 1) == priOne.get(1)
+						|| orderList.get(orderList.size() - 2) == priOne.get(0)) {
+					Collections.shuffle(priOne);
+				}
+				orderList.addAll(priOne);
+			}
+		}
 	}
 
 }

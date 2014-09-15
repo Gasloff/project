@@ -23,14 +23,15 @@ public class DbStudyDAO implements StudyDAO {
 
 	private SessionFactory sessionFactory;
 
+	private static final long DEFAULT_ID = -1L;
+	
 	public DbStudyDAO() {
 	}
 
 	/**
 	 * Returns new DbStudyDAO object with given Hibernate SessionFactory.
 	 * 
-	 * @param sessionFactory
-	 *            - given Hibernate SessionFactory object
+	 * @param sessionFactory given Hibernate SessionFactory object
 	 */
 	@Autowired
 	public DbStudyDAO(SessionFactory sessionFactory) {
@@ -44,7 +45,7 @@ public class DbStudyDAO implements StudyDAO {
 		Long savedID = null;
 		Long studyID = study.getId();
 
-		if (studyID.equals(-1L)) {
+		if (studyID.equals(DEFAULT_ID)) {
 			try {
 				tx = session.beginTransaction();
 				savedID = (Long) session.save(study);
@@ -80,7 +81,7 @@ public class DbStudyDAO implements StudyDAO {
 		Transaction tx = null;
 		Long studyID = study.getId();
 
-		if (!studyID.equals(-1L)) {
+		if (!studyID.equals(DEFAULT_ID)) {
 			try {
 				tx = session.beginTransaction();
 				session.delete(study);
@@ -118,7 +119,7 @@ public class DbStudyDAO implements StudyDAO {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Study> getListByUser(Long userId) {
-		List<Study> list = new ArrayList<>();
+		List<Study> list = new ArrayList<Study>();
 		Session session = sessionFactory.openSession();
 		Transaction tx = null;
 		try {

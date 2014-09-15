@@ -36,27 +36,47 @@ public class AppController {
 	private User user;
 	private Card card;
 
-	private final String CORRECT = "Correct";
-	private final String NOT_CORRECT = "Not correct. Answer is: ";
-	private final String OVER = "Study is over";
-	private final String SAVED = "Study saved with ID: ";
-
+	private static final String CORRECT = "Correct";
+	private static final String NOT_CORRECT = "Not correct. Answer is: ";
+	private static final String OVER = "Study is over";
+	private static final String SAVED = "Study saved with ID: ";
+	private static final String CREATE_URL = "/create/";
+	private static final String CREATE_VIEW = "create";
+	private static final String POPULATE_URL = "/populate/";
+	private static final String POPULATE_VIEW = "populate";
+	private static final String APP_URL = "/app";
+	private static final String APP_VIEW = "app";
+	private static final String ADD_USER_URL = "/adduser/";
+	private static final String USERNAME_PARAM = "username";
+	private static final String PASSWORD_PARAM = "password";
+	private static final String EXISTS_PARAM = "exists";
+	private static final String SEND_USERNAME_URL = "/app/user/";
+	private static final String NEW_STUDY_URL = "/app/topic/";
+	private static final String LIST_TOPIC_URL = "/app/listTopic/";
+	private static final String LOAD_STUDY_URL = "/app/loadStudy/";
+	private static final String LIST_STUDY_URL = "/app/listStudy/";
+	private static final String ANSWER_URL = "/app/answer/";
+	private static final String ANSWER_PARAM = "answer";
+	private static final String NEXT_URL = "/app/next/";
+	private static final String SAVE_STUDY_URL = "/app/saveStudy/";
+	private static final String LIST_HIST_URL = "/app/listHist/";
+	
 	/**
 	 * 
 	 * @return create.jsp view
 	 */
-	@RequestMapping(value = "/create")
+	@RequestMapping(value = CREATE_URL)
 	public String create() {
-		return "create";
+		return CREATE_VIEW;
 	}
 
 	/*
 	 * returns service view
 	 */
-	@RequestMapping(value = "/populate")
+	@RequestMapping(value = POPULATE_URL)
 	public String populate() {
 		userService.populateDB();
-		return "populated";
+		return POPULATE_VIEW;
 	}
 
 	/**
@@ -64,9 +84,9 @@ public class AppController {
 	 * 
 	 * @return app.jsp view
 	 */
-	@RequestMapping(value = "/app")
+	@RequestMapping(value = APP_URL)
 	public String app() {
-		return "app";
+		return APP_VIEW;
 	}
 
 	/**
@@ -74,16 +94,14 @@ public class AppController {
 	 * {@link User} with given login and password if given login doesn't exist
 	 * in data storage.
 	 * 
-	 * @param login
-	 *            - entered login
-	 * @param password
-	 *            - entered password
+	 * @param login entered login
+	 * @param password entered password
 	 * @return if entered login exists in data storage, entered login
 	 */
-	@RequestMapping(value = "/adduser", produces = "application/json")
+	@RequestMapping(value = ADD_USER_URL, produces = "application/json")
 	@ResponseBody
-	public String adduser(@RequestParam("username") String login,
-			@RequestParam("password") String password) {
+	public String adduser(@RequestParam(USERNAME_PARAM) String login,
+			@RequestParam(PASSWORD_PARAM) String password) {
 		List<User> list = userService.getUserList();
 		boolean exists = false;
 		for (User u : list) {
@@ -96,8 +114,8 @@ public class AppController {
 					HashCode.getHashPassword(password));
 		}
 		JSONObject jObj = new JSONObject();
-		jObj.put("exists", exists);
-		jObj.put("username", login);
+		jObj.put(EXISTS_PARAM, exists);
+		jObj.put(USERNAME_PARAM, login);
 		return jObj.toString();
 	}
 
@@ -106,7 +124,7 @@ public class AppController {
 	 * 
 	 * @return login of authorized user
 	 */
-	@RequestMapping(value = "/app/user/")
+	@RequestMapping(value = SEND_USERNAME_URL)
 	@ResponseBody
 	public String sendUserName() {
 		String userName = SecurityContextHolder.getContext()
@@ -120,11 +138,10 @@ public class AppController {
 	 * Creates new Study with given topic and returns first cards word of new
 	 * Study.
 	 * 
-	 * @param topic
-	 *            - given topic
+	 * @param topic given topic
 	 * @return word of first {@link Card} of created {@link Study}
 	 */
-	@RequestMapping(value = "/app/topic/")
+	@RequestMapping(value = NEW_STUDY_URL)
 	@ResponseBody
 	public String newStudy(@RequestParam("topic") String topic) {
 		studyService.createStudy(topic, user);
@@ -137,7 +154,7 @@ public class AppController {
 	 * 
 	 * @return list of available topics
 	 */
-	@RequestMapping(value = "/app/listTopic/", produces = "application/json")
+	@RequestMapping(value = LIST_TOPIC_URL, produces = "application/json")
 	@ResponseBody
 	public List<String> listTopic() {
 		return studyService.readTopicList();
@@ -147,11 +164,10 @@ public class AppController {
 	 * Loads previously saved {@link Study} with given id and returns word of
 	 * next {@link Card} of loaded Study
 	 * 
-	 * @param id
-	 *            - given study id
+	 * @param id given study id
 	 * @return word of next {@link Card} of loaded {@link Study}
 	 */
-	@RequestMapping(value = "/app/loadStudy/")
+	@RequestMapping(value = LOAD_STUDY_URL)
 	@ResponseBody
 	public String loadStudy(@RequestParam("studyId") String id) {
 		Long studyId = Long.parseLong(id);
@@ -167,7 +183,7 @@ public class AppController {
 	 * 
 	 * @return list of saved {@link Study} objects for current user
 	 */
-	@RequestMapping(value = "/app/listStudy/", produces = "application/json")
+	@RequestMapping(value = LIST_STUDY_URL, produces = "application/json")
 	@ResponseBody
 	public List<Study> listStudy() {
 		return studyService.loadListByUser(user.getUserID());
@@ -177,14 +193,13 @@ public class AppController {
 	 * Processes user's answer. Returns String claiming if answer is correct and
 	 * correct translation, if it wasn't.
 	 * 
-	 * @param answer
-	 *            - given user's answer
+	 * @param answer given user's answer
 	 * @return String claiming if answer is correct and correct translation, if
 	 *         it wasn't
 	 */
-	@RequestMapping(value = "/app/answer/", produces = "text/plain;charset=UTF-8")
+	@RequestMapping(value = ANSWER_URL, produces = "text/plain;charset=UTF-8")
 	@ResponseBody
-	public String answer(@RequestParam("answer") String answer) {
+	public String answer(@RequestParam(ANSWER_PARAM) String answer) {
 		boolean correct = studyService.processAnswer(card, answer);
 		String response;
 		if (correct) {
@@ -202,7 +217,7 @@ public class AppController {
 	 * @return word of next card or String claiming that study is over if there
 	 *         is no next card available
 	 */
-	@RequestMapping(value = "/app/next/")
+	@RequestMapping(value = NEXT_URL)
 	@ResponseBody
 	public String nextCard() {
 		card = studyService.nextCard();
@@ -221,7 +236,7 @@ public class AppController {
 	 * 
 	 * @return String containing id of saved Study.
 	 */
-	@RequestMapping(value = "/app/saveStudy/")
+	@RequestMapping(value = SAVE_STUDY_URL)
 	@ResponseBody
 	public String saveStudy() {
 		return SAVED + studyService.saveStudy();
@@ -233,7 +248,7 @@ public class AppController {
 	 * 
 	 * @return list of {@link History} objects for current user.
 	 */
-	@RequestMapping(value = "/app/listHist/", produces = "application/json")
+	@RequestMapping(value = LIST_HIST_URL, produces = "application/json")
 	@ResponseBody
 	public List<History> listHist() {
 		return userService.getHistList();

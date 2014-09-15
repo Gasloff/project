@@ -11,7 +11,7 @@
 	
 	<main>
 		<span><a class="appIndex" id="logIn" href="/web/app">Log In</a></span>
-		<span><a class="appIndex" href="/web/create">Create new User account</a></span>
+		<span><a class="appIndex" href="/web/create/">Create new User account</a></span>
 	</main>
 	
 </body>

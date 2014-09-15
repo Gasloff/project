@@ -15,20 +15,20 @@ import org.springframework.stereotype.Component;
  * DbUserDAO class provides access to {@link User} entities in database
  * 
  * @author Aleksandr Gaslov
- *
+ * 
  */
 @Component
 public class DbUserDAO implements UserDAO {
 
 	private SessionFactory sessionFactory;
 
-	public DbUserDAO() {}
-	
+	public DbUserDAO() {
+	}
+
 	/**
 	 * Returns new DbUserDAO object with given Hibernate SessionFactory.
 	 * 
-	 * @param sessionFactory
-	 *            - given Hibernate SessionFactory object
+	 * @param sessionFactory given Hibernate SessionFactory object
 	 */
 	@Autowired
 	public DbUserDAO(SessionFactory sessionFactory) {
@@ -61,8 +61,7 @@ public class DbUserDAO implements UserDAO {
 		User user = null;
 		try {
 			tx = session.beginTransaction();
-			user = (User) session
-					.getNamedQuery("findUserByLogin")
+			user = (User) session.getNamedQuery("findUserByLogin")
 					.setString("login", login).uniqueResult();
 			tx.commit();
 		} catch (HibernateException e) {
@@ -83,8 +82,7 @@ public class DbUserDAO implements UserDAO {
 		List<User> users = null;
 		try {
 			tx = session.beginTransaction();
-			users = (List<User>) session
-					.createQuery("FROM User u ORDER BY u.userID").list();
+			users = (List<User>) session.getNamedQuery("allUsers").list();
 			tx.commit();
 		} catch (HibernateException e) {
 			if (tx != null)
@@ -95,7 +93,5 @@ public class DbUserDAO implements UserDAO {
 		}
 		return users;
 	}
-	
-	
 
 }
