@@ -136,7 +136,7 @@ public class StudyServiceUnitTest {
 		// Third card in shortlistCards should be returned
 		assertEquals(shortListCards.get(2), testStudyService.nextCard());
 		// There are no cards in shortlistCards, method should return null
-		assertEquals(null, testStudyService.nextCard());
+		assertNull(testStudyService.nextCard());
 	}
 	
 	/**
