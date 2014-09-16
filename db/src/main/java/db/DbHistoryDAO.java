@@ -24,6 +24,8 @@ public class DbHistoryDAO implements HistoryDAO {
 	private SessionFactory sessionFactory;
 
 	private static final long DEFAULT_ID = -1L;
+	private static final String ALL_HIST_BY_USER = "allHistoryByUser";
+	private static final String USER_ID_PARAM = "userId";
 
 	public DbHistoryDAO() {
 	}
@@ -101,8 +103,8 @@ public class DbHistoryDAO implements HistoryDAO {
 		List<History> list = new ArrayList<History>();
 		try {
 			tx = session.beginTransaction();
-			list = (List<History>) session.getNamedQuery("allHistoryByUser")
-					.setLong("userId", userId).list();
+			list = (List<History>) session.getNamedQuery(ALL_HIST_BY_USER)
+					.setLong(USER_ID_PARAM, userId).list();
 			tx.commit();
 		} catch (HibernateException e) {
 			if (tx != null)

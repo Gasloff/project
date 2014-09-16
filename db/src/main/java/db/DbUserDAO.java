@@ -21,6 +21,10 @@ import org.springframework.stereotype.Component;
 public class DbUserDAO implements UserDAO {
 
 	private SessionFactory sessionFactory;
+	
+	private static final String USER_BY_LOGIN = "findUserByLogin";
+	private static final String USER_BY_LOGIN_PARAM = "login";
+	private static final String ALL_USERS = "allUsers";
 
 	public DbUserDAO() {
 	}
@@ -61,8 +65,8 @@ public class DbUserDAO implements UserDAO {
 		User user = null;
 		try {
 			tx = session.beginTransaction();
-			user = (User) session.getNamedQuery("findUserByLogin")
-					.setString("login", login).uniqueResult();
+			user = (User) session.getNamedQuery(USER_BY_LOGIN)
+					.setString(USER_BY_LOGIN_PARAM, login).uniqueResult();
 			tx.commit();
 		} catch (HibernateException e) {
 			if (tx != null)
@@ -82,7 +86,7 @@ public class DbUserDAO implements UserDAO {
 		List<User> users = null;
 		try {
 			tx = session.beginTransaction();
-			users = (List<User>) session.getNamedQuery("allUsers").list();
+			users = (List<User>) session.getNamedQuery(ALL_USERS).list();
 			tx.commit();
 		} catch (HibernateException e) {
 			if (tx != null)

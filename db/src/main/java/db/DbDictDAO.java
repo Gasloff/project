@@ -24,6 +24,10 @@ public class DbDictDAO implements DictDAO {
 	
 	private static final String ALL = "all";
 	private static final long DEFAULT_ID = -1L;
+	private static final String ALL_CARDS = "allCards";
+	private static final String CARDS_BY_TOPIC = "findCardsByTopic";
+	private static final String CARDS_BY_TOPIC_PARAM = "topic";
+	private static final String ALL_TOPICS = "allTopics";
 	
 	public DbDictDAO() {
 	}
@@ -47,10 +51,10 @@ public class DbDictDAO implements DictDAO {
 		try {
 			tx = session.beginTransaction();
 			if (topic.equals(ALL)) {
-				dict = (List<Card>) session.getNamedQuery("allCards").list();
+				dict = (List<Card>) session.getNamedQuery(ALL_CARDS).list();
 			} else {
-				dict = (List<Card>) session.getNamedQuery("findCardsByTopic")
-						.setString("topic", topic).list();
+				dict = (List<Card>) session.getNamedQuery(CARDS_BY_TOPIC)
+						.setString(CARDS_BY_TOPIC_PARAM, topic).list();
 			}
 			tx.commit();
 		} catch (HibernateException e) {
@@ -128,7 +132,7 @@ public class DbDictDAO implements DictDAO {
 		List<String> list = null;
 		try {
 			tx = session.beginTransaction();
-			list = (List<String>) session.getNamedQuery("allTopics").list();
+			list = (List<String>) session.getNamedQuery(ALL_TOPICS).list();
 			tx.commit();
 		} catch (HibernateException e) {
 			if (tx != null)

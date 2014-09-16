@@ -52,8 +52,10 @@ public class AppController {
 	private static final String EXISTS_PARAM = "exists";
 	private static final String SEND_USERNAME_URL = "/app/user/";
 	private static final String NEW_STUDY_URL = "/app/topic/";
+	private static final String NEW_STUDY_PARAM = "topic";
 	private static final String LIST_TOPIC_URL = "/app/listTopic/";
 	private static final String LOAD_STUDY_URL = "/app/loadStudy/";
+	private static final String LOAD_STUDY_PARAM = "studyId";
 	private static final String LIST_STUDY_URL = "/app/listStudy/";
 	private static final String ANSWER_URL = "/app/answer/";
 	private static final String ANSWER_PARAM = "answer";
@@ -143,7 +145,7 @@ public class AppController {
 	 */
 	@RequestMapping(value = NEW_STUDY_URL)
 	@ResponseBody
-	public String newStudy(@RequestParam("topic") String topic) {
+	public String newStudy(@RequestParam(NEW_STUDY_PARAM) String topic) {
 		studyService.createStudy(topic, user);
 		card = studyService.nextCard();
 		return card.getWord();
@@ -169,7 +171,7 @@ public class AppController {
 	 */
 	@RequestMapping(value = LOAD_STUDY_URL)
 	@ResponseBody
-	public String loadStudy(@RequestParam("studyId") String id) {
+	public String loadStudy(@RequestParam(LOAD_STUDY_PARAM) String id) {
 		Long studyId = Long.parseLong(id);
 		studyService.loadStudy(studyId);
 		card = studyService.nextCard();
