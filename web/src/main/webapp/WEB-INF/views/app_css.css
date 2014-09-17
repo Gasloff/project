@@ -2,13 +2,8 @@
 	margin-left: auto;
     margin-right: auto;
     width: 1180px;
-	background-color: #66CCFF;
-	font-family: "Verdana";
-	font-size: 40px;
-	font-style: italic;
-	font-weight: bold;
-	color: #FFFFFF;
-	padding: 10px;
+	background-color: #66CCFF;	
+	padding: 4px;
 }
 
 .appIndex:link, .appIndex:visited {

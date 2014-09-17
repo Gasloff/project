@@ -6,7 +6,7 @@
 
 <body>
 	<header id="appHeader">
-		Card Study
+		<img src="${pageContext.servletContext.contextPath}/resources/header.png">
 	</header>
 	
 	<main>
