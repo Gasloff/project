@@ -1,0 +1,118 @@
+{
+  "studio_version": {
+      "release": "6.6.1",
+      "auto_update": "true"
+  },
+  "platform_versions": [
+    "5.6.4",
+    "5.6.7",
+    "5.6.12",
+    "6.0.4",
+    "6.0.6",
+    "6.0.7",
+    "6.0.8",
+    "6.0.9",
+    "6.1.2",
+    "6.1.4",
+    "6.1.5",
+    "6.2.0",
+    "6.2.1",
+    "6.2.2",
+    "6.2.3",
+    "6.2.5",
+    "6.2.6",
+    "6.2.7",
+    "6.2.8",
+    "6.3.2",
+    "6.3.3",
+    "6.3.4",
+    "6.3.5",
+    "6.3.6",
+    "6.4.0",
+    "6.4.1",
+    "6.4.2",
+    "6.4.4",
+    "6.5.0",
+    "6.5.1",
+    "6.5.3"
+  ],
+  "github_samples": {
+    "organization_url": "https://github.com/cuba-platform",
+    "query_all": "https://github.com/cuba-platform?query=sample",
+    "prefix": "sample-",
+    "samples": [
+      {
+        "name": "sales",
+        "description": "Sample application from the Quick Start tutorial"
+      },
+      {
+        "name": "workshop",
+        "description": "Bicycle Workshop application from 'Full-scale CUBA application: Step by Step Guide'"
+      },
+      {
+        "name": "akkount",
+        "description": "A simple personal finance application"
+      },
+      {
+        "name": "dashboard",
+        "description": "Example of responsive UI"
+      },
+      {
+        "name": "data-manipulation",
+        "description": "Programmatic data manipulation"
+      },
+      {
+        "name": "drag-drop",
+        "description": "Adding drag-n-drop to standard UI components"
+      },
+      {
+        "name": "entity-inheritance",
+        "description": "Entity inheritance example"
+      },
+      {
+        "name": "extensions",
+        "description": "Extending entities and screens"
+      },
+      {
+        "name": "google-map",
+        "description": "Example of working with Google Maps"
+      },
+      {
+        "name": "library",
+        "description": "Sample application for keeping a record of books at a library"
+      },
+      {
+        "name": "login-restrictions",
+        "description": "Customizing the user login procedure"
+      },
+      {
+        "name": "portal",
+        "description": "Example of a portal implemented using AngularJS"
+      },
+      {
+        "name": "saas",
+        "description": "Example of a multi-tenant application"
+      },
+      {
+        "name": "screen-manipulation",
+        "description": "Programmatic screen manipulation"
+      },
+      {
+        "name": "styled-checkbox",
+        "description": "Customizing UI components via CSS"
+      },
+      {
+        "name": "timesheets",
+        "description": "A timesheets management application"
+      },
+      {
+        "name": "user-avatar",
+        "description": "Adding avatars to system users"
+      },
+      {
+        "name": "user-registration",
+        "description": "Example of users self-registration"
+      }
+    ]
+  }
+}
