@@ -1,8 +1,218 @@
 {
   "studio_version": {
-    "release": "6.8.1", 
+    "release": "6.10.3", 
     "auto_update": "true"
   }, 
+  "premium_addons": [
+    "com.haulmont.webdav", 
+    "com.haulmont.addon.bi"
+  ], 
+  "tracking_addons": [
+    {
+      "artifact_group": "com.haulmont.addon.zookeeper", 
+      "stat_symbol": "z"
+    }, 
+    {
+      "artifact_group": "com.haulmont.addon.bi", 
+      "stat_symbol": "i"
+    }, 
+    {
+      "artifact_group": "com.haulmont.addon.admintools", 
+      "stat_symbol": "a"
+    }, 
+    {
+      "artifact_group": "com.haulmont.addon.cubajm", 
+      "stat_symbol": "m"
+    }, 
+    {
+      "artifact_group": "com.haulmont.addon.dnd", 
+      "stat_symbol": "o"
+    }, 
+    {
+      "artifact_group": "com.haulmont.webdav", 
+      "stat_symbol": "d"
+    }, 
+    {
+      "artifact_group": "com.haulmont.addon.ldap", 
+      "stat_symbol": "l"
+    }, 
+    {
+      "artifact_group": "de.diedavids.cuba.taggable", 
+      "stat_symbol": "t"
+    }, 
+    {
+      "artifact_group": "de.diedavids.cuba.attachable", 
+      "stat_symbol": "0"
+    }, 
+    {
+      "artifact_group": "de.diedavids.cuba.entitysoftreference", 
+      "stat_symbol": "e"
+    }, 
+    {
+      "artifact_group": "de.diedavids.cuba.userinbox", 
+      "stat_symbol": "u"
+    }, 
+    {
+      "artifact_group": "org.strangeway.responsive", 
+      "stat_symbol": "1"
+    }, 
+    {
+      "artifact_group": "de.diedavids.cuba.dataimport", 
+      "stat_symbol": "k"
+    }, 
+    {
+      "artifact_group": "com.haulmont.addon.globalevents", 
+      "stat_symbol": "g"
+    }, 
+    {
+      "artifact_group": "com.haulmont.addon.search", 
+      "stat_symbol": "q"
+    }, 
+    {
+      "artifact_group": "it.nexbit.cuba.security.forgotpassword", 
+      "stat_symbol": "f"
+    }, 
+    {
+      "artifact_group": "it.nexbit.cuba.security.userprofile", 
+      "stat_symbol": "v"
+    }, 
+    {
+      "artifact_group": "de.balvi.cuba.sessioninfo", 
+      "stat_symbol": "x"
+    }, 
+    {
+      "artifact_group": "de.balvi.cuba.declarativecontrollers", 
+      "stat_symbol": "y"
+    }, 
+    {
+      "artifact_group": "it.nexbit.cuba.dynamiccolumns", 
+      "stat_symbol": "j"
+    }, 
+    {
+      "artifact_group": "de.balvi.cuba.helpsystem", 
+      "stat_symbol": "h"
+    }, 
+    {
+      "artifact_group": "de.diedavids.cuba.runtimediagnose", 
+      "stat_symbol": "2"
+    }, 
+    {
+      "artifact_group": "de.diedavids.cuba.healthcheck", 
+      "stat_symbol": "3"
+    }, 
+    {
+      "artifact_group": "de.diedavids.cuba.dbupdatewizard", 
+      "stat_symbol": "4"
+    }, 
+    {
+      "artifact_group": "com.haulmont.addon.sdbmt", 
+      "stat_symbol": "5"
+    }, 
+    {
+      "artifact_group": "de.diedavids.testery", 
+      "stat_symbol": "6"
+    }, 
+    {
+      "artifact_group": "de.diedavids.cuba.xero", 
+      "stat_symbol": "7"
+    }, 
+    {
+      "artifact_group": "com.non.dta", 
+      "stat_symbol": "8"
+    }, 
+    {
+      "artifact_group": "com.haulmont.addon.imap", 
+      "stat_symbol": "9"
+    }, 
+    {
+      "artifact_group": "de.diedavids.cuba.wizard", 
+      "stat_symbol": "w"
+    }, 
+    {
+      "artifact_group": "com.haulmont.addon.dashboard", 
+      "stat_symbol": "?"
+    }, 
+    {
+      "artifact_group": "it.nexbit.cuba.translationit", 
+      "stat_symbol": ","
+    }, 
+    {
+      "artifact_group": "de.diedavids.cuba.instantlauncher", 
+      "stat_symbol": "@"
+    }, 
+    {
+      "artifact_group": "com.haulmont.addon.grapesjs", 
+      "stat_symbol": "."
+    }, 
+    {
+      "artifact_group": "com.haulmont.addon.emailtemplates", 
+      "stat_symbol": "#"
+    }, 
+    {
+      "artifact_group": "com.haulmont.addon.idp", 
+      "stat_symbol": ";"
+    }, 
+    {
+      "artifact_group": "cn.cuba.trans", 
+      "stat_symbol": "|"
+    }, 
+    {
+      "artifact_group": "ar.com.osmosys.pswdplus", 
+      "stat_symbol": "/"
+    }, 
+    {
+      "artifact_group": "com.haulmont.addon.maps", 
+      "stat_symbol": "&"
+    }, 
+    {
+      "artifact_group": "com.haulmont.addon.tour", 
+      "stat_symbol": "!"
+    }, 
+    {
+      "artifact_group": "de.diedavids.cuba.dblocalization", 
+      "stat_symbol": "A"
+    }, 
+    {
+      "artifact_group": "de.diedavids.cuba.scheduledreports", 
+      "stat_symbol": "B"
+    }, 
+    {
+      "artifact_group": "com.haulmont.addon.bproc", 
+      "stat_symbol": "C"
+    }, 
+    {
+      "artifact_group": "ro.infoexpert.cuba.translationro", 
+      "stat_symbol": "D"
+    }, 
+    {
+      "artifact_group": "de.balvi.cuba.translationde", 
+      "stat_symbol": "E"
+    }, 
+    {
+      "artifact_group": "com.haulmont.addon.restapi", 
+      "stat_symbol": "F"
+    }, 
+    {
+      "artifact_group": "com.haulmont.addon.dashboardchart", 
+      "stat_symbol": "G"
+    }, 
+    {
+      "artifact_group": "com.haulmont.addon.saml", 
+      "stat_symbol": "H"
+    }, 
+    {
+      "artifact_group": "de.diedavids.cuba.defaultvalues", 
+      "stat_symbol": "I"
+    }, 
+    {
+      "artifact_group": "de.diedavids.cuba.metadataextensions", 
+      "stat_symbol": "J"
+    },
+    {
+      "artifact_group": "cubacn.cmp.crop", 
+      "stat_symbol": "K"
+    }
+  ], 
   "platform_versions": [
     "5.6.4", 
     "5.6.7", 
@@ -51,7 +261,89 @@
     "6.7.3", 
     "6.7.4", 
     "6.7.6", 
-    "6.7.7"
+    "6.7.7", 
+    "6.7.8", 
+    "6.7.9", 
+    "6.8.0", 
+    "6.8.1", 
+    "6.8.3", 
+    "6.8.4", 
+    "6.7.11", 
+    "6.8.5", 
+    "6.7.12", 
+    "6.8.6", 
+    "6.8.7", 
+    "6.8.8", 
+    "6.9.0", 
+    "6.9.1", 
+    "6.8.9", 
+    "6.9.2", 
+    "6.9.3", 
+    "6.8.10", 
+    "6.9.4", 
+    "6.8.11", 
+    "6.9.5", 
+    "6.8.12", 
+    "6.9.6", 
+    "6.10.0", 
+    "6.9.7", 
+    "6.8.13", 
+    "6.10.2", 
+    "6.10.3", 
+    "6.10.4", 
+    "6.8.14", 
+    "6.10.5", 
+    "6.10.6", 
+    "6.10.7", 
+    "6.9.8", 
+    "6.8.15", 
+    "6.8.16", 
+    "7.0.1", 
+    "6.10.8", 
+    "7.0.2", 
+    "7.0.3", 
+    "6.8.17", 
+    "6.9.9", 
+    "6.10.9", 
+    "6.7.14", 
+    "6.6.7", 
+    "6.5.9", 
+    "6.4.6", 
+    "6.3.7", 
+    "6.2.9", 
+    "7.0.4", 
+    "7.0.5", 
+    "7.0.6", 
+    "6.2.10", 
+    "6.3.8", 
+    "6.4.7", 
+    "6.5.10", 
+    "6.6.8", 
+    "6.7.15", 
+    "6.8.18", 
+    "6.9.10", 
+    "6.10.10", 
+    "7.0.7", 
+    "6.10.11", 
+    "7.0.8", 
+    "6.9.11", 
+    "7.0.9", 
+    "6.10.12", 
+    "7.0.10", 
+    "7.1.0", 
+    "6.10.13", 
+    "7.0.11", 
+    "7.1.1", 
+    "7.0.12", 
+    "6.10.14", 
+    "7.1.2", 
+    "6.5.11", 
+    "6.6.9", 
+    "6.7.16", 
+    "6.8.19", 
+    "6.9.12", 
+    "6.10.15", 
+    "7.1.3"
   ], 
   "github_samples": {
     "organization_url": "https://github.com/cuba-platform", 
@@ -73,6 +365,10 @@
       {
         "name": "model", 
         "description": "Modeling problem domain"
+      }, 
+      {
+        "name": "generic-ui", 
+        "description": "Working with Generic UI"
       }, 
       {
         "name": "akkount", 
@@ -119,10 +415,6 @@
         "description": "Example of a multi-tenant application"
       }, 
       {
-        "name": "screen-manipulation", 
-        "description": "Programmatic screen manipulation"
-      }, 
-      {
         "name": "styled-checkbox", 
         "description": "Customizing UI components via CSS"
       }, 
@@ -137,6 +429,14 @@
       {
         "name": "user-registration", 
         "description": "Example of users self-registration"
+      }, 
+      {
+        "name": "components-dragdrop", 
+        "description": "Demo of cuba-dnd add-on: drag and drop of UI components"
+      }, 
+      {
+        "name": "ui-test", 
+        "description": "UI Tests for CUBA Platform applications"
       }
     ]
   }
