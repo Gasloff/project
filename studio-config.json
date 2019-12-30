@@ -439,5 +439,8 @@
         "description": "UI Tests for CUBA Platform applications"
       }
     ]
-  }
+  }, 
+  "studio_bundle_versions": [
+    "2019.1"
+  ]
 }
